@@ -1,0 +1,252 @@
+﻿@model IEnumerable<AceTuitionPaymentSystem.ViewModel.ParentView_Child>
+
+@{
+    if ((string)Session["type"] == "parent")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height:100%">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+
+                <img src="~/image/supervisor.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">
+
+                    <span style='color: white'>@Session["name"]</span>
+                    <br>
+                    ACE Education
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+                <!-- <li class="nav-item menu-open"> -->
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","ParentView")" class="nav-link">
+                        <i class="fa fa-tachometer"></i>&nbsp;&nbsp;
+                        <p>
+                            Dashboard
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","MakePayment")" class="nav-link">
+                        <i class="fa fa-usd"></i>&nbsp;&nbsp;
+                        <p>
+                            Make Payment
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","ParentView_History")" class="nav-link">
+                        <i class="fa fa-check-square-o"></i>&nbsp;&nbsp;
+                        <p>
+                            Payment History
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","ParentView_Child")" class="nav-link active">
+                        <i class="fa fa-user"></i>&nbsp;&nbsp;
+                        <p>
+                            Child Information
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Child Information</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        @*<li class="breadcrumb-item"><a href="@Url.Action("Index", "ParentView")">Home</a></li>*@
+                        <li class="breadcrumb-item active">Child Information</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        <!-- Main content -->
+        <br />
+        <section class="content">
+            <div class="container-fluid">
+
+                @foreach (var item in Model)
+                {
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card card-info card-outline">
+                                <div class="card-body box-profile">
+                                    <div class="text-center">
+                                        <img class="profile-user-img img-fluid img-circle"
+                                             src="~/image/supervisor.png"
+                                             alt="User profile picture">
+                                    </div>
+                                    <h3 class="profile-username text-center">@item.child_name_eng</h3>
+                                    <p class="text-muted text-center">@item.child_name_chinese</p>
+                                    <ul class="list-group list-group-unbordered mb-3">
+                                        <li class="list-group-item">
+                                            <b>@item.child_ic</b>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>@item.child_code</b>
+                                        </li>
+                                        <li class="list-group-item">
+                                            @if (item.child_year == "1")
+                                            {
+                                                <b>Standard 1</b>
+                                            }
+                                            else if (@item.child_year == "2")
+                                            {
+                                                <b>Standard 2</b>
+                                            }
+                                            else if (@item.child_year == "3")
+                                            {
+                                                <b>Standard 3</b>
+                                            }
+                                            else if (@item.child_year == "4")
+                                            {
+                                                <b>Standard 4</b>
+                                            }
+                                            else if (@item.child_year == "5")
+                                            {
+                                                <b>Standard 5</b>
+                                            }
+                                            else if (@item.child_year == "6")
+                                            {
+                                                <b>Standard 6</b>
+                                            }
+                                            else if (@item.child_year == "7")
+                                            {
+                                                <b>Form 1</b>
+                                            }
+                                            else if (@item.child_year == "8")
+                                            {
+                                                <b>Form 2</b>
+                                            }
+                                            else if (@item.child_year == "9")
+                                            {
+                                                <b>Form 3</b>
+                                            }
+                                            else if (@item.child_year == "10")
+                                            {
+                                                <b>Form 4</b>
+                                            }
+                                            else if (@item.child_year == "11")
+                                            {
+                                                <b>Form 5</b>
+                                            }
+                                            else if (@item.child_year == "12")
+                                            {
+                                                <b>Peralihan</b>
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+
+                        <div class="col-md-9">
+                            <div class="card card-info">
+                                <div class="card-header">
+                                    <h3 class="card-title">Information</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="callout callout-primary">
+                                                <strong>Package Taken</strong>
+                                                @foreach (var package in item.child_childpackage_list)
+                                                {
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p class="text-muted">
+                                                        @package.package_english_name<br />
+                                                        @package.package_chinese_name<br />
+                                                        
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-6" style="text-align:right">
+                                                    <p class="text-muted">RM @package.package_price</p>
+                                                </div>
+                                            </div>
+                                                    <br />
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="callout callout-primary">
+                                                <strong>Subject Taken</strong>
+                                                @foreach (var subject in item.child_childsubject_list)
+                                                {
+                                                    <p class="text-muted">
+                                                        @subject.subject_english_name<br />
+                                                        @subject.subject_chinese_name
+                                                    </p>
+
+                                                }
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                <br />
+                }
+
+            </div>
+            
+        </section>
+    </div>
+</div>

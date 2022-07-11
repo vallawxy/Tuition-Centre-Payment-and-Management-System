@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+<form name="notificationModalForm">
+    @Html.AntiForgeryToken()
+
+    <div class="modal-header">
+
+        <h4 class="modal-title">
+
+            <span><strong>Send SMS Notification to Parents</strong></span>
+
+
+        </h4>
+        <div style="text-align:right;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <label>Method</label>
+                    <select class="form-control" id="messageType">
+                        <option hidden>Select a messaging method</option>
+                        <option value="sms">SMS</option>
+                        <option value="whatsapp">Whatsapp</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Notification Message</label>
+                    <textarea class="form-control" id="messageBody"></textarea>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+
+        @*<button type="button" id="change-password" style="float: left;" class="btn btn-info">Reset Password</button>*@
+        <button type="button" name="save" onclick="sendNotification()" class="btn btn-primary float-right">Send</button>
+
+
+    </div>
+</form>
+
+<script>
+
+</script>

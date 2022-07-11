@@ -1,0 +1,274 @@
+﻿@*@model IEnumerable<AceTuitionPaymentSystem.ViewModel.PaymentViewModel>*@
+@model AceTuitionPaymentSystem.ViewModel.ParentNoticeViewModel
+
+@{
+    if ((string)Session["type"] == "parent")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height:100%;">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+
+                <img src="~/image/supervisor.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">
+
+                    <span style='color: white'>@Session["name"]</span>
+                    <br>
+                    ACE Education
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+                <!-- <li class="nav-item menu-open"> -->
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "ParentView")" class="nav-link active">
+                        <i class="fa fa-tachometer"></i>&nbsp;&nbsp;
+                        <p>
+                            Dashboard
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "MakePayment")" class="nav-link">
+                        <i class="fa fa-usd"></i>&nbsp;&nbsp;
+                        <p>
+                            Make Payment
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "ParentView_History")" class="nav-link">
+                        <i class="fa fa-check-square-o"></i>&nbsp;&nbsp;
+                        <p>
+                            Payment History
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "ParentView_Child")" class="nav-link">
+                        <i class="fa fa-user"></i>&nbsp;&nbsp;
+                        <p>
+                            Child Information
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Dashboard</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        @*<li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>*@
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        <!-- Main content -->
+        <br />
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header" style="background-color:#8C8CB4;color:white;">
+                                <h3 class="card-title">Dashboard</h3>
+
+
+                            </div>
+                            <div class="card-body">
+                                @if (@Model.OutstandingList.Count() > 0)
+                                {
+                                    <div class="alert alert-danger alert-dismissible">
+                                        <h5><i class="fa fa-exclamation" aria-hidden="true"></i>&nbsp;&nbsp;Outstanding</h5>
+                                        The outstanding for
+                                        @{var result = Model.OutstandingList.GroupBy(x => x.payment_month);
+                                            string[] paylist_months = {"January", "February", "March", "April", "May",
+                                                    "June", "July", "September", "October", "November", "December"};
+                                            int length = result.Count();
+                                            int i = 0;}
+                                        @foreach (var item in result)
+                                        {
+                                            var pay_month = paylist_months[@item.Key - 1];
+                                            <strong>@pay_month</strong>
+                                            <span> is </span>
+                                            <span>RM @item.Sum(x => x.payment_outstanding)</span>
+                                            if (i == length - 1)
+                                            { }
+                                            else
+                                            { <span>, </span>}
+                                            i++;
+                                        }
+
+
+
+                                        @{decimal total = 0.00M; }
+                                        @foreach (var item2 in Model.OutstandingList.GroupBy(x => x.payment_month))
+                                        {
+
+                                            total = (total + @item2.Sum(x => x.payment_outstanding));
+                                        }
+                                        <hr style="width:50%;text-align:left;margin-left:0;color:white">
+
+
+
+                                        <strong>Total Outstanding </strong>
+
+                                        <span>RM @total</span><br />
+
+                                    </div>
+                                    
+                                    <hr />
+                                    <br />
+                                }
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @foreach (var parent in Model.parentList)
+                                    {
+                                    <div class="card card-info card-outline">
+                                        <div class="card-body box-profile">
+                                            <div class="text-center">
+                                                <img class="profile-user-img img-fluid img-circle"
+                                                     src="~/image/supervisor.png"
+                                                     alt="User profile picture">
+                                            </div>
+                                            <h3 class="profile-username text-center"></h3>
+                                            <p class="text-muted text-center">@parent.parent_name</p>
+                                            <ul class="list-group list-group-unbordered mb-3">
+                                                <li class="list-group-item">
+                                                    <b>@parent.parent_ic</b>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>@parent.parent_phone</b>
+                                                </li>
+                                                <li class="list-group-item">
+                                                      <b>@parent.parent_address</b>
+                                                   
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                    }
+                                </div>
+                                <div class="col-md-8">
+                                    @if (@Model.NoticeList.Count() > 0)
+                                    {
+                                    <div class="row">
+                                        @foreach (var notice in Model.NoticeList)
+                                        {
+
+                                        <div class="col-md-6 single-note-item all-category note-social " style="">
+                                            <div class="card card-body">
+                                                <span class="side-stick"></span>
+                                                <div class="row">
+                                                    <div>
+
+                                                        <h5 class="note-inner-content"> <i class="fa fa-notice ml-1 font-10"></i><strong>@notice.title</strong></h5>
+                                                        <p class="note-date font-12 text-muted">@notice.notice_date.ToString("dd MMMM yyyy")</p>
+                                                        <div class="note-content">
+                                                            <p class="note-inner-content text-muted" style="text-align: justify">@notice.description</p>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div class="col-md-2" style="text-align:right;color:red">
+                <div class="d-flex align-items-center">-->
+                                                    @*<span class="mr-1"><i class="fa fa-trash ">@Html.ActionLink("Delete", "Delete", new { id = notice.notice_id })</i> </span>*@
+
+                                                    <!--<span class="mr-1"><i class="fa fa-trash remove-note" onclick="removeNote(this)" data-notice="@notice.notice_id"></i></span>
+
+                        <div class="ml-auto">
+                            <span class="mr-1"><i class="fa fa-edit " onclick="getNotice(@notice.notice_id)"></i></span>
+                        </div>
+                    </div>
+                </div>-->
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        }
+                                    </div>
+                                    }
+
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                <br />
+
+
+
+
+            </div>
+            <!-- /.row -->
+
+        </section>
+    </div>
+</div>
+
+<style>
+
+
+    .single-note-item.note-social .point {
+        color: rgba(44, 208, 126, .5)
+    }
+
+    .single-note-item .side-stick {
+        position: absolute;
+        width: 3px;
+        height: 35px;
+        left: 0;
+        background-color: rgba(82, 95, 127, .5)
+    }
+
+    .single-note-item.note-social .side-stick {
+        background-color: rgba(44, 171, 227, .5)
+    }
+</style>

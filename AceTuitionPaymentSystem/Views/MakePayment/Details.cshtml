@@ -1,0 +1,659 @@
+﻿@*@model IEnumerable<AceTuitionPaymentSystem.ViewModel.ReceiptViewModel>*@
+@model AceTuitionPaymentSystem.ViewModel.MakePaymentViewModel
+
+
+@{
+    if ((string)Session["type"] == "parent")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+<link href="~/plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/plugins/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/plugins/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<style>
+    .btn-sm {
+        background: #233866;
+        color: white;
+    }
+
+        .btn-sm:hover {
+            background-color: #1f2d3d;
+            color: white;
+        }
+    .main-sidebar {
+        min-height: 100%;
+    }
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) no-repeat center center;
+        z-index: 10000;
+    }
+
+    #loading-image {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        left: 50%;
+        top: 50%;
+        z-index: 100;
+    }
+</style>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        $("#btnBackOutstanding").click(function () {
+            window.location.href = '/MakePayment';
+        })
+    })
+
+
+</script>
+
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+
+                <img src="~/image/supervisor.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">
+
+                    <span style='color: white'>@Session["name"]</span>
+                    <br>
+                    ACE Education
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+                <!-- <li class="nav-item menu-open"> -->
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "ParentView")" class="nav-link">
+                        <i class="fa fa-tachometer"></i>&nbsp;&nbsp;
+                        <p>
+                            Dashboard
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "MakePayment")" class="nav-link active">
+                        <i class="fa fa-child"></i>&nbsp;&nbsp;
+                        <p>
+                            Make Payment
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "ParentView_History")" class="nav-link">
+                        <i class="fa fa-child"></i>&nbsp;&nbsp;
+                        <p>
+                            Payment History
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "ParentView_Child")" class="nav-link">
+                        <i class="fa fa-user"></i>&nbsp;&nbsp;
+                        <p>
+                            Child Information
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Payment Details</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "ParentView")">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "MakePayment")">Outstanding</a></li>
+                        <li class="breadcrumb-item active">Details</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        <!-- Main content -->
+        <br />
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header" style="background:#233866;color:white">
+                                <h3 class="card-title">Child's Outstanding Details</h3>
+                            </div>
+
+
+
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="card-body">
+
+                                        @{decimal grandtotal = 0.00M; }
+                                        @foreach (var item in Model.paymentList)
+                                        {
+                                            decimal @totalpay = 0.00M;
+                                            <br />
+                                            <div class="callout callout-info">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-horizontal">
+                                                            <div class="row">
+                                                                <div class="col-md-3" style="text-align:left">
+                                                                    <strong>Student Name: </strong>
+                                                                    <br />
+                                                                    <strong>Student IC: </strong>
+                                                                    <br />
+                                                                    <strong>Student Code: </strong>
+                                                                    <br />
+                                                                </div>
+
+                                                                <div class="col-md-8" style="text-align:left">
+                                                                    @item.child_name_eng &nbsp; @item.child_name_chinese
+                                                                    <br />
+                                                                    @item.child_ic
+                                                                    <br />
+                                                                    @item.child_code
+                                                                    <br />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <strong>Transportation Day: </strong>
+                                                                    <br />
+                                                                    <strong>Total Subject Taken: </strong>
+                                                                    <br />
+                                                                </div>
+                                                                <div class="col-md-8" style="text-align:left">
+                                                                    @item.child_trans_day
+                                                                    <br />
+                                                                    @item.child_num_subject
+                                                                    <br />
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div>
+                                                <div class="callout callout">
+                                                    <div id="table">
+
+                                                        @{ decimal total_package = 0.00M;}
+                                                        <label><u>Package Taken</u></label>
+                                                        @foreach (var package in item.receipt_packageList)
+                                                        {
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <p class="text-muted">
+                                                                                @package.package_english_name
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <p class="text-muted">
+                                                                                @package.package_chinese_name
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6" style="text-align:right">
+                                                                    <p class="text-muted">RM @package.value</p>
+                                                                </div>
+                                                            </div>
+                                                            total_package += @package.value;
+                                                            totalpay += @package.value;
+                                                        }
+
+                                                        <br />
+
+                                                        @if (item.receipt_addonList.Count() > 0)
+                                                        {
+                                                            <div>
+                                                                <label><u>Add-on Fee</u></label>
+
+                                                                @foreach (var addon in item.receipt_addonList)
+                                                                {
+                                                                    <div class="row">
+                                                                        <div class="col-md-9">
+                                                                            @*<div class="row">*@
+                                                                            <div>
+                                                                                @*<div class="col-md-6">*@
+                                                                                <p class="text-muted">
+                                                                                    @addon.addon_english_name &nbsp; @addon.addon_chinese_name
+                                                                                </p>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="col-md-3" style="text-align:right">
+                                                                            <p class="text-muted">RM @addon.value</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    totalpay += @addon.value;
+                                                                }
+
+                                                            </div>
+                                                        }
+
+                                                        <br />
+                                                        @if (item.receipt_discountList.Count() > 0)
+                                                        {
+                                                            <div>
+                                                                <label><u>Discount</u></label>
+                                                                @foreach (var discount in item.receipt_discountList)
+                                                                {
+                                                                    <div class="row">
+                                                                        <div class="col-md-9">
+                                                                            @*<div class="row">*@
+                                                                            <div>
+                                                                                <p class="text-muted">
+                                                                                    @discount.discount_english_name &nbsp; @discount.discount_chinese_name
+                                                                                </p>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="col-md-3" style="text-align:right">
+                                                                            <p class="text-muted">-&nbsp; RM @discount.value</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    @*if (discount.discount_recursive == "true")
+                                                                {
+                                                                    <p style="color:grey;font-size:15px;">This discount will repeat every month.</p>
+                                                                }*@
+                                                                    totalpay = totalpay - @discount.value;
+                                                                }
+
+                                                            </div>
+
+                                                        }
+                                                        <hr />
+                                                        @*dshhhh*@
+                                                        <div class="row">
+                                                            <div class="col-md-10">
+                                                                <div class="row">
+                                                                    <div class="col-md-12" style="text-align:right">
+
+                                                                        <p class="text-muted">Total:&nbsp; </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-2" style="text-align:right">
+                                                                <p class="text-muted">
+
+                                                                    RM @totalpay
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+
+                                                        @*dashshhsh*@
+                                                        @{ string[] months = {"January", "February", "March", "April", "May",
+                                                             "June", "July", "September", "October", "November", "December"};
+                                                            DateTime now = DateTime.Now;
+                                                            var month = months[now.Month - 1];
+                                                        }
+
+
+                                                        @if (@item.early_id != 6)
+                                                        {
+
+                                                            if (@item.early_id == 5)
+                                                            {
+                                                                foreach (var early in Model.earlyList)
+                                                                {
+
+                                                                    <div class="row">
+                                                                        <div class="col-md-10">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12" style="text-align:right">
+
+                                                                                    <p class="text-muted">@early.early_english_name: </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2" style="text-align:right">
+                                                                            <p class="text-muted">
+
+                                                                                -RM @early.early_value
+                                                                            </p>
+
+                                                                        </div>
+
+                                                                        <br />
+                                                                        @{totalpay -= @early.early_value;}
+
+                                                                    </div>
+
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+
+                                                                foreach (var item2 in Model.earlyList)
+                                                                {
+                                                                    if (item2.early_id == item.early_id)
+                                                                    {
+                                                                        <div class="row">
+                                                                            <div class="col-md-10">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12" style="text-align:right">
+
+                                                                                        <p class="text-muted">@item2.early_english_name: </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2" style="text-align:right">
+                                                                                <p class="text-muted">
+
+                                                                                    -RM @item2.early_value
+                                                                                </p>
+
+                                                                            </div>
+
+                                                                            @{totalpay -= @item2.early_value;}
+                                                                            @*totalpay -= @item2.early_value;*@
+
+                                                                        </div>
+
+                                                                    }
+
+                                                                }
+
+                                                            }
+
+
+                                                        }
+                                                        @*dasshsh*@
+
+
+                                                        <div class="row">
+                                                            <div class="col-md-10">
+                                                                <div class="row">
+                                                                    <div class="col-md-12" style="text-align:right">
+
+                                                                        @*<p class="text-muted">Total Payable Amount: </p>*@
+                                                                        <label>Total Payable Amount:</label>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-2" style="text-align:right">
+
+                                                                <strong>RM @totalpay</strong>
+                                                                @{grandtotal += totalpay;}
+                                                                @*<p class="text-muted">
+                                                            totalFee
+                                                                                                            -RM @balance.balance_amount
+                                                                                                        </p>*@
+
+                                                            </div>
+
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                        }
+
+                                        <hr />
+                                        <div style="margin:20px">
+                                            @if (Model.accBalance.Count() > 0)
+                                            {
+
+                                                foreach (var balance in Model.accBalance)
+                                                {
+                                                    <div class="row" style="height:25px">
+                                                        <div class="col-md-10">
+                                                            <div class="row">
+                                                                <div class="col-md-12" style="text-align:right">
+
+                                                                    <p class="text-muted">Parent Account Balance: </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2" style="text-align:right">
+                                                            <p class="text-muted">
+
+                                                                -RM @balance.balance_amount
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                    grandtotal -= @balance.balance_amount;
+                                                }
+
+                                            }
+                                            @*dshhhh*@
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="text-align:right">
+
+                                                            <label>Grand Total:&nbsp;</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2" style="text-align:right">
+                                                    <strong style="color:red">
+
+                                                        RM @grandtotal
+                                                    </strong>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="card-footer">
+                                <button type="button" value="Back" name="backChild" class="btn btn-default" id="btnBackOutstanding">Back</button>
+                                &nbsp;&nbsp;
+                                <button type="button" class="btn btn-primary float-right" id="makePaymentButton">
+                                    Pay
+                                </button>
+
+                            </div>
+
+                            <div class="modal fade" role="dialog" id="paymentModal" aria-labelledby="paymentModal" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content" id="PaymentmodalBody">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <div id="loader" style="text-align:center">
+                <img src="~/image/loading.gif" id="loading-image" />
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        var spinner = $('#loader');
+        var paymentModal = $('#paymentModal');
+        $(document).ready(function () {
+            $("#makePaymentButton").click(function () {
+                makePayment();
+            })
+            //$("#btnselectall").click(function () {
+            //    selectall();
+            //})
+        });
+
+        function validate() {
+            if ($("#payment_date").val() == null || $.trim($("#payment_date").val()) == '') {
+                toastr.options.closeButton = true;
+                toastr.warning("Payment date is required to fill.", 'Warning');
+                return;
+            }
+
+            if ($("#payment_amount").val() == null || $.trim($("#payment_amount").val()) == '') {
+                toastr.options.closeButton = true;
+                toastr.warning("Payment amount is required to fill.", 'Warning');
+                return;
+            }
+
+            if ($("#receipt").val() == null || $.trim($("#receipt").val()) == '') {
+                toastr.options.closeButton = true;
+                toastr.warning("Transaction Proof is required to upload.", 'Warning');
+                return;
+            }
+            if ($("#payment_amount").val() <0 ) {
+                toastr.options.closeButton = true;
+                toastr.warning("Payment amount must in higher than 0", 'Warning');
+                return;
+            }
+
+            return true;
+        }
+
+
+        function makePayment() {
+            var listofchildic = [];
+            var paymentList = [];
+
+            $.each($("#outstandingTable input[type=checkbox]:checked"),
+                function (index, data) {
+
+                    var child_ic = $(this).val();
+
+                    listofchildic.push($(this).val());
+
+                    paymentList.push($(this).attr('data-payment-id'));
+
+                }
+            );
+            if (listofchildic.indexOf("on") !== -1) {
+                listofchildic.shift();
+                paymentList.shift();
+            }
+
+            childListString = listofchildic.join(',');
+            paymentListString = paymentList.join(',');
+
+            
+             /*   window.location.href = '/MakePayment/Create?child=' + childListString + '&payment=' + paymentListString;*/
+                $.get("/MakePayment/Create?child=" + childListString + '&payment=' + paymentListString, function (res) {
+                    $("#PaymentmodalBody").html(res);
+                    $("#paymentModal").modal('show');
+
+                    const queryString = window.location.search;
+                    const urlParams = new URLSearchParams(queryString);
+                    const childIdListString = urlParams.get('child');
+                    const paymentIdListString = urlParams.get('payment');
+
+                    $("#payment_id_list").val(paymentIdListString);
+                    $("#child_id_list").val(childIdListString);
+
+
+                })
+           
+
+        }
+
+
+
+        $(document).ready(function () {
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const childIdListString = urlParams.get('child');
+            const paymentIdListString = urlParams.get('payment');
+
+            console.log(paymentIdListString, childIdListString);
+
+            $("#child_id_list").val(childIdListString);
+            $("#payment_id_list").val(paymentIdListString);
+           
+        })
+    </script>
+    }

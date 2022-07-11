@@ -1,0 +1,97 @@
+﻿@model AceTuitionPaymentSystem.Models.tb_payment
+
+
+<div name="paymentForm">
+
+    @using (Html.BeginForm("AdminPay", "Outstanding", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="modal-header">
+
+            <h4 class="modal-title">
+                Make Payment
+            </h4>
+            <div style="text-align:right;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div class="modal-body">
+
+            @Html.HiddenFor(model => model.payment_id)
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Payment Date</label>
+
+                        @Html.EditorFor(model => model.payment_date, new { htmlAttributes = new { @class = "form-control", type = "date", required = true }  })
+                        @Html.ValidationMessageFor(model => model.payment_date, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            <label>Pay Amount</label>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">RM</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-11">
+                                    @Html.EditorFor(model => model.payment_amount, new { htmlAttributes = new { @class = "form-control", type = "number",@min="1" } })
+                                    @Html.ValidationMessageFor(model => model.payment_amount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Method &nbsp;</label>
+                            <select id="payment-method" class="form-control" required>
+                                <option value="" hidden>Select Payment Method</option>
+                                <option value="cash">Cash Payment</option>
+                                <option value="bank_transfer">Bank Transfer</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group" id="payment-proof-div">
+                            <label>Payment File</label>
+                            @Html.TextBoxFor(model => model.receipt, "", new { @type = "file", @multiple = "multiple" })
+                            @*<input type="file" name="receipt" required multiple />*@
+
+                            @Html.ValidationMessageFor(model => model.receipt, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" name="save" class="btn btn-primary pull-right" onclick="loading()">Save</button>
+        </div>
+    }
+
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        
+        $("#payment-proof-div").hide();
+
+        $("#payment-method").on('change', function () {
+
+            if ($(this).val() == "cash") {
+                $("#payment-proof-div").hide();
+            } else if ($(this).val() == "bank_transfer") {
+                $("#payment-proof-div").show();
+            }
+        })
+    });
+    function loading() {
+        
+    }
+
+    
+</script>    

@@ -1,0 +1,1493 @@
+﻿@*@model AceTuitionPaymentSystem.ViewModel.ChildViewModel*@
+@model IEnumerable<AceTuitionPaymentSystem.ViewModel.PackageViewModel>
+
+
+@{
+
+    if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+<style>
+    #loader {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.75) no-repeat center center;
+        z-index: 10000;
+    }
+
+    #loading-image {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        left: 50%;
+        top: 50%;
+        z-index: 100;
+    }
+    .main-sidebar {
+        min-height: 100%;
+    }
+</style>
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+
+                <img src="~/image/supervisor.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">
+
+                    <span style='color: white'>@Session["name"]</span>
+                    <br>
+                    ACE Education
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                <!-- <li class="nav-item menu-open"> -->
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Home")" class="nav-link">
+                        <i class="fa fa-tachometer"></i>&nbsp;&nbsp;
+                        <p>
+                            Dashboard
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-usd"></i>&nbsp;&nbsp;
+                        <p>
+                            Manage Payment
+                            <i class="fa fa-chevron-left right "></i>
+                            @if (TempData["count"].ToString() != "0")
+                            {
+                                <span class="badge badge-warning right">
+                                    @TempData["count"]
+                                </span>
+                            }
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Outstanding")" class="nav-link">
+                                <i class="fa fa-spinner"></i>&nbsp;&nbsp;
+                                <p>Outstanding</p>
+                                @if (TempData["count"].ToString() != "0")
+                                {
+                                    <span class="badge badge-warning right">
+                                        @TempData["count"]
+                                    </span>
+                                }
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Payment")" class="nav-link">
+                                <i class="fa fa-check-square"></i>&nbsp;&nbsp;
+                                <p>Payment List</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item active">
+                    <a href="@Url.Action("Index", "Child")" class="nav-link active">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;&nbsp;
+                        <p>
+                            Students
+                            @*<i class="fa fa-chevron-left right "></i>*@
+                        </p>
+                    </a>
+                    @*<ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Child")" class="nav-link active">
+                                <i class="fa fa-child"></i>&nbsp;&nbsp;
+                                <p>
+                                    Active
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("InactiveStudent", "Child")" class="nav-link">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <p>Inactive</p>
+                            </a>
+                        </li>
+                    </ul>*@
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Parents")" class="nav-link">
+                        <i class="fa fa-users"></i>&nbsp;&nbsp;
+                        <p>
+                            Parents
+                          
+                        </p>
+                    </a>
+                    
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;
+                        <p>
+                            Manage Servies
+                            <i class="fa fa-chevron-left right active"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Package")" class="nav-link">
+                                <i class="fa fa-folder"></i>&nbsp;&nbsp;
+                                <p>Package</p>
+                                @*<span class="badge badge-info right">
+                            <?php echo $rowcp['n_count'];?>
+                        </span>*@
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Subject")" class="nav-link">
+                                <i class="fa fa-book"></i>&nbsp;&nbsp;
+                                <p>Subject</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "earlypay")" class="nav-link ">
+                                <i class="fa fa-pencil"></i>&nbsp;&nbsp;
+                                <p>Early Payment</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "notice")" class="nav-link">
+                        <i class="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;&nbsp;
+                        <p>
+                            Notice
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Edit Student's Information</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        @*<li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>*@
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Child")">Manage Student</a></li>
+                        <li class="breadcrumb-item active">Edit Information</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        <!-- Main content -->
+        <br />
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header" style="background:#233866;color:white">
+                                <h3 class="card-title">Edit Student's Information</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Student IC</label>
+                                                @*@Html.TextBoxFor(expression: model => model.child_ic, htmlAttributes: new { @class = "form-control", autocomplete = "Off", @readonly = "true" })*@
+
+                                                <input class="form-control" id="child_ic" readonly="readonly"/>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Student Code</label>
+                                                @*@Html.TextBoxFor(expression: model => model.child_code, htmlAttributes: new { @class = "form-control", autocomplete = "Off", @readonly = "true" })*@
+                                                <input class="form-control" id="child_code" readonly="readonly" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Student English Name</label>
+                                                @*@Html.TextBoxFor(expression: model => model.child_name_eng, htmlAttributes: new { @class = "form-control", autocomplete = "Off" })*@
+
+                                                <input class="form-control" id="child_name_eng" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Student Chinese Name</label>
+                                                @*@Html.TextBoxFor(expression: model => model.child_name_chinese, htmlAttributes: new { @class = "form-control", autocomplete = "Off" })*@
+
+                                                <input class="form-control" id="child_name_chinese" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Year</label>
+                                                @*@Html.TextBoxFor(expression: model => model.child_year, htmlAttributes: new { @class = "form-control", autocomplete = "Off" })*@
+                                            <select class="form-control" id="child_year" name="child_year" required>
+                                                <option value="1">Standard 1</option>
+                                                <option value="2">Standard 2</option>
+                                                <option value="3">Standard 3</option>
+                                                <option value="4">Standard 4</option>
+                                                <option value="5">Standard 5</option>
+                                                <option value="6">Standard 6</option>
+                                                <option value="12">Peralihan</option>
+                                                <option value="7">Form 1</option>
+                                                <option value="8">Form 2</option>
+                                                <option value="9">Form 3</option>
+                                                <option value="10">Form 4</option>
+                                                <option value="11">Form 5</option>
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>School of Education</label>
+                                                @*@Html.TextBoxFor(expression: model => model.child_school, htmlAttributes: new { @class = "form-control", autocomplete = "Off" })*@
+
+                                                <input class="form-control" id="child_school" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Number of trip per week</label>
+                                                @*@Html.TextBoxFor(expression: model => model.child_trans_day, htmlAttributes: new { @class = "form-control", autocomplete = "Off", @type = "number", @min = "0", @max = "7", step = "1", oninput = "this.value=(parseInt(this.value)||0)" })*@
+
+                                                <input class="form-control" id="child_trans_day" type="number" min="0"  oninput="this.value=(parseInt(this.value)||0)" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Total of Subject Taken</label>
+                                                @*@Html.TextBoxFor(expression: model => model.child_num_subject, htmlAttributes: new { @class = "form-control", autocomplete = "Off", @type = "number", @min = "0", @readonly = "true" })*@
+
+                                                <input class="form-control" id="child_num_subject" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Student Status</label>
+                                                <select class="form-control" id="child_status" name="child_status">
+                                                    <option value="active">Active</option>
+                                                    <option value="inactive">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Enrolled Date</label>
+                                                @*@Html.TextBoxFor(expression: model => model.child_reg_date, htmlAttributes: new { @class = "form-control", autocomplete = "Off", type = "date", @readonly = "true" })*@
+
+                                                <input class="form-control" id="child_reg_date" readonly="readonly" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <!--new card inside -->
+                                            <div class="card card-default">
+                                                <div class="card-header" style="background:#D8DBE5">
+                                                    <h3 class="card-title">Subject List</h3>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- /.card-header -->
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group" id="subjectList">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <!-- /.row -->
+                                                </div>
+                                                <!-- /.card-body -->
+                                            </div>
+                                            <!--end card inside -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!--new card inside -->
+                                            <div class="card card-default">
+                                                <div class="card-header" style="background:#D8DBE5">
+                                                    <h3 class="card-title">Services List</h3>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- /.card-header -->
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div style="text-align:right">
+                                                                <input type="button" value="Add Service" name="addPackage" class="btn btn-primary" id="btnAddPackage" />
+                                                            </div>
+                                                            <br />
+                                                            <div id="packageList">
+
+
+
+                                                                <div id="transport" style="display: none;">
+                                                                    @foreach (var package in Model)
+                                                                    {
+                                                                        if (package.package_attribute == "Transport")
+                                                                        {
+                                                                            <div class="form-control">@package.package_english_name</div><br />
+                                                                        }
+                                                                    }
+
+                                                                </div>
+
+
+                                                                <div id="subject" style="display: none;">
+                                                                    @foreach (var package in Model)
+                                                                    {
+                                                                        if (package.package_attribute == "Material")
+                                                                        {
+                                                                            <div class="form-control">@package.package_english_name</div><br />
+                                                                        }
+                                                                    }
+                                                                </div>
+
+                                                                <div id="primary" style="display: none;">
+                                                                    @foreach (var package in Model)
+                                                                    {
+                                                                        if (package.package_attribute == "Primary")
+                                                                        {
+
+                                                                            <div class="form-control" name="primary-list" data-subject-number="@package.package_subject_amount" style="display: none;">@package.package_english_name</div>
+
+                                                                        }
+                                                                    }
+                                                                </div>
+
+                                                                <div id="secondary" style="display: none;">
+                                                                    @foreach (var package in Model)
+                                                                    {
+                                                                        if (package.package_attribute == "Secondary")
+                                                                        {
+
+                                                                            <div class="form-control" name="secondary-list" data-subject-number="@package.package_subject_amount" style="display: none;">@package.package_english_name</div>
+
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                                <br />
+
+
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.col -->
+                                                    </div>
+                                                    <!-- /.row -->
+                                                </div>
+                                                <!-- /.card-body -->
+                                            </div>
+                                            <!--end card inside -->
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <!--new card inside -->
+                                            <div class="card card-default">
+                                                <div class="card-header" style="background:#D8DBE5">
+                                                    <h3 class="card-title">Additional Fees</h3>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- /.card-header -->
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div style="text-align:right">
+                                                                <input type="button" value="Add Extra Fee" name="addAddon" class="btn btn-primary" id="btnAddAddon" />
+                                                            </div>
+                                                            <br />
+                                                            <div id="addonList">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.row -->
+                                                </div>
+                                                <!-- /.card-body -->
+                                            </div>
+                                            <!--end card inside -->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!--new card inside -->
+                                            <div class="card card-default">
+                                                <div class="card-header" style="background:#D8DBE5">
+                                                    <h3 class="card-title">Discount</h3>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                                <!-- /.card-header -->
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div style="text-align:right">
+                                                                <input type="button" value="Add Discount" name="addDiscount" class="btn btn-primary" id="btnAddDiscount" />
+                                                            </div>
+                                                            <br />
+                                                            <div id="discountList">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.row -->
+                                                </div>
+                                                <!-- /.card-body -->
+                                            </div>
+                                            <!--end card inside -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button type="button" value="Back" name="backChild" class="btn btn-default" id="btnBackChild">Back</button>
+                                    &nbsp;&nbsp;
+                                    <button value="Create" name="editChild" class="btn btn-primary pull-right" id="btnEditChild" style="text-align:right">Edit</button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+            <br /> <br />
+                   <div id="loader" style="text-align:center">
+                       <img src="~/image/loading.gif" id="loading-image" />
+                   </div>
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    var spinner = $('#loader');
+    var packageList = [];
+
+    var packageTaken = [];
+    var subjectTaken = [];
+
+    var addonList = [];
+    var discountList = [];
+
+    $(document).ready(function () {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const ic = urlParams.get('ic')
+
+        var formData = new FormData();
+        formData.append("child_ic", ic);
+
+        $.ajax({
+            async: true,
+            dataType: 'JSON',
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            url: '/Child/FetchEditSubject',
+            data: formData,
+            success: function (data) {
+                if (data.Success) {
+                    //console.log(data.Data);
+
+
+                    // console.log(data.SubjectTaken);
+                    for (var subject of data.SubjectTaken) {
+                        subjectTaken.push(subject.subject_id);
+                    }
+
+                    $('#subjectList').append(`<div id="subjectDiv"></div>`)
+                    for (var subject of data.SubjectList) {
+                        let taken = false;
+                        for (var subTaken of data.SubjectTaken) {
+                            if (subTaken.subject_id == subject.subject_id) {
+                                taken = true;
+                                $('#subjectDiv')
+                                    .append(`<input class="subjectCheckbox" type="checkbox" id="${subject.subject_id}" name="subject-grade-${subject.subject_grade}" value="${subject.subject_id}" checked=true>`)
+                                    .append(`<label style="padding-left:1rem;">${subject.subject_english_name}</label></div>`)
+                                    .append(`<br>`);
+                            }
+                        }
+
+                        if (!taken) {
+                            $('#subjectDiv')
+                                .append(`<input class="subjectCheckbox" type="checkbox" id="${subject.subject_id}" name="subject-grade-${subject.subject_grade}" value="${subject.subject_id}">`)
+                                .append(`<label style="padding-left:1rem;">${subject.subject_english_name}</label></div>`)
+                                .append(`<br>`);
+                        }
+                    }
+
+                    $(".subjectCheckbox").change(function () {
+                        var count = 0;
+                        var checkedExist = false;
+                        $(".subjectCheckbox").each(function () {
+                            if ($(this).is(":checked")) {
+                                count++;
+                                $("#subject").show();
+                                checkedExist = true;
+                            }
+
+                        })
+
+                        if (parseInt($("#child_year").val()) <= 6 && parseInt($("#child_year").val()) != 0 && count != 0) {
+                            // primary
+                            $("#secondary").hide();
+                            $("#primary").show();
+
+
+                            $("div[name='primary-list']").each(function () {
+                                if ($(this).attr("data-subject-number") == count) {
+                                    $(this).show();
+                                } else {
+                                    $(this).hide();
+                                }
+                            })
+
+                        } else if (parseInt($("#child_year").val()) > 6 && parseInt($("#child_year").val()) != 0 && count != 0) {
+                            // secondary
+                            $("#secondary").show();
+                            $("#primary").hide();
+
+                            $("div[name='secondary-list']").each(function () {
+                                if ($(this).attr("data-subject-number") == count) {
+                                    $(this).show();
+                                } else {
+                                    $(this).hide();
+                                }
+                            })
+
+
+                        } else {
+                            // no ttn
+                            $("#primary").hide();
+                            $("#secondary").hide();
+
+                            $("div[name='secondary-list']").each(function () {
+                                $(this).hide();
+                            })
+
+                            $("div[name='primary-list']").each(function () {
+                                $(this).hide();
+                            })
+                        }
+
+                        if (!checkedExist) {
+                            $("#subject").hide();
+                        }
+
+
+
+                    })
+
+
+                }
+
+            },
+            error: function () {
+                alert("There is some problem to load subject.")
+            }
+        })
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $.ajax({
+            async: true,
+            dataType: 'JSON',
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            url: '/Child/FetchEditAddon',
+            data: formData,
+            success: function (data) {
+                if (data.Success) {
+                    for (var addon of data.AddonList) {
+                        addonList.push(addon.addon_id);
+
+                        if (addon.addon_recursive == "true") {
+                            $('#addonList')
+                                .append(`<div name="addonDiv" class="form-group"><div class="callout callout-info"><div class="row"><div class="col-md-6"><label>English Name</label><input class="form-control" name="addon_english_name" value="${addon.addon_english_name}" /></div><div class="col-md-6"><label>Chinese Name</label><input class="form-control" name="addon_chinese_name" value="${addon.addon_chinese_name}" /></div></div><div class="row"><div class="col-md-6"><label>Price</label><input type="number" class="form-control" name="addon_value" value="${addon.addon_value}" min="1"/></div></div> <br> <input type="checkbox" name="addon_recursive" checked="true" /><label style="padding-left: 1rem;">Fee will repeat every month</label> <input type="button" class="btn btn-danger pull-right" onclick="removeAddonDiv(this)" value="Remove" style="margin: 0 1rem;position:absolute;right:0;" /></div></div>`)
+                        } else {
+                            $('#addonList')
+                                .append(`<div name="addonDiv" class="form-group"><div class="callout callout-info"><div class="row"><div class="col-md-6"><label>English Name</label><input class="form-control" name="addon_english_name" value="${addon.addon_english_name}" /></div><div class="col-md-6"><label>Chinese Name</label><input class="form-control" name="addon_chinese_name" value="${addon.addon_chinese_name}" /></div></div><div class="row"><div class="col-md-6"><label>Price</label><input type="number" class="form-control" name="addon_value" value="${addon.addon_value}" min="1"/></div></div> <br> <input type="checkbox" name="addon_recursive" /><label style="padding-left: 1rem;">Fee will repeat every month</label> <input type="button" class="btn btn-danger pull-right" onclick="removeAddonDiv(this)" value="Remove" style="margin: 0 1rem;position:absolute;right:0;" /></div></div>`)
+                        }
+                    }
+                }
+
+            },
+            error: function () {
+                alert("There is some problem to load addon.")
+            }
+        })
+
+
+
+
+
+
+
+        $.ajax({
+            async: true,
+            dataType: 'JSON',
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            url: '/Child/FetchEditDiscount',
+            data: formData,
+            success: function (data) {
+                if (data.Success) {
+                    for (var discount of data.DiscountList) {
+                        discountList.push(discount.discount_id);
+
+                        if (discount.discount_recursive == "true") {
+                            $('#discountList')
+                                .append(`<div name="discountDiv" class="form-group"><div class="callout callout-info"><div class="row"><div class="col-md-6"><label>English Name</label><input class="form-control" name="discount_english_name" value="${discount.discount_english_name}" /></div><div class="col-md-6"><label>Chinese Name</label><input class="form-control" name="discount_chinese_name" value="${discount.discount_chinese_name}" /></div></div><div class="row"><div class="col-md-6"><label> Price</label><input type="number" class="form-control" name="discount_value" value="${discount.discount_value}" /></div></div>  <br><input type="checkbox" name="discount_recursive" checked="true" /><label style="padding-left: 1rem;">Discount will repeat every month</label> <input type="button" class="btn btn-danger pull-right" onclick="removeDiscountDiv(this)" value="Remove" style="margin: 0 1rem;position:absolute;right:0;" /></div></div>`)
+                        } else {
+                            $('#discountList')
+                                .append(`<div name="discountDiv" class="form-group"><div class="callout callout-info"><div class="row"><div class="col-md-6"><label>English Name</label><input class="form-control" name="discount_english_name" value="${discount.discount_english_name}" /></div><div class="col-md-6"><label>Chinese Name</label><input class="form-control" name="discount_chinese_name" value="${discount.discount_chinese_name}" /></div></div><div class="row"><div class="col-md-6"><label> Price</label><input type="number" class="form-control" name="discount_value" value="${discount.discount_value}" /></div></div> <br> <input type="checkbox" name="discount_recursive" /><label style="padding-left: 1rem;">Discount will repeat every month</label> <input type="button" class="btn btn-danger pull-right" onclick="removeDiscountDiv(this)" value="Remove" style="margin: 0 1rem;position:absolute;right:0;" /></div></div>`)
+                        }
+                    }
+                }
+
+            },
+            error: function () {
+                alert("There is some problem to load discount.")
+            }
+        })
+
+
+
+
+
+
+
+
+
+
+
+        $.ajax({
+            async: true,
+            dataType: 'JSON',
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            url: '/Child/FetchEditChildren',
+            data: formData,
+            success: function (data) {
+                if (data.Success) {
+                    //  console.log(data.Data);
+                    $("#child_ic").val(data.Data.child_ic);
+                    $("#child_name_eng").val(data.Data.child_name_eng);
+                    $("#child_name_chinese").val(data.Data.child_name_chinese);
+                    $("#child_code").val(data.Data.child_code);
+                    $("#child_school").val(data.Data.child_school);
+                    $("#child_year").val(data.Data.child_year);
+
+                    var unixTime = data.Data.child_reg_date.split(/[()]/)[1];
+                    const dateObject = new Date(parseInt(unixTime))
+                    const humanDateFormat = dateObject.toLocaleString() //2019-12-9 10:30:15
+                    var datePresetValue = humanDateFormat.split(',')[0].split('/')[2] + '-' + humanDateFormat.split(',')[0].split('/')[0].padStart(2, '0') + '-' + humanDateFormat.split(',')[0].split('/')[1].padStart(2, '0');
+                    //  console.log(datePresetValue);
+                    $("#child_reg_date").val(datePresetValue);
+
+
+                    $("#child_trans_day").val(data.Data.child_trans_day);
+                    $("#child_num_subject").val(data.Data.child_num_subject);
+                    $("#child_status").val(data.Data.child_status);
+
+
+
+
+
+
+
+
+
+                    $.ajax({
+                        async: true,
+                        dataType: 'JSON',
+                        type: 'POST',
+                        contentType: false,
+                        processData: false,
+                        url: '/Child/FetchEditPackage',
+                        data: formData,
+                        success: function (data) {
+                            if (data.Success) {
+
+                                // console.log('package list', packageList);
+                                 //console.log('package taken', packageTaken);
+
+                                packageList = data.PackageList;
+
+                                for (var packTaken of data.PackageTaken) {
+                                    packageTaken.push(packTaken.package_id);
+                                    for (var pack of packageList) {
+
+                                        if (pack.package_id == packTaken.package_id) {
+                                            if ((pack.package_attribute == "Childcare" || pack.package_attribute == "Meals" || pack.package_attribute == "Primary") && pack.package_subject_amount == 0) {
+                                                $('#packageList')
+                                                    .append(`<div name="packageDiv" class="form-group" style="display: flex; align-items: center;"></div>`)
+                                                $(`div[name="packageDiv"]`).last().append(`<i class="fa fa-trash-o" style="font-size:20px; margin-right: 1rem; color:red;" onclick="removePackageDiv(this)"></i>`);
+                                                $(`div[name="packageDiv"]`).last().append(`<div name="packageListName" class="form-control"></div>`);
+                                                $(`div[name="packageListName"]`).last().append();
+                                                for (var package of packageList) {
+                                                    //console.log(package);
+                                                    if (package.package_id == packTaken.package_id) {
+                                                         console.log(package.package_id);
+                                                        $(`div[name="packageListName"]`).last().append(`${package.package_english_name}`);
+                                                        $(`div[name="packageListName"]`).last().attr("data-package-id", package.package_id);
+                                                    }
+
+                                                }
+                                            }
+                                            else {
+
+                                                if (pack.package_attribute == "Transport") {
+                                                    var transDay = $("#child_trans_day").val();
+                                                    console.log('transDay', transDay);
+
+                                                    if (transDay > 0) {
+                                                        $("#transport").show();
+                                                    } else {
+                                                        $("#transport").hide();
+                                                    }
+                                                } else if (pack.package_attribute == "Material") {
+                                                    var subjAmt = $("#child_num_subject").val();
+
+                                                    if (subjAmt > 0) {
+                                                        $("#subject").show();
+                                                    } else {
+                                                        $("#subject").hide();
+                                                    }
+
+                                                } else {
+                                                    var count = 0;
+                                                    var checkedExist = false;
+                                                    $(".subjectCheckbox").each(function () {
+                                                        if ($(this).is(":checked")) {
+                                                            count++;
+                                                            $("#subject").show();
+                                                            checkedExist = true;
+                                                        }
+
+                                                    })
+
+                                                    if (parseInt($("#child_year").val()) <= 6 && parseInt($("#child_year").val()) != 0 && count != 0) {
+                                                        // primary
+                                                        $("#secondary").hide();
+                                                        $("#primary").show();
+
+
+                                                        $("div[name='primary-list']").each(function () {
+                                                            if ($(this).attr("data-subject-number") == count) {
+                                                                $(this).show();
+                                                            } else {
+                                                                $(this).hide();
+                                                            }
+                                                        })
+
+                                                    } else if (parseInt($("#child_year").val()) > 6 && parseInt($("#child_year").val()) != 0 && count != 0) {
+                                                        // secondary
+                                                        $("#secondary").show();
+                                                        $("#primary").hide();
+
+                                                        $("div[name='secondary-list']").each(function () {
+                                                            if ($(this).attr("data-subject-number") == count) {
+                                                                $(this).show();
+                                                            } else {
+                                                                $(this).hide();
+                                                            }
+                                                        })
+
+
+                                                    } else {
+                                                        // no ttn
+                                                        $("#primary").hide();
+                                                        $("#secondary").hide();
+
+                                                        $("div[name='secondary-list']").each(function () {
+                                                            $(this).hide();
+                                                        })
+
+                                                        $("div[name='primary-list']").each(function () {
+                                                            $(this).hide();
+                                                        })
+                                                    }
+
+
+                                                }
+
+                                                //else {
+                                                //    $('#packageList')
+                                                //        .append(`<div name="packageDiv" class="form-group" style="display: flex; align-items: center;"></div>`)
+                                                //    $(`div[name="packageDiv"]`).last().append(`<div name="packageListName" class="form-control"></div>`);
+                                                //    $(`div[name="packageListName"]`).last().append();
+                                                //    for (var package of packageList) {
+                                                //        if (package.package_id == packTaken.package_id) {
+
+                                                //            $(`div[name="packageListName"]`).last().append(`${package.package_english_name}`);
+                                                //        }
+                                                //    }
+                                                //}
+
+
+
+
+                                                //$('#packageList')
+                                                //    .append(`<div name="packageDiv" class="form-group" style="display: flex; align-items: center;"></div>`)
+                                                //$(`div[name="packageDiv"]`).last().append(`<div name="packageListName" class="form-control"></div>`);
+                                                //$(`div[name="packageListName"]`).last().append();
+                                                //for (var package of packageList) {
+                                                //    if (package.package_id == packTaken.package_id) {
+
+                                                //        $(`div[name="packageListName"]`).last().append(`${package.package_english_name}`);
+                                                //    }
+                                                //}
+
+
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+                        },
+                        error: function () {
+                            alert("There is some problem to load package.")
+                        }
+                    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }
+
+            },
+            error: function () {
+                alert("There is some problem to load child information.")
+            }
+        })
+
+
+
+
+    });
+
+    $(document).ready(function () {
+        $("#btnEditChild").click(function () {
+            editChild();
+        })
+    });
+
+    $(document).ready(function () {
+        $("#btnBackChild").click(function () {
+            window.location.href = '/Child';
+        })
+    });
+
+    function validateChild() {
+        if ($("#child_ic").val() == null || $.trim($("#child_ic").val()) == '') {
+            toastr.options.closeButton = true;
+            toastr.warning("Student's IC is required to fill.", 'Warning');
+            return;
+        }
+
+        if ($("#child_name_eng").val() == null || $.trim($("#child_name_eng").val()) == '') {
+            toastr.options.closeButton = true;
+            toastr.warning("Student's English Name is required to fill.", 'Warning');
+            return;
+        }
+
+        if ($("#child_name_chinese").val() == null || $.trim($("#child_name_chinese").val()) == '') {
+            toastr.options.closeButton = true;
+            toastr.warning("Student's Chinese Name is required to fill.", 'Warning');
+            return;
+        }
+
+        if ($("#child_school").val() == null || $.trim($("#child_school").val()) == '') {
+            toastr.options.closeButton = true;
+            toastr.warning("Student's School is required to fill.", 'Warning');
+            return;
+        }
+
+        if ($("#child_year").val() == null || $.trim($("#child_year").val()) == '' || $("#child_year").val() == 'Select Grade') {
+            toastr.options.closeButton = true;
+            toastr.warning("Student's Grade is required to fill.", 'Warning');
+            return;
+        }
+
+        if ($("#child_trans_day").val() < 0) {
+            toastr.options.closeButton = true;
+            toastr.warning("Number of trip must is positive number.", 'Warning');
+            return;
+        }
+
+
+        if ($("#child_reg_date").val() == null || $("#child_reg_date").val() == '') {
+            toastr.options.closeButton = true;
+            toastr.warning("Registration Date is required to fill.", 'Warning');
+            return;
+        }
+
+        return true;
+    }
+
+
+
+    function editChild() {
+
+        if (!validateChild()) {
+            return;
+        }
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const ic = urlParams.get('ic')
+
+        var formData = new FormData();
+
+
+
+        var packageTakenString = packageTaken.join(',');
+        formData.append("child_package_taken", packageTakenString);
+
+        var subjectTakenString = subjectTaken.join(',');
+        formData.append("child_subject_taken", subjectTakenString);
+
+        var addonListString = addonList.join(',');
+        formData.append("child_addon_taken", addonListString);
+
+        var discountListString = discountList.join(',');
+        formData.append("child_discount_taken", discountListString);
+
+
+
+
+
+        var subjectIdList = [];
+        var checked = $(`input[name="subject-grade-${$("#child_year").val()}"]:checked`).each(function () {
+            subjectIdList.push(this.value);
+        });
+        var subjectIdListString = subjectIdList.join(',');
+
+
+
+
+        var packageIdList = [];
+        var selected = $(`select[name="packageListName"]`).each(function () {
+            packageIdList.push(this.value);
+        })
+
+        $(`div[name="packageListName"]`).each(function () {
+            packageIdList.push($(this).attr("data-package-id"));
+        })
+
+
+
+        var trans_day = $("#child_trans_day").val();
+        var stuYear = $("#child_year").val();
+        var stuY = parseInt(stuYear);
+        var subLength = subjectIdList.length;
+        if (trans_day != "0") {
+            for (var p of packageList) {
+                if (`${p.package_attribute}` == "Transport") {
+                    packageIdList.push(`${p.package_id}`);
+                }
+            }
+        }
+
+        if (subLength > 0) {
+            if (stuY < 7) {
+                var stuGrade = "Primary";
+            }
+            else { var stuGrade = "Secondary"; }
+
+            for (var p of packageList) {
+                if (`${p.package_attribute}` == stuGrade && `${p.package_subject_amount}` == subLength) {
+                    packageIdList.push(`${p.package_id}`);
+                }
+                if (`${p.package_attribute}` == "Material") {
+                    packageIdList.push(`${p.package_id}`);
+                }
+            }
+        }
+
+        console.log('packageIdList',packageIdList);
+
+
+        var uniqueSet = new Set(packageIdList);
+        var uniqueArr = Array.from(uniqueSet);
+
+        var packageIdListString = uniqueArr.join(',');
+
+
+        var addonEnglishNameList = [];
+        $(`input[name="addon_english_name"]`).each(function () {
+            addonEnglishNameList.push(this.value);
+        });
+        var addonEnglishNameListString = addonEnglishNameList.join(',');
+        formData.append("child_addon_english_name_list", addonEnglishNameListString);
+
+        var addonChineseNameList = [];
+        $(`input[name="addon_chinese_name"]`).each(function () {
+            addonChineseNameList.push(this.value);
+        });
+        var addonChineseNameListString = addonChineseNameList.join(',');
+        formData.append("child_addon_chinese_name_list", addonChineseNameListString);
+
+        var addonPriceList = [];
+        $(`input[name="addon_value"]`).each(function () {
+            addonPriceList.push(this.value);
+        });
+        var addonPriceListString = addonPriceList.join(',');
+        formData.append("child_addon_value_list", addonPriceListString);
+
+        var addonRecursiveList = [];
+        $(`input[name="addon_recursive"]`).each(function () {
+            if ($(this).is(':checked')) {
+                addonRecursiveList.push(true);
+            } else {
+                addonRecursiveList.push(false);
+            }
+
+        });
+        var addonRecursiveListString = addonRecursiveList.join(',');
+        formData.append("child_addon_recursive_list", addonRecursiveListString);
+
+
+
+
+
+
+        var discountEnglishNameList = [];
+        $(`input[name="discount_english_name"]`).each(function () {
+            discountEnglishNameList.push(this.value);
+        });
+        var discountEnglishNameListString = discountEnglishNameList.join(',');
+        formData.append("child_discount_english_name_list", discountEnglishNameListString);
+
+
+
+
+        var discountChineseNameList = [];
+        $(`input[name="discount_chinese_name"]`).each(function () {
+            discountChineseNameList.push(this.value);
+        });
+        var discountChineseNameListString = discountChineseNameList.join(',');
+        formData.append("child_discount_chinese_name_list", discountChineseNameListString);
+
+
+
+
+        var discountPriceList = [];
+        $(`input[name="discount_value"]`).each(function () {
+            discountPriceList.push(this.value);
+        });
+        var discountPriceListString = discountPriceList.join(',');
+        formData.append("child_discount_value_list", discountPriceListString);
+
+
+
+
+        var discountRecursiveList = [];
+        $(`input[name="discount_recursive"]`).each(function () {
+            if ($(this).is(':checked')) {
+                discountRecursiveList.push(true);
+            } else {
+                discountRecursiveList.push(false);
+            }
+
+        });
+        var discountRecursiveListString = discountRecursiveList.join(',');
+        formData.append("child_discount_recursive_list", discountRecursiveListString);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        formData.append("child_subject_list", subjectIdListString);
+        formData.append("child_package_list", packageIdListString);
+
+        formData.append("child_ic", $("#child_ic").val());
+        formData.append("child_name_eng", $("#child_name_eng").val());
+        formData.append("child_name_chinese", $("#child_name_chinese").val());
+        formData.append("child_school", $("#child_school").val());
+        formData.append("child_year", $("#child_year").val());
+        formData.append("child_reg_date", $("#child_reg_date").val());
+        formData.append("child_status", $("#child_status").val());
+        formData.append("child_trans_day", $("#child_trans_day").val());
+
+        spinner.show();
+        $.ajax({
+            
+            async: true,
+            dataType: 'JSON',
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            url: '/Child/Edit',
+            data: formData,
+            success: function (data) {
+                if (data.Success) {
+                    toastr.success(data.Message);
+                    window.location.href = '/Child';
+                    spinner.hide();
+                    
+                    
+                }
+
+            },
+            error: function () {
+                toastr.error("There is some problem to edit child.");
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        $("#child_year").on('change', function () {
+            //  console.log($("#child_year").val());
+            $('#subjectDiv').remove();
+            var formData = new FormData();
+            formData.append("grade", $("#child_year").val());
+
+            $("#btnAddPackage").unbind();
+
+            $.ajax({
+                async: true,
+                dataType: 'JSON',
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                url: '/Child/FetchSubject',
+                data: formData,
+                success: function (data) {
+                    if (data.Success) {
+                        ///   console.log(data.Data);
+                        if (data.Data) {
+                            $('#subjectList').append(`<div id="subjectDiv"></div>`)
+                            for (var subject of data.Data) {
+                                $('#subjectDiv')
+                                    .append(`<input type="checkbox" class="subjectCheckbox" id="${subject.subject_id}" name="subject-grade-${subject.subject_grade}" value="${subject.subject_id}">`)
+                                    .append(`<label style="padding-left:1rem;">${subject.subject_english_name}</label></div>`)
+                                    .append(`<br>`);
+                            }
+
+
+
+                            $("#primary").hide();
+                            $("#secondary").hide();
+
+                            $("div[name='secondary-list']").each(function () {
+                                $(this).hide();
+                            })
+
+                            $("div[name='primary-list']").each(function () {
+                                $(this).hide();
+                            })
+
+                            $("#subject").hide();
+
+                            $(".subjectCheckbox").change(function () {
+                                var count = 0;
+                                var checkedExist = false;
+                                $(".subjectCheckbox").each(function () {
+                                    if ($(this).is(":checked")) {
+                                        count++;
+                                        $("#subject").show();
+                                        checkedExist = true;
+                                    }
+
+                                })
+
+                                if (parseInt($("#child_year").val()) <= 6 && parseInt($("#child_year").val()) != 0 && count != 0) {
+                                    // primary
+                                    $("#secondary").hide();
+                                    $("#primary").show();
+
+
+                                    $("div[name='primary-list']").each(function () {
+                                        if ($(this).attr("data-subject-number") == count) {
+                                            $(this).show();
+                                        } else {
+                                            $(this).hide();
+                                        }
+                                    })
+
+                                } else if (parseInt($("#child_year").val()) > 6 && parseInt($("#child_year").val()) != 0 && count != 0) {
+                                    // secondary
+                                    $("#secondary").show();
+                                    $("#primary").hide();
+
+                                    $("div[name='secondary-list']").each(function () {
+                                        if ($(this).attr("data-subject-number") == count) {
+                                            $(this).show();
+                                        } else {
+                                            $(this).hide();
+                                        }
+                                    })
+
+
+                                } else {
+                                    // no ttn
+                                    $("#primary").hide();
+                                    $("#secondary").hide();
+
+                                    $("div[name='secondary-list']").each(function () {
+                                        $(this).hide();
+                                    })
+
+                                    $("div[name='primary-list']").each(function () {
+                                        $(this).hide();
+                                    })
+                                }
+
+                                if (!checkedExist) {
+                                    $("#subject").hide();
+                                }
+
+
+
+                            })
+
+
+                            $("div[name='packageDiv']").each(function () {
+                                $(this).remove();
+                            })
+
+                            var g = parseInt($("#child_year").val());
+                            
+                            //if (g < 7) {
+                            $("#btnAddPackage").click(function () {
+
+                                //if (parseInt($("#child_year").val()) < 7) {
+                                    $('#packageList')
+                                        .append(`<div name="packageDiv" class="form-group" style="display: flex; align-items: center;"></div>`)
+                                    $(`div[name="packageDiv"]`).last().append(`<i class="fa fa-trash-o" style="font-size:20px; margin-right: 1rem; color:red" onclick="removePackageDiv(this)"></i>`);
+                                    $(`div[name="packageDiv"]`).last().append(`<select name="packageListName" class="form-control"></select>`);
+                                    $(`select[name="packageListName"]`).last().append(`<option hidden>Select Service</option>`);
+
+                                    console.log(packageList);
+                                    for (var package of packageList) {
+                                        if (`${package.package_attribute}` != "Transport" && `${package.package_attribute}` != "Material" && `${package.package_subject_amount}` == 0)
+                                            $(`select[name="packageListName"]`).last().append(`<option value="${package.package_id}">${package.package_english_name}</option>`)
+                                    }
+                              //  } else {
+                                   // toastr.warning("No extra services availble for Secondary Student yet.");
+
+                                //}
+
+
+                            })
+                            //}
+
+
+
+
+
+                        }
+                    }
+                },
+                error: function () {
+
+                    toastr.error("There is some problem to load subject.");
+                }
+            })
+        })
+    });
+
+
+    $(document).ready(function () {
+        $("#child_trans_day").on("input", function () {
+            if ($(this).val() > 0) {
+                $("#transport").show();
+            } else {
+                $("#transport").hide();
+            }
+        })
+
+    })
+
+    function removePackageDiv(section) {
+        $(section).parent().fadeOut(300);
+        $(section).parent().remove();
+    }
+
+
+
+    $(document).ready(function () {
+
+        $("#btnAddPackage").click(function () {
+            var g = parseInt($("#child_year").val());
+           // if (g < 7) {
+                $('#packageList')
+                    .append(`<div name="packageDiv" class="form-group" style="display: flex; align-items: center;"></div>`)
+
+                $(`div[name="packageDiv"]`).last().append(`<i class="fa fa-trash-o" style="font-size:20px; margin-right: 1rem; color:red;" onclick="removePackageDiv(this)"></i>`);
+                $(`div[name="packageDiv"]`).last().append(`<select name="packageListName" class="form-control"></select>`);
+
+                $(`select[name="packageListName"]`).last().append(`<option hidden>Select Package</option>`);
+                for (var package of packageList) {
+                    if (`${package.package_attribute}` != "Transport" && `${package.package_attribute}` != "Material" && `${package.package_subject_amount}` == 0)
+                        $(`select[name="packageListName"]`).last().append(`<option value="${package.package_id}">${package.package_english_name}</option>`)
+                }
+            //}
+            //else {
+           //     toastr.warning("No extra services availble for Secondary Student yet.")
+           // }
+
+            /* $(`select[name="packageListName"]`).last().append(`<option value="${package.package_id}">${package.package_english_name}</option>`)*/
+            //}
+        })
+
+    });
+
+
+    function removeAddonDiv(section) {
+        $(section).parent().fadeOut(300);
+        $(section).parent().remove();
+    }
+
+    function removeDiscountDiv(section) {
+        $(section).parent().fadeOut(300);
+        $(section).parent().remove();
+    }
+
+    $(document).ready(function () {
+        $("#btnAddAddon").click(function () {
+            $('#addonList')
+                .append(`<div name="addonDiv" class="form-group"><div class="callout callout-info"><div class="row"><div class="col-md-6"><label>English Name</label><input class="form-control" name="addon_english_name" /></div><div class="col-md-6"><label> Chinese Name</label><input class="form-control" name="addon_chinese_name" /></div></div><div class="row"><div class="col-md-6"><label> Price</label><input type="number" class="form-control" name="addon_value" min="1" /></div></div><br><input type="checkbox" name="addon_recursive" /><label style="padding-left: 1rem;">Fee will repeat every month</label> <input type="button" class="btn btn-danger pull-right" onclick="removeAddonDiv(this)" value="Remove" style="margin: 0 1rem;position:absolute;right:0;" /></div></div>`)
+        })
+    })
+
+
+    $(document).ready(function () {
+        $("#btnAddDiscount").click(function () {
+            $('#discountList')
+                .append(`<div name="discountDiv" class="form-group"><div class="callout callout-info"><div class="row"><div class="col-md-6"><label>English Name</label><input class="form-control" name="discount_english_name" /></div><div class="col-md-6"><label> Chinese Name</label><input class="form-control" name="discount_chinese_name" /></div></div><div class="row"><div class="col-md-6"><label> Price</label><input type="number" class="form-control" name="discount_value" min="1" /></div></div><br><input type="checkbox" name="discount_recursive" /><label style="padding-left: 1rem;">Discount will repeat every month</label> <input type="button" class="btn btn-danger pull-right" onclick="removeDiscountDiv(this)" value="Remove" style="margin: 0 1rem;position:absolute;right:0;" /></div></div>`)
+        })
+    })
+
+</script>

@@ -1,0 +1,648 @@
+﻿@model AceTuitionPaymentSystem.ViewModel.ParentMake_PaymentViewModel
+
+
+@{
+    ViewBag.Title = "Index";
+    if ((string)Session["type"] == "parent")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+<link href="~/plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/plugins/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/plugins/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+
+<style>
+    .main-sidebar {
+        min-height: 100%;
+    }
+    p {
+        display: inline-block;
+        margin-bottom: .5rem;
+    }
+
+    .btn-sm {
+        background: #233866;
+        color: white;
+    }
+
+        .btn-sm:hover {
+            background-color: #1f2d3d;
+            color: white;
+        }
+
+    /* input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 400px;
+        height: 210px;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+        input ~ div:hover {
+            background-color: #50bcf2;
+        }
+
+        input[type=checkbox]:checked ~ div {
+            background-color: #50bcf2;
+        }*/
+
+    @@media only screen and (max-width: 900px) { /* mobile */
+        .card-body-responsive {
+            width: 100%;
+            overflow: scroll;
+        }
+    }
+
+    @@media only screen and (min-width: 900px) { /* pc */
+        .card-body-responsive {
+            width: 100%;
+            overflow: auto;
+        }
+    }
+</style>
+
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+
+                <img src="~/image/supervisor.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">
+
+                    <span style='color: white'>@Session["name"]</span>
+                    <br>
+                    ACE Education
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+                <!-- <li class="nav-item menu-open"> -->
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "ParentView")" class="nav-link">
+                        <i class="fa fa-tachometer"></i>&nbsp;&nbsp;
+                        <p>
+                            Dashboard
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "MakePayment")" class="nav-link active">
+                        <i class="fa fa-usd"></i>&nbsp;&nbsp;
+                        <p>
+                            Make Payment
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "ParentView_History")" class="nav-link">
+                        <i class="fa fa-check-square-o"></i>&nbsp;&nbsp;
+                        <p>
+                            Payment History
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "ParentView_Child")" class="nav-link">
+                        <i class="fa fa-user"></i>&nbsp;&nbsp;
+                        <p>
+                            Child Information
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Child Outstanding</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        @*<li class="breadcrumb-item"><a href="@Url.Action("Index", "ParentView")">Home</a></li>*@
+                        <li class="breadcrumb-item active">Child Outstanding</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        <!-- Main content -->
+        <br />
+
+
+        @if (@TempData["message"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                @TempData["message"]
+            </div>
+        }
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="alert alert-default alert-dismissible" style="background:#1A9A9B;color:white">
+                            <h5><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;&nbsp;Notice</h5>
+                            @{decimal early_early_pay = 0.00M;}
+                            @if (Model.earlyList.Count() > 0)
+                            {
+                                <div class="row">
+                                    <div class="col-xl-4" style="text-align:right">
+                                        <label>Early Payment</label>
+                                    </div>
+
+                                    <div class="col-xl-8">
+                                        @foreach (var item in Model.earlyList)
+                                        {
+                                            <p>@item.early_english_name &nbsp;&nbsp; RM @item.early_value</p><br />
+                                            early_early_pay = +@item.early_value;
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            <div class="row">
+                                <div class="col-md-4" style="text-align:right">
+                                    <label>Bank</label><br />
+                                    <label>Account Number</label><br />
+                                    <label>Account Holder</label>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <p>CIMB Bank</p><br />
+                                    <p>20001234567</p><br />
+                                    <p>ACE EDUCATION</p><br />
+                                </div>
+                            </div>
+                            @{
+                                decimal sum = 0;
+                                foreach (var balance in Model.balanceList)
+                                {
+                                    sum = sum + balance.balance_amount;
+                                }
+                                <p id="balance-total" style="display: none;">@sum</p>
+                            }
+
+
+
+                            <br />
+                            Please bank in to this account and upload your transaction receipt here.<br />
+                            @{ string[] months = {"January", "February", "March", "April", "May",
+                                                    "June", "July", "September", "October", "November", "December"};
+                                DateTime now = DateTime.Now;
+                                var month = months[now.Month - 1];}
+                            @foreach (var item in Model.earlyList)
+                            {
+                                <p>
+                                    Enjoy &nbsp;@item.early_english_name.ToLower()&nbsp; discount, paid before&nbsp;
+                                </p>
+                                if (@item.early_day == 1 || @item.early_day == 11 || @item.early_day == 21 || @item.early_day == 31)
+                                {
+                                    @item.early_day<p>&nbsp;st</p>
+                                }
+                                else if (@item.early_day == 2 || @item.early_day == 12 || @item.early_day == 22)
+                                {
+                                    @item.early_day<p>&nbsp;nd</p>
+                                }
+                                else if (@item.early_day == 3 || @item.early_day == 13 || @item.early_day == 23)
+                                {
+                                    @item.early_day<p>&nbsp;rd</p>
+                                }
+                                else
+                                {
+                                    @item.early_day<p>&nbsp;th</p>
+                                }
+                                <p> &nbsp;@month .</p>
+                                <br />
+
+                            }
+                            Thank you.
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        @{decimal total = 0.00M; }
+                        @if (Model.paymentList.Count() > 0)
+                        {
+                            <div class="alert alert-danger alert-dismissible">
+                                <h5><i class="fa fa-exclamation" aria-hidden="true"></i>&nbsp;&nbsp;Outstanding</h5>
+                                <div class="row">
+                                    <div class="col-md-4" style="text-align:right">
+
+                                        @{var result = Model.paymentList.GroupBy(x => x.payment_month);
+                                            string[] paylist_months = {"January", "February", "March", "April", "May",
+                                                    "June", "July", "September", "October", "November", "December"}; }
+
+                                        @foreach (var item in result)
+                                        {
+                                            var pay_month = paylist_months[@item.Key - 1];
+                                            <label>@pay_month</label><br />
+
+                                        }
+                                    </div>
+                                    <div class="col-md-8">
+                                        @foreach (var item2 in result)
+                                        {
+                                            <p>RM @item2.Sum(x => x.payment_outstanding)</p><br />
+                                            total = (total + @item2.Sum(x => x.payment_outstanding));
+                                        }
+                                        <hr style="width:30%;text-align:left;margin-left:0;color:white">
+                                    </div>
+
+                                    <div class="col-md-4" style="text-align:right">
+
+                                        <label>Total </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p>RM @total</p><br />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @{ decimal total_balance = 0.00M;}
+                        @foreach (var balance in Model.balanceList)
+                        {
+                            total_balance = (total_balance + @balance.balance_amount);
+
+                        }
+
+                        @if (total_balance > 0)
+                        {
+                            <div class="alert alert-success alert-dismissible">
+                                <h5><i class="fa fa-thumb-tack" aria-hidden="true"></i>&nbsp;&nbsp; Balance</h5>
+                                <div class="row">
+                                    <div class="col-md-4" style="text-align:right">
+                                        <label>Your Balance</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p>RM @total_balance</p><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+                <br /><br />
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header" style="background-color:#8C8CB4;color:white;">
+                                <h3 class="card-title" style="margin:8px">Outstanding List</h3>
+                                <div style="text-align:right">
+                                    @{decimal pay = total - total_balance - early_early_pay;}
+                                    @if (Model.paymentList.Count() > 0)
+                                    {
+                                        @*<button type="button" style="font-size: 17px;" class="btn btn-sm">
+                                                <div class="fa fa-usd" style="font-size: 17px;" id="viewPaymenttButton">&nbsp;&nbsp;View</div>
+                                            </button>*@
+                                        <button type="button" style="font-size: 17px;" class="btn btn-sm">
+                                            @*<i class="fa fa-usd"></i>&nbsp;&nbsp;Make Payment (
+                                                @if (total_balance > 0.00M)
+                                                {
+                                                    <span style=" -webkit-text-decoration-line: line-through; /* Safari */ text-decoration-line: line-through;" id="makePaymentButton">RM 0</span>
+                                                    <span style="font-size:20px">RM {@pay - @total_balance}</span>
+
+                                                }
+                                                else
+                                                {
+                                                    <span style="font-size:20px">RM @pay</span>
+                                                }*@
+
+                                            <div class="fa fa-usd" style="font-size: 17px;" id="makePaymentButton">&nbsp;&nbsp;Make Payment: RM <span>0</span></div>
+
+                                        </button>
+                                    }
+
+
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body card-body-responsive">
+                                <div style="background:white">
+                                    <table id="outstandingTable" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:70px;">
+                                                    <input type="checkbox" id="btnselectall" />&nbsp;&nbsp;
+                                                    Select
+                                                </th>
+                                                <th>No.</th>
+                                                <th>Child Name</th>
+                                                <th>Month</th>
+                                                <th>Amount</th>
+                                                @*<th>Action</th>*@
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+
+
+                                            @{int i = 0;}
+                                            @foreach (var item in Model.paymentList)
+                                            {
+                                                if (item.payment_status == "outstanding")
+                                                {
+                                                    <tr>
+                                                        @{i++;}
+                                                        @{decimal DiscountValue = @item.payment_outstanding - @item.early_value;}
+                                                        <td style="width:70px;">
+                                                            <input class="child-checkbox" type="checkbox" id="child_ic" name="@item.child_ic" value="@item.child_ic" afterDiscount="@DiscountValue" data-payment-id="@item.payment_id" />
+                                                        </td>
+                                                        <td>@i.</td>
+                                                        <td>
+                                                            @item.child_name_eng &nbsp;&nbsp; @item.child_name_chinese
+                                                            <br /><span style="color:grey">@item.child_code</span>
+                                                        </td>
+                                                        <td>
+                                                            @{ string[] pay_months = {"January", "February", "March", "April", "May",
+                                                    "June", "July", "September", "October", "November", "December"};
+
+                                                                var pay_month = pay_months[@item.payment_month - 1];}
+                                                            @pay_month
+                                                            <br /><span style="color:grey">@item.payment_year</span>
+                                                        </td>
+                                                        <td name="outstanding">
+                                                            @{decimal cut_offDiscount = 0.00M;}
+                                                            @if (item.early_id != 6)
+                                                            {
+                                                                cut_offDiscount = @item.payment_outstanding - item.early_value;
+                                                                <span style=" -webkit-text-decoration-line: line-through; /* Safari */ text-decoration-line: line-through;">RM @item.payment_outstanding</span>
+                                                                <span class="child-payAmount">RM @cut_offDiscount</span><br />
+                                                                <span style="color:grey;font-size:15px">Early Payment Discount</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>RM @item.payment_outstanding</span>
+                                                            }
+
+                                                        </td>
+                                                        @*<td>
+                                                                <button class="btn btn-info" onclick="viewOutstanding(this)" data-child_ic="@item.child_ic" data-payment-id="@item.payment_id"><i class="fa fa-info-circle"></i>&nbsp;&nbsp;View</button>
+
+
+                                                            </td>*@
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <!-- DataTables  & Plugins -->
+    <script src="~/plugins/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+    <script>
+
+        $("input[class='child-checkbox']").on('change', function () {
+            $("#btnselectall").prop("checked", false);
+            var amount = 0;
+            var sum = 0;
+
+            $("input[class='child-checkbox']:checked").each(function () {
+                amount += parseFloat($(this).attr("afterDiscount"));
+                sum = amount - parseFloat($("#balance-total").html());
+
+            })
+
+            console.log($(this).attr("afterDiscount"));
+
+            $("#makePaymentButton span").text(sum);
+        })
+
+        $(document).ready(function () {
+            $("#makePaymentButton").click(function () {
+                makePayment();
+            })
+            //$("#btnselectall").click(function () {
+            //    selectall();
+            //})
+        });
+
+        $(document).ready(function () {
+            $("#viewPaymenttButton").click(function () {
+                viewPayment();
+            })
+            //$("#btnselectall").click(function () {
+            //    selectall();
+            //})
+        });
+
+
+        $('#btnselectall').click(function () {
+            if (this.checked) {
+                $(':checkbox').each(function () {
+                    this.checked = true;
+                    var amount = 0;
+                    $("input[class='child-checkbox']:checked").each(function () {
+                        amount += parseFloat($(this).attr("afterDiscount"));
+
+                    })
+                    amount = amount - parseFloat($("#balance-total").html());
+                    $("#makePaymentButton span").text(amount);
+                });
+            } else {
+                $(':checkbox').each(function () {
+                    this.checked = false;
+                    var amount = 0;
+                    $("#makePaymentButton span").text(amount);
+                });
+            }
+        });
+
+        //var table = document.getElementById('outstandingTable');
+
+        //for (var i = 1; i < table.rows.length; i++) {
+        //    table.rows[i].onclick = function () {
+        //        //rIndex = this.rowIndex;
+        //        document.getElementById("outstanding").value = this.cells[4].innerHTML;
+        //        alert(document.getElementById("outstanding").value);
+        //    };
+
+        //}
+
+        function viewOutstanding(btn) {
+            var ic = $(btn).attr("data-child_ic");
+            var payment_id = $(btn).attr("data-payment-id");
+
+            window.location.href = '/MakePayment/Details?ic=' + ic + '&payment_id=' + payment_id;
+        }
+
+        function makePayment() {
+            var listofchildic = [];
+            var paymentList = [];
+
+            $.each($("#outstandingTable input[type=checkbox]:checked"),
+                function (index, data) {
+
+                    var child_ic = $(this).val();
+
+                    listofchildic.push($(this).val());
+
+                    paymentList.push($(this).attr('data-payment-id'));
+
+                }
+            );
+
+            //childList = [];
+            //paymentList = [];
+
+            //$("input[name='select-payment']:checked").each(function () {
+            //    childList.push($(this).attr("data-child-ic"));
+            //    paymentList.push($(this).attr("data-payment-id"));
+            //})
+
+            if (listofchildic.indexOf("on") !== -1) {
+                listofchildic.shift();
+                paymentList.shift();
+            }
+
+            childListString = listofchildic.join(',');
+            paymentListString = paymentList.join(',');
+
+
+
+            console.log(childListString, paymentListString);
+            if (listofchildic.length == 0) {
+                toastr.options.closeButton = true;
+                toastr.warning("Please select the child you want to pay for.");
+            }
+            else {
+
+                window.location.href = '/MakePayment/Details?child=' + childListString + '&payment=' + paymentListString;
+
+            }
+        }
+
+        $(document).ready(function () {
+            $("#outstandingTable").DataTable({
+                "language": {
+                    "emptyTable": "No outstanding for this month."
+                }
+            });
+        });
+
+        function viewPayment() {
+            var listofchildic = [];
+            var paymentList = [];
+
+            $.each($("#outstandingTable input[type=checkbox]:checked"),
+                function (index, data) {
+
+                    var child_ic = $(this).val();
+
+                    listofchildic.push($(this).val());
+
+                    paymentList.push($(this).attr('data-payment-id'));
+
+                }
+            );
+
+
+            //childList = [];
+            //paymentList = [];
+
+            //$("input[name='select-payment']:checked").each(function () {
+            //    childList.push($(this).attr("data-child-ic"));
+            //    paymentList.push($(this).attr("data-payment-id"));
+            //})
+
+            if (listofchildic.indexOf("on") !== -1) {
+                listofchildic.shift();
+                paymentList.shift();
+            }
+
+            childListString = listofchildic.join(',');
+            paymentListString = paymentList.join(',');
+
+
+
+            console.log(childListString, paymentListString);
+            if (listofchildic.length == 0) {
+                toastr.options.closeButton = true;
+                toastr.warning("Please select the child you want to view.");
+
+            }
+            else {
+
+                window.location.href = '/MakePayment/Details?child=' + childListString + '&payment=' + paymentListString;
+
+            }
+        }
+    </script>
+
+
+}

@@ -1,0 +1,434 @@
+﻿@model IEnumerable<AceTuitionPaymentSystem.ViewModel.PackageViewModel>
+
+@{
+    if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+<link href="~/plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/plugins/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/plugins/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<style>
+    .main-sidebar {
+        min-height: 100%;
+    }
+    .btn-sm {
+        background: #233866;
+        color: white;
+    }
+
+        .btn-sm:hover {
+            background-color: #1f2d3d;
+            color: white;
+        }
+
+    @@media only screen and (max-width: 900px) { /* mobile */
+        .card-body-responsive {
+            width: 100%;
+            overflow: scroll;
+        }
+    }
+
+    @@media only screen and (min-width: 900px) { /* pc */
+        .card-body-responsive {
+            width: 100%;
+            overflow: auto;
+        }
+    }
+</style>
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+
+                <img src="~/image/supervisor.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">
+
+                    <span style='color: white'>@Session["name"]</span>
+                    <br>
+                    ACE Education
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                <!-- <li class="nav-item menu-open"> -->
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Home")" class="nav-link">
+                        <i class="fa fa-tachometer"></i>&nbsp;&nbsp;
+                        <p>
+                            Dashboard
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-usd"></i>&nbsp;&nbsp;
+                        <p>
+                            Manage Payment
+                            <i class="fa fa-chevron-left right "></i>
+                            @if (TempData["count"].ToString() != "0")
+                            {
+                                <span class="badge badge-warning right">
+                                    @TempData["count"]
+                                </span>
+                            }
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Outstanding")" class="nav-link">
+                                <i class="fa fa-spinner"></i>&nbsp;&nbsp;
+                                <p>Outstanding</p>
+                                @if (TempData["count"].ToString() != "0")
+                                {
+                                    <span class="badge badge-warning right">
+                                        @TempData["count"]
+                                    </span>
+                                }
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Payment")" class="nav-link">
+                                <i class="fa fa-check-square"></i>&nbsp;&nbsp;
+                                <p>Payment List</p>
+                            </a>
+                        </li>
+
+
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Child")" class="nav-link">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;&nbsp;
+                        <p>
+                            Students
+                            @*<i class="fa fa-chevron-left right "></i>*@
+                        </p>
+                    </a>
+                    @*<ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Child")" class="nav-link">
+                                <i class="fa fa-child"></i>&nbsp;&nbsp;
+                                <p>
+                                    Active
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("InactiveStudent", "Child")" class="nav-link">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <p>Inactive</p>
+                            </a>
+                        </li>
+                    </ul>*@
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Parents")" class="nav-link">
+                        <i class="fa fa-users"></i>&nbsp;&nbsp;
+                        <p>
+                            Parents
+                            @*<i class="fa fa-chevron-left right "></i>*@
+                        </p>
+                    </a>
+                    <!--<ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Parents")" class="nav-link">
+                                <i class="fa fa-user"></i>&nbsp;&nbsp;
+                                <p>
+                                    Active-->
+                                    <!-- <i class="right fas fa-angle-left"></i> -->
+                                <!--</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("InactiveParent", "Parents")" class="nav-link">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <p>Inactive</p>
+                            </a>
+                        </li>
+
+                    </ul>-->
+                </li>
+                <li class="nav-item menu-open">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;
+                        <p>
+                            Manage Servies
+                            <i class="fa fa-chevron-left right active"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Package")" class="nav-link active">
+                                <i class="fa fa-folder"></i>&nbsp;&nbsp;
+                                <p>Package</p>
+                                @*<span class="badge badge-info right">
+                            <?php echo $rowcp['n_count'];?>
+                        </span>*@
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Subject")" class="nav-link">
+                                <i class="fa fa-book"></i>&nbsp;&nbsp;
+                                <p>Subject</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "earlypay")" class="nav-link ">
+                                <i class="fa fa-pencil"></i>&nbsp;&nbsp;
+                                <p>Early Payment</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "notice")" class="nav-link">
+                        <i class="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;&nbsp;
+                        <p>
+                            Notice
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+            </ul>
+</nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Manage Package</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        @*<li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>*@
+                        <li class="breadcrumb-item active">Manage Package</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        <!-- Main content -->
+        <br />
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header" style="background-color:#8C8CB4;color:white;">
+                                <h3 class="card-title">Package List</h3>
+                                <div style="text-align:right">
+                                    @*<button type="button" class="btn btn-sm" id="btnCreatePackage">
+                                        <i class="nav-icon fa fa-plus"></i>&nbsp;&nbsp;Add New
+                                    </button>*@
+                                    <button type="button" class="btn btn-sm" onclick="getPackage()">
+                                        <i class="nav-icon fa fa-plus"></i>&nbsp;&nbsp;Add New
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body card-body-responsive">
+
+                                <div style="">
+                                    <table id="packageTable" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Package Name</th>
+                                                <th>Price</th>
+                                                @*<th>Calculation Method</th>*@
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                            @{int i = 0;}
+                                            @foreach (var package in Model)
+                                            {
+                                            <tr>
+                                                @{i++;}
+                                                <td>@i.</td>
+                                                <td>
+                                                    @package.package_english_name<br />
+                                                    <span style="color:grey">@package.package_chinese_name</span>
+                                                </td>
+
+                                                <td>RM @package.package_price</td>
+
+
+                                                @*@if (package.package_operation == "fixed_price")
+                                                {
+                                                    <td>Fixed Price</td>
+                                                }
+                                                else if (package.package_operation == "num_of_subject")
+                                                {
+                                                    <td>Number of Subject</td>
+                                                }
+                                                else if (package.package_operation == "num_of_transport_day")
+                                                {
+                                                    <td>Number of Transportation Day</td>
+                                                }
+                                                else if (package.package_operation == "Tuition")
+                                                {
+                                                    <td>Early Payment for Tuition</td>
+                                                }
+                                                else if (package.package_operation == "Childcare")
+                                                {
+                                                    <td>Early Payment for Childcare</td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align: center;">-</td>
+                                                }*@
+
+
+                                                @if (package.package_status == "active")
+                                                {
+                                                    <td>Active</td>
+                                                }
+                                                else if (package.package_status == "inactive")
+                                                {
+                                                    <td>Inactive</td>
+                                                }
+
+                                                <td>
+                                                    <button class="btn btn-warning" onclick="getPackage(@package.package_id)"><i class="nav-icon fa fa-pencil"></i>&nbsp;&nbsp;Edit</button>
+                                                    @*<button value="Edit" name="editPackage" class="btn btn-warning" id="btnEditPackage" data-package-id="@package.package_id" onclick="editPackage(this);"><i class="nav-icon fa fa-pencil"></i>&nbsp;&nbsp;Edit</button>*@
+                                                    @*<input type="button" value="Delete" name="deletePackage" class="btn btn-danger" id="btnDeletePackage" data-package-id="@package.package_id" onclick="deletePackage(this);" />*@
+                                                </td>
+                                            </tr>
+
+                                        }
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                                <div class="modal fade" role="dialog" id="packageModal" aria-labelledby="packageModal" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content" id="PackagemodalBody">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+        </section>
+    </div>
+</div>
+
+@section scripts{
+    <!-- DataTables  & Plugins -->
+    <script src="~/plugins/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+    <script type="text/javascript">
+        var packageModal = $('#packageModal');
+        var dataTable;
+        $(document).ready(function () {
+            dataTable = $("#packageTable").DataTable({
+
+                "language": {
+                    "emptyTable": "No data found, Please click on <b>Add New</b> button."
+                }
+            });
+        });
+
+        function getPackage(id) {
+            $.get("/Package/AddorEdit", { id: id }, function (res) {
+                $("#PackagemodalBody").html(res);
+                $("#packageModal").modal('show');
+            })
+        }
+
+
+        function createOrUpdate() {
+            var modal = $("#packageModal");
+            var form = $('form[name="packageForm"]');
+
+            
+                var data = form.serialize();
+                $.post("/Package/CreateOrUpdate", data, function (res) {
+                    if (res.success) {
+                        packageModal.hide();
+                        toastr.options.timeOut = 2000;
+                        toastr.options.progressBar = true;
+                        toastr.options.closeButton = true;
+                        toastr.options.onHidden = function () {
+                            window.location.reload();
+                        }
+
+                        toastr.success(res.message, { timeOut: 1000 });
+                    }
+                    else {
+                        toastr.warning(res.message, { timeOut: 1000 });
+                    }
+
+                });
+
+            
+
+        }
+
+   
+    </script>
+
+}

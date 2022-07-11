@@ -1,0 +1,462 @@
+﻿@{
+    ViewBag.Title = "Subject List";
+    if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+<link href="~/plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/plugins/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/plugins/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<style>
+    .btn-sm 
+    {
+        background: #233866;
+        color: white;
+    }
+    .btn-sm:hover 
+    {
+         background-color: #1f2d3d;
+         color: white;
+    }
+    .main-sidebar{
+        min-height:100%;
+    }
+
+    @@media only screen and (max-width: 900px) { /* mobile */
+        .card-body-responsive {
+            width: 100%;
+            overflow: scroll;
+        }
+    }
+
+    @@media only screen and (min-width: 900px) { /* pc */
+        .card-body-responsive {
+            width: 100%;
+            overflow: auto;
+        }
+    }
+</style>
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+
+                <img src="~/image/supervisor.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">
+
+                    <span style='color: white'>@Session["name"]</span>
+                    <br>
+                    ACE Education
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                <!-- <li class="nav-item menu-open"> -->
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Home")" class="nav-link">
+                        <i class="fa fa-tachometer"></i>&nbsp;&nbsp;
+                        <p>
+                            Dashboard
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-usd"></i>&nbsp;&nbsp;
+                        <p>
+                            Manage Payment
+                            <i class="fa fa-chevron-left right "></i>
+                            @if (TempData["count"].ToString() != "0")
+                            {
+                                <span class="badge badge-warning right">
+                                    @TempData["count"]
+                                </span>
+                            }
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Outstanding")" class="nav-link">
+                                <i class="fa fa-spinner"></i>&nbsp;&nbsp;
+                                <p>Outstanding</p>
+                                @if (TempData["count"].ToString() != "0")
+                                {
+                                    <span class="badge badge-warning right">
+                                        @TempData["count"]
+                                    </span>
+                                }
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Payment")" class="nav-link">
+                                <i class="fa fa-check-square"></i>&nbsp;&nbsp;
+                                <p>Payment List</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Child")" class="nav-link">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;&nbsp;
+                        <p>
+                            Students
+                            @*<i class="fa fa-chevron-left right "></i>*@
+                        </p>
+                    </a>
+                    @*<ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Child")" class="nav-link">
+                                <i class="fa fa-child"></i>&nbsp;&nbsp;
+                                <p>
+                                    Active
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("InactiveStudent", "Child")" class="nav-link">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <p>Inactive</p>
+                            </a>
+                        </li>
+                    </ul>*@
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Parents")" class="nav-link">
+                        <i class="fa fa-users"></i>&nbsp;&nbsp;
+                        <p>
+                            Parents
+                            @*<i class="fa fa-chevron-left right "></i>*@
+                        </p>
+                    </a>
+                    <!--<ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Parents")" class="nav-link">
+                                <i class="fa fa-user"></i>&nbsp;&nbsp;
+                                <p>
+                                    Active-->
+                                    <!-- <i class="right fas fa-angle-left"></i> -->
+                                <!--</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("InactiveParent", "Parents")" class="nav-link">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <p>Inactive</p>
+                            </a>
+                        </li>
+
+                    </ul>-->
+                </li>
+                <li class="nav-item menu-open">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;
+                        <p>
+                            Manage Servies
+                            <i class="fa fa-chevron-left right active"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Package")" class="nav-link">
+                                <i class="fa fa-folder"></i>&nbsp;&nbsp;
+                                <p>Package</p>
+                                @*<span class="badge badge-info right">
+                            <?php echo $rowcp['n_count'];?>
+                        </span>*@
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Subject")" class="nav-link active">
+                                <i class="fa fa-book"></i>&nbsp;&nbsp;
+                                <p>Subject</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "earlypay")" class="nav-link ">
+                                <i class="fa fa-pencil"></i>&nbsp;&nbsp;
+                                <p>Early Payment</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "notice")" class="nav-link">
+                        <i class="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;&nbsp;
+                        <p>
+                            Notice
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Manage Subject</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        @*<li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>*@
+                        <li class="breadcrumb-item active">Manage Subject</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        <!-- Main content -->
+        <br />
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header" style="background-color:#8C8CB4;color:white;">
+                                <h3 class="card-title">Subject List</h3>
+                                <div style="text-align:right">
+                                    <button type="button" class="btn btn-sm" onclick="getSubject()">
+                                        <i class="nav-icon fa fa-plus"></i>&nbsp;&nbsp;Add New
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body card-body-responsive">
+                                    
+                                <div style="background:white">
+                                    <table id="subjectTable" class="table table-striped table-bordered" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Subject Name</th>
+                                                <th>Grade</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                var num = 0;
+                                            }
+                                            @foreach (var subject in Model)
+                                            {
+                                                num++;
+                                            <tr>
+                                                <td>@num.</td>
+                                                <td>
+                                                    @subject.subject_english_name<br />
+                                                <span style="color:grey">@subject.subject_chinese_name</span>
+                                            </td>
+                                            @if (@subject.subject_grade == "1")
+                                            {
+                                                <td>Standard 1</td>
+                                            }
+                                            else if (@subject.subject_grade == "2")
+                                            {
+                                                <td>Standard 2</td>
+                                            }
+                                            else if (@subject.subject_grade == "3")
+                                            {
+                                                <td>Standard 3</td>
+                                            }
+                                            else if (@subject.subject_grade == "4")
+                                            {
+                                                <td>Standard 4</td>
+                                            }
+                                            else if (@subject.subject_grade == "5")
+                                            {
+                                                <td>Standard 5</td>
+                                            }
+                                            else if (@subject.subject_grade == "6")
+                                            {
+                                                <td>Standard 6</td>
+                                            }
+                                            else if (@subject.subject_grade == "12")
+                                            {
+                                                <td>Peralihan</td>
+                                            }
+                                            else if (@subject.subject_grade == "7")
+                                            {
+                                                <td>Form 1</td>
+                                            }
+                                            else if (@subject.subject_grade == "8")
+                                            {
+                                                <td>Form 2</td>
+                                            }
+                                            else if (@subject.subject_grade == "9")
+                                            {
+                                                <td>Form 3</td>
+                                            }
+                                            else if (@subject.subject_grade == "10")
+                                            {
+                                                <td>Form 4</td>
+                                            }
+                                            else if (@subject.subject_grade == "11")
+                                            {
+                                                <td>Form 5</td>
+                                            }
+
+
+                                            @if (subject.subject_status == "active")
+                                            {
+                                                <td>Active</td>
+                                            }
+                                            else if (subject.subject_status == "inactive")
+                                            {
+                                                <td>Inactive</td>
+                                            }
+                                            <td>
+                                                <button class="btn btn-warning" onclick="getSubject(@subject.subject_id)"><i class="nav-icon fa fa-pencil"></i>&nbsp;&nbsp;Edit</button>
+                                                @* <button class="btn btn-danger" onclick="Delete(@subject.subject_id)"><i class="nav-icon fa fa-trash"></i>&nbsp;&nbsp;Delete</button>*@
+                                            </td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="modal fade" role="dialog" id="subjectModal" aria-labelledby="subjectModal" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content" id="SubjectmodalBody">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+        </section>
+    </div>
+</div>
+@section scripts{
+
+
+    <!-- DataTables  & Plugins -->
+    <script src="~/plugins/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+    <script type="text/javascript">
+        var subjectModal = $('#subjectModal');
+        var dataTable;
+        $(document).ready(function () {
+            dataTable = $("#subjectTable").DataTable({
+
+                "language": {
+                    "emptyTable": "No data found, Please click on <b>Add New</b> button."
+                }
+            });
+        });
+
+        function validate() {
+            if ($("#subject_english_name").val() == null || $.trim($("#subject_english_name").val()) == '') {
+                toastr.options.closeButton = true;
+                toastr.warning("Subject English Name is required to fill.", 'Warning');
+                return;
+            }
+
+            if ($("#subject_chinese_name").val() == null || $.trim($("#subject_chinese_name").val()) == '') {
+                toastr.options.closeButton = true;
+                toastr.warning("Subject Chinese Name is required to fill.", 'Warning');
+                return;
+            }
+
+            if ($("#subject_grade").val() == null || $.trim($("#subject_grade").val()) == '') {
+                toastr.options.closeButton = true;
+                toastr.warning("Subject's Grade is required to fill.", 'Warning');
+                return;
+            }   
+
+            return true;
+        }
+
+
+        function getSubject(id) {
+            $.get("/Subject/AddorEdit", { id: id }, function (res) {
+                $("#SubjectmodalBody").html(res);
+                $("#subjectModal").modal('show');
+            })
+        }
+
+        function createOrUpdate() {
+            var modal = $("#subjectModal");
+            var form = $('form[name="subjectForm"]');
+
+            if (!validate()) {
+                return;
+            }
+
+            var data = form.serialize();
+            $.post("/Subject/CreateOrUpdate", data, function (res) {
+                if (res.success) {
+                    subjectModal.hide();
+                    toastr.options.timeOut = 2000;
+                    toastr.options.progressBar = true;
+                    toastr.options.onHidden = function () {
+                        window.location.reload();
+                    }
+
+                    toastr.success(res.message, { timeOut: 1000});
+                }
+
+            });
+
+
+
+        }
+
+    </script>
+}

@@ -1,0 +1,236 @@
+﻿@model AceTuitionPaymentSystem.Models.tb_package
+
+@{
+    ViewBag.Title = "Index";
+    if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+<form name="packageForm">
+    @Html.AntiForgeryToken()
+
+    <div class="modal-header">
+
+        <h4 class="modal-title">
+
+            @if (Model.package_id > 0)
+            {
+                <span><strong>Edit Package</strong></span>
+            }
+            else
+            {
+                <span><strong>Create New Package</strong></span>
+            }
+
+        </h4>
+        <div style="text-align:right;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(model => model.package_id)
+        @if (Model.package_id > 0)
+        {
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Package English Name</label>
+                        @Html.EditorFor(model => model.package_english_name, new { htmlAttributes = new { @class = "form-control", required = true } })
+                        @Html.ValidationMessageFor(model => model.package_english_name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label>Package Chinese Name</label>
+                        @Html.EditorFor(model => model.package_chinese_name, new { htmlAttributes = new { @class = "form-control", required = true } })
+                        @Html.ValidationMessageFor(model => model.package_chinese_name, "", new { @class = "text-danger" })
+                    </div>
+                    @if(Model.package_subject_amount>0)
+                    {
+                    <div class="form-group">
+                        <label>Number of Subject in this Package</label>
+                        @Html.EditorFor(model => model.package_subject_amount, new { htmlAttributes = new { @class = "form-control", required = true, type = "number", @min = "1" } })
+
+                    </div>
+                    }
+                    
+
+                <div class="form-group">
+                    @if (@Model.package_attribute == "Transport")
+                    {
+                        <label>Package Price Per Trip</label>
+                    }
+                    else if (@Model.package_attribute == "Material")
+                    {
+                        <label>Package Price Per Subject</label>
+                    }
+                    else
+                    { <label>Package Price</label>}
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">RM</span>
+                            </div>
+                        </div>
+                        <div class="col-md-11">
+                            @Html.TextBoxFor(expression: model => model.package_price, htmlAttributes: new { @class = "form-control", autocomplete = "Off", type = "number", min = "1" })
+                        </div>
+                    </div>
+                </div>
+
+                    @if (Model.package_id > 0)
+                    {
+                        <div class="form-group">
+                            <label>Package Status</label>
+                            <select class="form-control" id="package_status" name="package_status" required>
+
+                                @if (Model.package_status == "active")
+                                {
+                                    <option value="active" selected>Active</option>
+                                    <option value="inactive">Inactive</option>
+                                }
+                                else if (Model.package_status == "inactive")
+                                {
+                                    <option value="active">Active</option>
+                                    <option value="inactive" selected>Inactive</option>
+
+                                }
+
+                            </select>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Package Type &nbsp;</label>
+                        <select id="package_attribute"name="package_attribute" class="form-control">
+                            <option hidden>Select Package Type</option>
+                            <option value="Primary">Primary Tuition</option>
+                            <option value="Secondary">Secondary Tuition</option>
+                            <option value="Childcare">Child Care</option>
+                            <option value="Transport">Transportation</option>
+                            <option value="Material">Material</option>
+                            <option value="Meals">Meals</option>
+                        </select>
+
+                    </div>
+
+                    <div id="tuition-div">
+
+                        <div class="form-group">
+                            <label>Package English Name</label>
+                            @Html.EditorFor(model => model.package_english_name, new { htmlAttributes = new { @class = "form-control", required = true } })
+                            @Html.ValidationMessageFor(model => model.package_english_name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label>Package Chinese Name</label>
+                            @Html.EditorFor(model => model.package_chinese_name, new { htmlAttributes = new { @class = "form-control", required = true } })
+                            @Html.ValidationMessageFor(model => model.package_chinese_name, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Number of Subject in this Package</label>
+                            @Html.EditorFor(model => model.package_subject_amount, new { htmlAttributes = new { @class = "form-control", required = true, type = "number", @min = "1" } })
+
+                        </div>
+                    </div>
+                    <div id="price-div">
+                        <div class="form-group">
+                            <label id="price">Package Price</label>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">RM</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-11">
+                                    @Html.TextBoxFor(expression: model => model.package_price, htmlAttributes: new { @class = "form-control", autocomplete = "Off", type = "number", @min = "1" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    
+                
+                </div>
+            </div>
+
+        }
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" name="save" onclick="createOrUpdate()" class="btn btn-primary pull-right">Save</button>
+
+    </div>
+</form>
+
+<script>
+
+    
+
+    $(document).ready(function () {
+
+        $("#tuition-div").hide();
+        $("#price-div").hide();
+       
+       
+
+        $("#package_attribute").on('change', function () {
+            if ($(this).val() == "Primary") {
+                $("#tuition-div").show();
+                $("#price-div").show();
+                document.getElementById('price').innerHTML = 'Package Price';
+
+            }
+            else if ($(this).val() == "Secondary") {
+                $("#tuition-div").show();
+                document.getElementById('price').innerHTML = 'Package Price';
+                $("#price-div").show();
+            }
+            else if ($(this).val() == "Childcare") {
+                $("#price-div").show();
+                document.getElementById('price').innerHTML = 'Package Price';
+                $("#tuition-div").hide();
+            }
+            else if ($(this).val() == "Transport") {
+                $("#tuition-div").hide();
+                document.getElementById('price').innerHTML = 'Package Price per Trip';
+                $("#price-div").show();
+            }
+            else if ($(this).val() == "Meals") {
+                $("#tuition-div").hide();
+                document.getElementById('price').innerHTML = 'Package Price';
+                $("#price-div").show();
+            }
+            else if ($(this).val() == "Material") {
+                $("#tuition-div").hide();
+                document.getElementById('price').innerHTML = 'Package Price per Subject';
+                $("#price-div").show();
+            }
+           
+        })
+
+        
+    });
+</script>    

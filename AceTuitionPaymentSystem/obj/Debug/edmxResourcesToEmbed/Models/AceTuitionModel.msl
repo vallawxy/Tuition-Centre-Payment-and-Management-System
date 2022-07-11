@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AceTuitionModelStoreContainer" CdmEntityContainer="AceTuitionEntities">
+    <EntitySetMapping Name="tb_addon">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_addon">
+        <MappingFragment StoreEntitySet="tb_addon">
+          <ScalarProperty Name="addon_id" ColumnName="addon_id" />
+          <ScalarProperty Name="addon_english_name" ColumnName="addon_english_name" />
+          <ScalarProperty Name="addon_chinese_name" ColumnName="addon_chinese_name" />
+          <ScalarProperty Name="addon_recursive" ColumnName="addon_recursive" />
+          <ScalarProperty Name="addon_value" ColumnName="addon_value" />
+          <ScalarProperty Name="addon_status" ColumnName="addon_status" />
+          <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_admin">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_admin">
+        <MappingFragment StoreEntitySet="tb_admin">
+          <ScalarProperty Name="admin_ic" ColumnName="admin_ic" />
+          <ScalarProperty Name="admin_name" ColumnName="admin_name" />
+          <ScalarProperty Name="admin_password" ColumnName="admin_password" />
+          <ScalarProperty Name="admin_phone_number" ColumnName="admin_phone_number" />
+          <ScalarProperty Name="admin_status" ColumnName="admin_status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_balance">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_balance">
+        <MappingFragment StoreEntitySet="tb_balance">
+          <ScalarProperty Name="balance_id" ColumnName="balance_id" />
+          <ScalarProperty Name="parent_ic" ColumnName="parent_ic" />
+          <ScalarProperty Name="balance_amount" ColumnName="balance_amount" />
+          <ScalarProperty Name="month" ColumnName="month" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_child">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_child">
+        <MappingFragment StoreEntitySet="tb_child">
+          <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+          <ScalarProperty Name="child_parent_ic" ColumnName="child_parent_ic" />
+          <ScalarProperty Name="child_name_eng" ColumnName="child_name_eng" />
+          <ScalarProperty Name="child_name_chinese" ColumnName="child_name_chinese" />
+          <ScalarProperty Name="child_code" ColumnName="child_code" />
+          <ScalarProperty Name="child_school" ColumnName="child_school" />
+          <ScalarProperty Name="child_year" ColumnName="child_year" />
+          <ScalarProperty Name="child_reg_date" ColumnName="child_reg_date" />
+          <ScalarProperty Name="child_trans_day" ColumnName="child_trans_day" />
+          <ScalarProperty Name="child_num_subject" ColumnName="child_num_subject" />
+          <ScalarProperty Name="child_status" ColumnName="child_status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_child_package">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_child_package">
+        <MappingFragment StoreEntitySet="tb_child_package">
+          <ScalarProperty Name="child_package" ColumnName="child_package" />
+          <ScalarProperty Name="package_id" ColumnName="package_id" />
+          <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_child_subject">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_child_subject">
+        <MappingFragment StoreEntitySet="tb_child_subject">
+          <ScalarProperty Name="child_subject" ColumnName="child_subject" />
+          <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+          <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_discount">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_discount">
+        <MappingFragment StoreEntitySet="tb_discount">
+          <ScalarProperty Name="discount_id" ColumnName="discount_id" />
+          <ScalarProperty Name="discount_english_name" ColumnName="discount_english_name" />
+          <ScalarProperty Name="discount_chinese_name" ColumnName="discount_chinese_name" />
+          <ScalarProperty Name="discount_recursive" ColumnName="discount_recursive" />
+          <ScalarProperty Name="discount_value" ColumnName="discount_value" />
+          <ScalarProperty Name="discount_status" ColumnName="discount_status" />
+          <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_early_payment">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_early_payment">
+        <MappingFragment StoreEntitySet="tb_early_payment">
+          <ScalarProperty Name="early_id" ColumnName="early_id" />
+          <ScalarProperty Name="early_english_name" ColumnName="early_english_name" />
+          <ScalarProperty Name="early_chinese_name" ColumnName="early_chinese_name" />
+          <ScalarProperty Name="early_value" ColumnName="early_value" />
+          <ScalarProperty Name="early_day" ColumnName="early_day" />
+          <ScalarProperty Name="early_status" ColumnName="early_status" />
+          <ScalarProperty Name="early_operation" ColumnName="early_operation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_notice">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_notice">
+        <MappingFragment StoreEntitySet="tb_notice">
+          <ScalarProperty Name="notice_id" ColumnName="notice_id" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="notice_date" ColumnName="notice_date" />
+          <ScalarProperty Name="title" ColumnName="title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_package">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_package">
+        <MappingFragment StoreEntitySet="tb_package">
+          <ScalarProperty Name="package_id" ColumnName="package_id" />
+          <ScalarProperty Name="package_chinese_name" ColumnName="package_chinese_name" />
+          <ScalarProperty Name="package_english_name" ColumnName="package_english_name" />
+          <ScalarProperty Name="package_price" ColumnName="package_price" />
+          <ScalarProperty Name="package_operation" ColumnName="package_operation" />
+          <ScalarProperty Name="package_status" ColumnName="package_status" />
+          <ScalarProperty Name="package_attribute" ColumnName="package_attribute" />
+          <ScalarProperty Name="package_subject_amount" ColumnName="package_subject_amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_parent">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_parent">
+        <MappingFragment StoreEntitySet="tb_parent">
+          <ScalarProperty Name="parent_ic" ColumnName="parent_ic" />
+          <ScalarProperty Name="parent_password" ColumnName="parent_password" />
+          <ScalarProperty Name="parent_name" ColumnName="parent_name" />
+          <ScalarProperty Name="parent_address" ColumnName="parent_address" />
+          <ScalarProperty Name="parent_phone" ColumnName="parent_phone" />
+          <ScalarProperty Name="parent_status" ColumnName="parent_status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_payment">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_payment">
+        <MappingFragment StoreEntitySet="tb_payment">
+          <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+          <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+          <ScalarProperty Name="payment_upload_date" ColumnName="payment_upload_date" />
+          <ScalarProperty Name="payment_status" ColumnName="payment_status" />
+          <ScalarProperty Name="payment_amount" ColumnName="payment_amount" />
+          <ScalarProperty Name="payment_month" ColumnName="payment_month" />
+          <ScalarProperty Name="payment_year" ColumnName="payment_year" />
+          <ScalarProperty Name="payment_outstanding" ColumnName="payment_outstanding" />
+          <ScalarProperty Name="parent_ic" ColumnName="parent_ic" />
+          <ScalarProperty Name="admin_ic" ColumnName="admin_ic" />
+          <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+          <ScalarProperty Name="payment_decision_date" ColumnName="payment_decision_date" />
+          <ScalarProperty Name="payment_balance_amount" ColumnName="payment_balance_amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_payment_file">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_payment_file">
+        <MappingFragment StoreEntitySet="tb_payment_file">
+          <ScalarProperty Name="payment_file_id" ColumnName="payment_file_id" />
+          <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+          <ScalarProperty Name="payment_file" ColumnName="payment_file" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_receipt">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_receipt">
+        <MappingFragment StoreEntitySet="tb_receipt">
+          <ScalarProperty Name="receipt_id" ColumnName="receipt_id" />
+          <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+          <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+          <ScalarProperty Name="receipt_outstanding" ColumnName="receipt_outstanding" />
+          <ScalarProperty Name="receipt_status" ColumnName="receipt_status" />
+          <ScalarProperty Name="early_id" ColumnName="early_id" />
+          <ScalarProperty Name="receipt_code" ColumnName="receipt_code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_receipt_addon">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_receipt_addon">
+        <MappingFragment StoreEntitySet="tb_receipt_addon">
+          <ScalarProperty Name="receipt_id" ColumnName="receipt_id" />
+          <ScalarProperty Name="addon_id" ColumnName="addon_id" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="receipt_addon_id" ColumnName="receipt_addon_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_receipt_discount">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_receipt_discount">
+        <MappingFragment StoreEntitySet="tb_receipt_discount">
+          <ScalarProperty Name="receipt_id" ColumnName="receipt_id" />
+          <ScalarProperty Name="discount_id" ColumnName="discount_id" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="receipt_discount_id" ColumnName="receipt_discount_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_receipt_package">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_receipt_package">
+        <MappingFragment StoreEntitySet="tb_receipt_package">
+          <ScalarProperty Name="receipt_id" ColumnName="receipt_id" />
+          <ScalarProperty Name="package_id" ColumnName="package_id" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="receipt_package_id" ColumnName="receipt_package_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tb_subject">
+      <EntityTypeMapping TypeName="AceTuitionModel.tb_subject">
+        <MappingFragment StoreEntitySet="tb_subject">
+          <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+          <ScalarProperty Name="subject_chinese_name" ColumnName="subject_chinese_name" />
+          <ScalarProperty Name="subject_english_name" ColumnName="subject_english_name" />
+          <ScalarProperty Name="subject_grade" ColumnName="subject_grade" />
+          <ScalarProperty Name="subject_status" ColumnName="subject_status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,176 @@
+﻿@model AceTuitionPaymentSystem.Models.tb_subject
+
+@{
+    ViewBag.Title = "Index";
+    if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+<form name="subjectForm">
+    @Html.AntiForgeryToken()
+
+    <div class="modal-header">
+
+        <h4 class="modal-title">
+
+            @if (Model.subject_id > 0)
+            {
+                <span><strong>Edit Subject</strong></span>
+            }
+            else
+            {
+                <span><strong>Create New Subject</strong></span>
+            }
+
+        </h4>
+        <div style="text-align:right;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(model => model.subject_id)
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Subject English Name</label>
+                    @Html.EditorFor(model => model.subject_english_name, new { htmlAttributes = new { @class = "form-control", required = true } })
+                    @Html.ValidationMessageFor(model => model.subject_english_name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label>Subject Chinese Name</label>
+                    @Html.EditorFor(model => model.subject_chinese_name, new { htmlAttributes = new { @class = "form-control", required = true } })
+                    @Html.ValidationMessageFor(model => model.subject_chinese_name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label>Subject Grade</label>
+                        @if (Model.subject_id > 0)
+                        {
+                <select class="form-control" id="subject_grade" name="subject_grade" required>
+
+                    @{
+
+                        int grade = int.Parse(Model.subject_grade);
+                        for (int i = 1; i < 13; i++)
+                        {
+                            if (i < 7)
+                            {
+                                if (grade == i)
+                                {
+                                    string a = i.ToString();
+
+                                    <option value=@a selected>Standard @a</option>
+                                }
+                                else
+                                {
+                                    string a = i.ToString();
+                                    <option value=@a>Standard @a</option>
+                                }
+                            }
+                            if (i > 6 && i < 12)
+                            {
+
+                                if (grade == i)
+                                {
+
+                                    int b = i - 6;
+                                    //b = b.tostring();
+                                    string a = i.ToString();
+
+                                    <option value=@a selected>Form @b</option>
+
+
+                                }
+                                else
+                                {
+                                    int b = i - 6;
+                                    //b = b.tostring();
+                                    string a = i.ToString();
+                                    <option value=@a>Form @b</option>
+                                }
+                            }
+                            if (i > 11)
+                            {
+
+                                if (grade == i)
+                                {
+                                    <option value="12" selected>Peralihan</option>
+
+
+                                }
+                                else
+                                {
+                                    
+                                    <option value="12">Peralihan</option>
+                                }
+                            }
+                        }
+
+
+                    }
+                </select>
+
+                        }
+                        else
+                        {
+                <select class="form-control" id="subject_grade" name="subject_grade" required>
+                    <option value="" hidden>Select Grade</option>
+                    <option value="1">Standard 1</option>
+                    <option value="2">Standard 2</option>
+                    <option value="3">Standard 3</option>
+                    <option value="4">Standard 4</option>
+                    <option value="5">Standard 5</option>
+                    <option value="6">Standard 6</option>
+                    <option value="12">Peralihan</option>
+                    <option value="7">Form 1</option>
+                    <option value="8">Form 2</option>
+                    <option value="9">Form 3</option>
+                    <option value="10">Form 4</option>
+                    <option value="11">Form 5</option>
+
+                </select>
+                        }
+                    </div>
+                @if (Model.subject_id > 0)
+                {
+                    <div class="form-group">
+                       <label>Subject Status</label>
+                            <select class="form-control" id="subject_status" name="subject_status" required>
+
+                                @if (Model.subject_status == "active")
+                                {
+                                    <option value="active" selected>Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    @Html.ValidationMessageFor(model => model.subject_status, "", new { @class = "text-danger" })
+                                }
+                                else if (Model.subject_status == "inactive")
+                                {
+                                    <option value="active">Active</option>
+                                    <option value="inactive" selected>Inactive</option>
+                                    @Html.ValidationMessageFor(model => model.subject_status, "", new { @class = "text-danger" })
+                                }
+
+                            </select>
+                        </div>
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" name="save" onclick="createOrUpdate()" class="btn btn-primary pull-right">Save</button>
+
+    </div>
+</form>

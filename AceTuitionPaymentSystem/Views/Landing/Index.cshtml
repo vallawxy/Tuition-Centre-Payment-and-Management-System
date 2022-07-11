@@ -1,0 +1,650 @@
+﻿@model AceTuitionPaymentSystem.ViewModel.LandingViewModel
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <link rel="stylesheet" href="~/stylesheets/skins/blue.css">
+    <!-- skin color -->
+    <link rel="stylesheet" href="~/stylesheets/responsive.css">
+
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Ace Education</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="~/image/ace logo.jpg" href="~/image/ace logo.jpg">
+    <!-- Place favicon.ico in the root directory -->
+    <!-- CSS here -->
+    <link rel="stylesheet" href="~/landingcss/bootstrap.min.css">
+    <link rel="stylesheet" href="~/landingcss/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/landingcss/magnific-popup.css">
+    <link rel="stylesheet" href="~/landingcss/font-awesome.min.css">
+    <link rel="stylesheet" href="~/landingcss/themify-icons.css">
+    <link rel="stylesheet" href="~/landingcss/nice-select.css">
+    <link rel="stylesheet" href="~/landingcss/flaticon.css">
+    <link rel="stylesheet" href="~/landingcss/gijgo.css">
+    <link rel="stylesheet" href="~/landingcss/animate.css">
+    <link rel="stylesheet" href="~/landingcss/slicknav.css">
+    <link rel="stylesheet" href="~/landingcss/style.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            position: relative;
+        }
+
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: #1A9A9B;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+            #myBtn:hover {
+                background: transparent;
+                color: #1A9A9B;
+                border: 1px solid #1A9A9B;
+                color: #1A9A9B !important;
+            }
+    </style>
+
+    <header>
+        <div class="header-area ">
+            <div id="sticky-header" class="main-header-area">
+                <div class="container-fluid p-0">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col-xl-2 col-lg-2">
+                            <div class="logo-img">
+                                <a href="#">
+                                    <img src="~/image/Ace_logo.jpg" style="width:auto;height:70px" />
+                                
+
+                                </a>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-7 col-lg-7">
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav class="navbar navbar-inverse navbar-fixed-top">
+                                    <ul id="navigation">
+                                        <li><a class="active" href="#home" style="color:black">Home</a></li>
+                                        <li><a href="#about" style="color:black">About</a></li>
+                                        <li><a href="#course" style="color:black">Courses</a></li>
+                                        <li><a href="#contact" style="color: black">Contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                            <div class="log_chat_area d-flex align-items-center">
+
+                                <div class="live_chat_btn">
+                                    <a class="boxed_btn_orange" href="@Url.Action("Index", "Login")">
+                                        <i class="fa fa-user"></i>
+                                        <span style="font-family:Poppins,sans-serif;">Log in</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header-end -->
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+
+    <!-- slider_area_start -->
+    <div class="slider_area ">
+        <div class="single_slider d-flex align-items-center justify-content-center slider_bg_1" id="home">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-xl-6 col-md-6">
+                        <div class="illastrator_png">
+
+                            <img src="~/img/banner/back.png" />
+                            @*<img src="~/img/banner/edu_ilastration.png" alt="">*@
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6">
+                        <div class="slider_info">
+                            <h3>
+                                Learn your <br>
+                                Favorite Course
+                                With  <br>Ace Education
+                            </h3>
+                            <br />
+                            <div class=" d-block d-lg-none">
+                                <div class="live_chat_btn">
+                                    <a class="boxed_btn_orange" href="@Url.Action("Index", "Login")">
+                                        <i class="fas fa-user-alt"></i>
+                                        <span style="font-family:Poppins,sans-serif;">Log in</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="headermenu eight columns noleftmarg">
+            <nav id="nav-wrap">
+               
+            </nav>
+        </div>
+    </div>
+    <div class="clear">
+
+    </div>
+    <!-- slider_area_end -->
+    <!-- about_area_start -->
+    <div class="about_area" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-6">
+                    <div class="single_about_info">
+
+                        <h3>
+                            Over @Model.childList.Count() students <br>
+                            joined
+                        </h3>
+                        <p style="font-family:Poppins,sans-serif;">
+                            Ace Education Tuition Centre provides a conducive and comfortable environment for the extra tuition education.
+                            We cover subjects from Primary to Secondary School levels at reasonable fees.
+                        </p>
+                        <a href="https://api.whatsapp.com/send?phone=+60182885025" class="boxed_btn" style="font-family:Poppins,sans-serif;" target="_blank">Contact Us</a>
+                    </div>
+                </div>
+                <div class="col-xl-6 offset-xl-1 col-lg-6">
+                    <div class="about_tutorials">
+                        <div class="courses">
+                            <div class="inner_courses">
+                                <div class="text_info">
+                                    <span>5</span>
+                                    <p style="font-family:Poppins,sans-serif;"> Teachers</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="courses-blue">
+                            <div class="inner_courses">
+                                <div class="text_info" style="font-family:Poppins,sans-serif;">
+                                    <span>@Model.subjectList.Count()</span>
+                                    <p style="font-family:Poppins,sans-serif;"> Subjects</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="courses-sky">
+                            <div class="inner_courses">
+                                <div class="text_info" style="font-family:Poppins,sans-serif;">
+                                    <span>@Model.childList.Count()</span>
+                                    <p style="font-family:Poppins,sans-serif;"> Students</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- about_area_end -->
+    <!-- popular_courses_start -->
+    <div class="popular_courses" id="course">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title text-center mb-100">
+                        <h3>Subject Offered</h3>
+                        <p style="font-family:Poppins,sans-serif;">
+                            We offers a wide range of courses and services ranging from primary to secondary.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="course_nav">
+                        <nav>
+                            <ul class="nav" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    @*<a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                        aria-controls="home" aria-selected="true">All Courses</a>*@
+                                </li>
+                                <li class="nav-item">
+                                    @*<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                        aria-controls="profile" aria-selected="false">Photoshop</a>*@
+                                </li>
+                                <li class="nav-item">
+                                    @*<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                        aria-controls="profile" aria-selected="false">Photoshop</a>*@
+                                </li>
+                                <li class="nav-item">
+                                    @*<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                                        aria-controls="contact" aria-selected="false">UI/UX</a>*@
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="design-tab" data-toggle="tab" href="#design" role="tab"
+                                       aria-controls="design" aria-selected="true">Primary</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="Web-tab" data-toggle="tab" href="#Web" role="tab"
+                                       aria-controls="design" aria-selected="false">Secondary</a>
+                                </li>
+                                <li class="nav-item">
+                                    @*<a class="nav-link" id="Web-tab1" data-toggle="tab" href="#Web1" role="tab"
+                                        aria-controls="design" aria-selected="false">Wordpress</a>*@
+                                </li>
+                                <li class="nav-item">
+                                    @*<a class="nav-link" id="Web-tab11" data-toggle="tab" href="#Web11" role="tab"
+                                        aria-controls="design" aria-selected="false">Adobe XD</a>*@
+                                </li>
+                                <li class="nav-item">
+                                    @*<a class="nav-link" id="Adobe-XD-tab8" data-toggle="tab" href="#Adobe-XD8" role="tab"
+                                        aria-controls="design" aria-selected="false">Sketch App</a>*@
+                                </li>
+                                <li class="nav-item">
+                                    @*<a class="nav-link" id="Adobe-XD-tab9" data-toggle="tab" href="#Adobe-XD9" role="tab"
+                                        aria-controls="design" aria-selected="false">Illustrator</a>*@
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="all_courses">
+            <div class="container">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="design" role="tabpanel" aria-labelledby="design-tab">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="~/img/courses/bm.svg" style="height:175px;" />
+
+                                        </a>
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Primary</span>
+                                        <h3>
+                                            Bahasa Melayu
+                                        </h3>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="~/img/courses/bi.jpg" style="height:175px;" />
+
+                                        </a>
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Primary</span>
+                                        <h3>
+                                            Bahasa English
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <img src="~/img/courses/bc.jpg" style="height:175px;" />
+
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Primary</span>
+                                        <h3>
+                                            Bahasa Chinese
+                                        </h3>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <a href="#">
+
+                                            <img src="~/img/courses/mm.jpg" style="height:175px;" />
+                                        </a>
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Primary</span>
+                                        <h3>
+                                            Mathematics
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="~/img/courses/sc.jpg" style="height:175px;" />
+
+                                        </a>
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Primary</span>
+                                        <h3>
+                                            Science
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="Web" role="tabpanel" aria-labelledby="Web-tab">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="~/img/courses/bm.svg" style="height:175px;" />
+
+                                        </a>
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Secondary</span>
+                                        <h3>
+                                            Bahasa Melayu
+                                        </h3>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="~/img/courses/bi.jpg" style="height:175px;" />
+
+                                        </a>
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Secondary</span>
+                                        <h3>
+                                            Bahasa English
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="~/img/courses/sc.jpg" style="height:175px;" />
+
+                                        </a>
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Secondary</span>
+                                        <h3>
+                                            Science
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+                                        <a href="#">
+
+                                            <img src="~/img/courses/mm.jpg" style="height:175px;" />
+                                        </a>
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Secondary</span>
+                                        <h3>
+                                            Mathematics
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb">
+
+                                        <img src="~/img/courses/eko.jpeg" style="height:175px;" />
+
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Secondary</span>
+                                        <h3>
+                                            Ekonomi
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_courses">
+                                    <div class="thumb" style="height:175px;">
+                                        <a href="#">
+                                            <img src="~/img/courses/sej.jpg" style="height:175px;" />
+
+                                        </a>
+                                    </div>
+                                    <div class="courses_info">
+                                        <span>Secondary</span>
+                                        <h3>
+                                            Sejarah
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- popular_courses_end-->
+    <!-- testimonial_area_start -->
+    <div class="section_title text-center mb-100" style="color:#233866">
+        <h3>What They Say</h3>
+
+    </div>
+    <div class="testimonial_area testimonial_bg_1 overlay">
+        <div class="testmonial_active owl-carousel">
+            <div class="single_testmoial">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="testmonial_text text-center">
+                                <div class="author_img">
+
+                                </div>
+                                <p style="font-size:20px">
+                                    "I love going to Ace Education Tuition Centre. The best thing about Ace Education Tuition Centre is that the tutors are well dedicated and committed in working to improve and give sufficient attention to each students through discipline,
+                                    education performance and attitude. I remember having a yearly motivational camp before PT3 organized by the tutors,
+                                    it boost my self-esteem and confidence in facing my final exam. Definitely a good place to start tuition for Johor students."
+
+                                </p>
+                                <span style="font-family:Poppins,sans-serif;">- Hui Jing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="single_testmoial">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="testmonial_text text-center">
+                                <div class="author_img">
+                                </div>
+                                <p style="font-size:20px">
+                                    "The tutors here are all dedicated, as the photos shown, they will accompany the UPSR candidates and give moral support early in the morning at the schools. I have never seen any teachers that they sacrifice their times as well as blood, sweat and tears for their beloved students.
+                                    The best tutors and the best tuition, also known as the best Learning Centre."
+
+                                </p>
+                                <span style="font-family:Poppins,sans-serif;">- Jasmine</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- testimonial_area_end -->
+    <!-- our_courses_start -->
+    <!-- our_courses_end -->
+    <!-- subscribe_newsletter_Start -->
+    <!-- subscribe_newsletter_end -->
+    <!-- our_latest_blog_start -->
+    <!-- our_latest_blog_end -->
+    <!-- footer -->
+    <footer class="footer footer_bg_1" id="contact">
+        <div class="footer_top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-4 col-md-6 col-lg-4">
+                        <div class="footer_widget">
+                            <div class="footer_logo" style="font-family:Poppins,sans-serif;">
+                                <a href="#">
+                                    <img src="~/image/Ace_Logo_pdf_-1-removebg-preview.png" style="width:auto;height:90px;" />&nbsp;&nbsp;
+
+
+                                </a>
+                            </div>
+                            <p style="font-family:Poppins,sans-serif;color:black">
+                                <strong>
+                                    We provide any subjects under various syllabus includes UPSR, PT3, SPM.
+                                    <br />
+                                    Your trusted tuition center in Johor.
+                                </strong>
+                            </p>
+
+
+                        </div>
+                    </div>
+                    <div class="col-xl-2 offset-xl-1 col-md-6 col-lg-3">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                Services
+                            </h3>
+                            <ul style="font-family:Poppins,sans-serif;">
+                                <li><a href="#">Primary</a></li>
+                                <li><a href="#">Secondary</a></li>
+                                <li><a href="#">ChildCare</a></li>
+
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-md-6 col-lg-2">
+
+                    </div>
+                    <div class="col-xl-3 col-md-6 col-lg-3">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                Address
+                            </h3>
+                            <p style="font-family:Poppins,sans-serif;">
+                                29A, Jalan Utama 44, <br />
+                                Mutiara Square,<br />
+                                Taman Mutiara Rini, <br />
+                                81300 Skudai, Johor.<br />
+                                <a href="https://api.whatsapp.com/send?phone=+60182885025" style="color:#C7C7C7" target="_blank">+60182885025 </a><br>
+                                <a href="mailto: aceeducation@gmail.com" style="color:#C7C7C7">aceeducationn@gmail.com</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+
+    <!-- form itself end -->
+    <!-- JS here -->
+    <script src="~/landingjs/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="~/landingjs/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/landingjs/popper.min.js"></script>
+    <script src="~/landingjs/bootstrap.min.js"></script>
+    <script src="~/landingjs/owl.carousel.min.js"></script>
+    <script src="~/landingjs/isotope.pkgd.min.js"></script>
+    <script src="~/landingjs/ajax-form.js"></script>
+    <script src="~/landingjs/waypoints.min.js"></script>
+    <script src="~/landingjs/jquery.counterup.min.js"></script>
+    <script src="~/landingjs/imagesloaded.pkgd.min.js"></script>
+    <script src="~/landingjs/scrollIt.js"></script>
+    <script src="~/landingjs/jquery.scrollUp.min.js"></script>
+    <script src="~/landingjs/wow.min.js"></script>
+    <script src="~/landingjs/nice-select.min.js"></script>
+    <script src="~/landingjs/jquery.slicknav.min.js"></script>
+    <script src="~/landingjs/jquery.magnific-popup.min.js"></script>
+    <script src="~/landingjs/plugins.js"></script>
+    <script src="~/landingjs/gijgo.min.js"></script>
+
+    <!--contact js-->
+    <script src="~/landingjs/contact.js"></script>
+    <script src="~/landingjs/jquery.ajaxchimp.min.js"></script>
+    <script src="~/landingjs/jquery.form.js"></script>
+    <script src="~/landingjs/jquery.validate.min.js"></script>
+    <script src="~/landingjs/mail-script.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="~/landingjs/main.js"></script>
+    <script>
+        //Get the button
+        var mybutton = document.getElementById("myBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+</body>
+
+</html>
+

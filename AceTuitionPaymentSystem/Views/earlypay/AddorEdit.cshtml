@@ -1,0 +1,133 @@
+﻿@model AceTuitionPaymentSystem.Models.tb_early_payment
+
+@{
+    ViewBag.Title = "Index";
+    if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+<form name="earlypaymentForm">
+    @Html.AntiForgeryToken()
+
+    <div class="modal-header">
+
+        <h4 class="modal-title">
+
+            @if (Model.early_id > 0)
+            {
+                <span><strong>Edit Early Payment</strong></span>
+            }
+            else
+            {
+                <span><strong>Create New Early Payment</strong></span>
+            }
+
+        </h4>
+        <div style="text-align:right;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-body">
+        @Html.HiddenFor(model => model.early_id)
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Early Payment English Name</label>
+                    @Html.EditorFor(model => model.early_english_name, new { htmlAttributes = new { @class = "form-control", required = true } })
+                    @Html.ValidationMessageFor(model => model.early_english_name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label>Early Payment Chinese Name</label>
+                    @Html.EditorFor(model => model.early_chinese_name, new { htmlAttributes = new { @class = "form-control", required = true } })
+                    @Html.ValidationMessageFor(model => model.early_chinese_name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label>Early Payment Discount (RM)</label>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">RM</span>
+                            </div>
+                        </div>
+                        <div class="col-md-11">
+                            @Html.EditorFor(model => model.early_value, new { htmlAttributes = new { @class = "form-control", autocomplete = "Off", type = "number", min = "1", required = true } })
+                            @Html.ValidationMessageFor(model => model.early_value, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Get Offer Before</label>
+                    @Html.EditorFor(model => model.early_day, new { htmlAttributes = new { @class = "form-control", required = true, autocomplete = "Off", type = "number", min = "1" ,max="30"} })
+                    @Html.ValidationMessageFor(model => model.early_day, "", new { @class = "text-danger" })
+                </div>
+                @if (Model.early_id > 0)
+                {
+                    <div class="form-group">
+                        <label>Early payment Type</label>
+                        <select class="form-control" id="early_operation" name="early_operation" required>
+
+                            @if (Model.early_operation == "Childcare")
+                            {
+                                <option value="Childcare" selected>Childcare</option>
+                                <option value="Tuition">Tuition</option>
+
+                                @Html.ValidationMessageFor(model => model.early_operation, "", new { @class = "text-danger" })
+                            }
+                            else if (Model.early_operation == "Tuition")
+                            {
+                                <option value="Childcare">Childcare</option>
+                                <option value="Tuition" selected>Tuition</option>
+
+                                @Html.ValidationMessageFor(model => model.early_operation, "", new { @class = "text-danger" })
+                            }
+
+                        </select>
+                    </div>
+                }
+
+                @if (Model.early_id > 0)
+                {
+                    <div class="form-group">
+                        <label>Early payment Status</label>
+                        <select class="form-control" id="early_status" name="early_status" required>
+
+                            @if (Model.early_status == "active")
+                            {
+                                <option value="active" selected>Active</option>
+                                <option value="inactive">Inactive</option>
+
+                                @Html.ValidationMessageFor(model => model.early_status, "", new { @class = "text-danger" })
+                            }
+                            else if (Model.early_status == "inactive")
+                            {
+                                <option value="active">Active</option>
+                                <option value="inactive" selected>Inactive</option>
+
+                                @Html.ValidationMessageFor(model => model.early_status, "", new { @class = "text-danger" })
+                            }
+
+                        </select>
+                    </div>
+                }
+
+            </div>
+                </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" name="save" onclick="createOrUpdate()" class="btn btn-primary pull-right">Save</button>
+
+    </div>
+</form>

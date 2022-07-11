@@ -1,0 +1,599 @@
+﻿@model AceTuitionPaymentSystem.ViewModel.Payment_FileViewModel
+
+@{ if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    } }
+
+@*oustandingindex*@
+
+<link href="~/plugins/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/plugins/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/plugins/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+<style>
+    .main-sidebar {
+        min-height: 100%;
+    }
+    .btn-sm {
+        background: #233866;
+        color: white;
+    }
+
+        .btn-sm:hover {
+            background-color: #1f2d3d;
+            color: white;
+        }
+
+
+
+    @@media only screen and (max-width: 900px) { /* mobile */
+        .card-body-responsive {
+            width: 100%;
+            overflow: scroll;
+        }
+    }
+
+    @@media only screen and (min-width: 900px) { /* pc */
+        .card-body-responsive {
+            width: 100%;
+            overflow: auto;
+        }
+    }
+
+</style>
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+
+                <img src="~/image/supervisor.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">
+
+                    <span style='color: white'>@Session["name"]</span>
+                    <br>
+                    ACE Education
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                <!-- <li class="nav-item menu-open"> -->
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Home")" class="nav-link">
+                        <i class="fa fa-tachometer"></i>&nbsp;&nbsp;
+                        <p>
+                            Dashboard
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item menu-open">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-usd"></i>&nbsp;&nbsp;
+                        <p>
+                            Manage Payment
+                            <i class="fa fa-chevron-left right "></i>
+                            @if (TempData["count"].ToString() != "0")
+                            {
+                                <span class="badge badge-warning right">
+                                    @TempData["count"]
+                                </span>
+                            }
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Outstanding")" class="nav-link active">
+                                <i class="fa fa-spinner"></i>&nbsp;&nbsp;
+                                <p>Outstanding</p>
+                                @if (TempData["count"].ToString() != "0")
+                                {
+                                    <span class="badge badge-warning right">
+                                        @TempData["count"]
+                                    </span>
+                                }
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Payment")" class="nav-link">
+                                <i class="fa fa-check-square"></i>&nbsp;&nbsp;
+                                <p>Payment List</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Child")" class="nav-link">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;&nbsp;
+                        <p>
+                            Students
+                            @*<i class="fa fa-chevron-left right "></i>*@
+                        </p>
+                    </a>
+                    @*<ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Child")" class="nav-link">
+                                <i class="fa fa-child"></i>&nbsp;&nbsp;
+                                <p>
+                                    Active
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("InactiveStudent", "Child")" class="nav-link">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <p>Inactive</p>
+                            </a>
+                        </li>
+                    </ul>*@
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Parents")" class="nav-link">
+                        <i class="fa fa-users"></i>&nbsp;&nbsp;
+                        <p>
+                            Parents
+                            @*<i class="fa fa-chevron-left right "></i>*@
+                        </p>
+                    </a>
+                    <!--<ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Parents")" class="nav-link">
+                                <i class="fa fa-user"></i>&nbsp;&nbsp;
+                                <p>
+                                    Active-->
+                                    <!-- <i class="right fas fa-angle-left"></i> -->
+                                <!--</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("InactiveParent", "Parents")" class="nav-link">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <p>Inactive</p>
+                            </a>
+                        </li>
+
+                    </ul>-->
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;
+                        <p>
+                            Manage Servies
+                            <i class="fa fa-chevron-left right active"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Package")" class="nav-link">
+                                <i class="fa fa-folder"></i>&nbsp;&nbsp;
+                                <p>Package</p>
+                                @*<span class="badge badge-info right">
+                            <?php echo $rowcp['n_count'];?>
+                        </span>*@
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Subject")" class="nav-link">
+                                <i class="fa fa-book"></i>&nbsp;&nbsp;
+                                <p>Subject</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "earlypay")" class="nav-link ">
+                                <i class="fa fa-pencil"></i>&nbsp;&nbsp;
+                                <p>Early Payment</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "notice")" class="nav-link">
+                        <i class="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;&nbsp;
+                        <p>
+                            Notice
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+            </ul>
+</nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Outstanding and Pending</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        @*<li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>*@
+                        <li class="breadcrumb-item active">Outstanding and Pending</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        <!-- Main content -->
+        <br />
+        @if (@TempData["message"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                @TempData["message"]
+            </div>
+        }
+
+
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header" style="background-color:#8C8CB4;color:white;">
+                                <h3 class="card-title">Outstanding List</h3>
+                                <div style="text-align:right">
+                                    <button type="button" class="btn btn-sm" onclick="notificationModal()">
+                                        <i class="fa fa-comments" aria-hidden="true"></i>&nbsp;&nbsp;Send Notification
+                                    </button>
+                                </div>
+                            </div>
+
+                            @{string[] paylist_months = {"January", "February", "March", "April", "May",
+                                                    "June", "July", "September", "October", "November", "December"}; }
+                            <!-- /.card-header -->
+                            <div class="card-body card-body-responsive">
+
+                                <div style="background:white">
+
+                                    <table id="outstandingTable" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:20px;">
+                                                    <input id="checkall" type="checkbox">
+                                                </th>
+                                                <th>No.</th>
+                                                <th>Name</th>
+                                                <th>Parent</th>
+                                                <th>Amount</th>
+                                                <th>Month</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+
+
+                                            @{int i = 0; }
+                                            @foreach (var item in Model.paymentList)
+                                            {
+
+                                            <tr>
+                                                @{i++;}
+
+                                                <td style="width:20px;">
+                                                    <input type="checkbox" class="checkbox1" value="@item.payment_id" data-parent-ic="@item.parent_ic" />
+                                                </td>
+
+                                                <td>@i.</td>
+                                                <td>
+                                                    @item.child_name_eng &nbsp;&nbsp; @item.child_name_chinese
+                                                    <br /><span style="color:grey">@item.child_code</span>
+                                                </td>
+                                                <td>@item.parent_name</td>
+                                                <td>RM @item.payment_outstanding</td>
+                                                @{var payment_month = paylist_months[item.payment_month - 1];}
+                                                <td>@payment_month</td>
+
+
+                                                <td>
+                                                    <button class="btn btn-info" onclick="makePayment(this)" data-parent-id="@item.parent_ic" data-child_ic="@item.child_ic" data-payment-id="@item.payment_id"><i class="fa fa-usd"></i>&nbsp;&nbsp;Make Payment</button>
+
+
+                                                </td>
+                                            </tr>
+                                            }
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- /.card -->
+
+
+                        <br /><br />
+
+
+                        <div class="card">
+                            <div class="card-header" style="background-color:#233866;color:white;">
+                                <h3 class="card-title">Pending List</h3>
+                                <div style="text-align:right">
+
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body card-body-responsive">
+
+                                <div style="background:white">
+
+                                    <table id="pendingTable" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Name</th>
+                                                <th>Parent Name</th>
+                                                <th>Amount</th>
+                                                <th>Month</th>
+
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+
+
+                                            @{int j = 0; }
+                                            @foreach (var item2 in Model.paymentFileList)
+                                            {
+                                                <tr>
+                                                    @{j++;}
+                                                    <td>@j.</td>
+                                                    <td>
+                                                        @item2.child_name_eng &nbsp;&nbsp; @item2.child_name_chinese
+                                                        <br /><span style="color:grey">@item2.child_code</span>
+                                                    </td>
+                                                    <td>@item2.parent_name</td>
+                                                    <td>RM @item2.payment_amount</td>
+
+                                                    @{var pay_month = paylist_months[@item2.payment_month - 1];}
+                                                    <td>@pay_month</td>
+
+
+                                                    <td>
+                                                        <button class="btn btn-warning" onclick="makeDecision(this)" data-parent-id="@item2.parent_ic" data-child_ic="@item2.child_ic" data-payment-id="@item2.payment_id"><i class="fa fa-chevron-right" aria-hidden="true"></i>&nbsp;&nbsp;Decision</button>
+
+
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="modal fade" role="dialog" id="notificationModal" aria-labelledby="notificationModal" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" id="notificationModalBody">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+        </section>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <!-- DataTables  & Plugins -->
+    <script src="~/plugins/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+    <script>
+
+        function makePayment(btn) {
+            var ic = $(btn).attr("data-child_ic");
+            var parent = $(btn).attr("data-parent-id");
+            var payment = $(btn).attr("data-payment-id");
+            window.location.href = '/Outstanding/byCash?child=' + ic + '&parent=' + parent + '&payment=' + payment;
+        }
+
+
+        function makeDecision(btn) {
+            var ic = $(btn).attr("data-child_ic");
+            var parent = $(btn).attr("data-parent-id");
+            var payment = $(btn).attr("data-payment-id");
+            window.location.href = '/Outstanding/Decision?ic=' + ic + '&parent=' + parent + '&payment=' + payment;
+        }
+
+        
+        var table;
+        $(document).ready(function () {
+            table = $("#outstandingTable").DataTable({
+                "language": {
+                    "emptyTable": "No outstanding for this month."
+                },
+                buttons: [
+                    {
+                        extend: 'csvHtml5',
+                        title: 'Ace Education Outstanding Pending List',
+                        exportOptions:
+                        {
+                            columns: [0,1,2,3,4,5]
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Ace Education Outstanding Pending List',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Ace Education Outstanding Pending List',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    }
+                ]
+
+            })
+            table.buttons().container().appendTo('#outstandingTable_wrapper .col-md-6:eq(0)');
+        });
+
+
+        $('#checkall').click(function (event) {  //on click
+            var checked = this.checked;
+            table.columns(0).nodes().to$().each(function (index) {
+                if (checked) {
+                    $(this).find('.checkbox1').not(":disabled").prop('checked', 'checked');
+
+                } else {
+                    $(this).find('.checkbox1').not(":disabled").prop("checked", false);
+                    this.checked = false;
+                }
+            });
+            table.draw();
+        });
+
+        $(document).ready(function () {
+            $("#pendingTable").DataTable({
+                "language": {
+                    "emptyTable": "No pending payment yet."
+                }
+            });
+        });
+
+        $(document).ready(function () {
+
+            $('span[name="upload_date"]').each(function () {
+                var date = new Date($(this).html().split(" ")[0]);
+                $(this).html(date.toString().split(' ')[2] + ' ' + date.toString().split(' ')[1] + ' ' + date.toString().split(' ')[3]);
+            })
+        });
+
+
+        function notificationModal() {
+            $.get("/Outstanding/NotficationModal", {}, function (res) {
+                $("#notificationModalBody").html(res);
+                $("#notificationModal").modal('show');
+            })
+        }
+
+        function sendNotification() {
+
+            var listofchildic = [];
+            var listofparentic = [];
+            var rowcollection = table.$(".checkbox1:checked", { "page": "all" });
+            rowcollection.each(function (index, elem) {
+                var child_ic = $(this).val();
+                listofchildic.push($(this).val());
+                listofparentic.push($(this).attr('data-parent-ic'));
+
+            }
+
+            );
+
+            //remove the first data in array
+            if (listofchildic.indexOf("on") !== -1) {
+                listofchildic.shift();
+                listofparentic.shift();
+            }
+
+            console.log(listofchildic, listofparentic);
+            console.log($("#messageType").val());
+
+            if (listofchildic.length < 1 || listofparentic < 1) {
+                toastr.options.closeButton = true;
+                toastr.warning("Please select a parent to send message.");
+            } else if ($("#messageType").val() == null || $("#messageType").val() == "Select a messaging method") {
+                toastr.options.closeButton = true;
+                toastr.warning("Please select a messaging method.");
+            } else {
+                console.log($("#messageBody").val());
+                console.log(listofchildic, listofparentic);
+
+                $.post("/SMS/SendSMS", { messageBody: $("#messageBody").val(), paymentList: listofchildic, parentList: listofparentic, messageType: $("#messageType").val() }, function (res)
+                {
+                    var modal = $("#notificationModal");
+                    modal.modal('hide');
+                    toastr.options.timeOut = 2000;
+                    toastr.options.progressBar = true;
+                    toastr.success("Generating Message... Please stay in this page for awhile, the message will send to parents' phone number.", { timeOut: 1000 });
+
+                    $("#messageType").val() == null;
+                    $("#messageBody").val() == null;
+
+                })
+            }
+
+
+
+            
+        }
+
+        
+    </script>
+
+}

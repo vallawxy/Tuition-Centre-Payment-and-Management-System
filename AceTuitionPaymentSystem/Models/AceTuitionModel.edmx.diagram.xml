@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="34f8bb6955774ef7a47f1f85db68d5db" Name="Diagram1">
+        <EntityTypeShape EntityType="AceTuitionModel.tb_addon" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_admin" Width="1.5" PointX="3.5" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_balance" Width="1.5" PointX="5.75" PointY="26.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_child" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_child_package" Width="1.5" PointX="3" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_child_subject" Width="1.5" PointX="6" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_discount" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_early_payment" Width="1.5" PointX="5.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_notice" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_package" Width="1.5" PointX="8" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_parent" Width="1.5" PointX="3.5" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_payment" Width="1.5" PointX="5.75" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_payment_file" Width="1.5" PointX="8" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_receipt" Width="1.5" PointX="8" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_receipt_addon" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_receipt_discount" Width="1.5" PointX="5.25" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_receipt_package" Width="1.5" PointX="10.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AceTuitionModel.tb_subject" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_addon_tb_child" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_receipt_addon_tb_addon" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_payment_tb_admin" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_balance_tb_parent" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_child_package_tb_child" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_child_subject_tb_child" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_discount_tb_child" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_receipt_tb_child" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_child_package_tb_package" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_child_subject_tb_subject" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_receipt_discount_tb_discount" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_receipt_tb_early_payment" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_receipt_package_tb_package" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_payment_tb_parent" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_payment_file_tb_payment" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_receipt_tb_payment" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_receipt_addon_tb_receipt" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_receipt_discount_tb_receipt" ManuallyRouted="false" />
+        <AssociationConnector Association="AceTuitionModel.FK_tb_receipt_package_tb_receipt" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

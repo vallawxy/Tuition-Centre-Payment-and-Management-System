@@ -1,0 +1,1382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AceTuitionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tb_addon">
+          <Key>
+            <PropertyRef Name="addon_id" />
+          </Key>
+          <Property Name="addon_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="addon_english_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="addon_chinese_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="addon_recursive" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="addon_value" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="addon_status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="child_ic" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_admin">
+          <Key>
+            <PropertyRef Name="admin_ic" />
+          </Key>
+          <Property Name="admin_ic" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="admin_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="admin_password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="admin_phone_number" Type="nvarchar" MaxLength="10" />
+          <Property Name="admin_status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_balance">
+          <Key>
+            <PropertyRef Name="balance_id" />
+          </Key>
+          <Property Name="balance_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="parent_ic" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="balance_amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="month" Type="int" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_child">
+          <Key>
+            <PropertyRef Name="child_ic" />
+          </Key>
+          <Property Name="child_ic" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="child_parent_ic" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="child_name_eng" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="child_name_chinese" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="child_code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="child_school" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="child_year" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="child_reg_date" Type="date" Nullable="false" />
+          <Property Name="child_trans_day" Type="int" Nullable="false" />
+          <Property Name="child_num_subject" Type="int" Nullable="false" />
+          <Property Name="child_status" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_child_package">
+          <Key>
+            <PropertyRef Name="child_package" />
+          </Key>
+          <Property Name="child_package" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="package_id" Type="int" Nullable="false" />
+          <Property Name="child_ic" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_child_subject">
+          <Key>
+            <PropertyRef Name="child_subject" />
+          </Key>
+          <Property Name="child_subject" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="subject_id" Type="int" Nullable="false" />
+          <Property Name="child_ic" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_discount">
+          <Key>
+            <PropertyRef Name="discount_id" />
+          </Key>
+          <Property Name="discount_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="discount_english_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="discount_chinese_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="discount_recursive" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="discount_value" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="discount_status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="child_ic" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_early_payment">
+          <Key>
+            <PropertyRef Name="early_id" />
+          </Key>
+          <Property Name="early_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="early_english_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="early_chinese_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="early_value" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="early_day" Type="int" Nullable="false" />
+          <Property Name="early_status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="early_operation" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_notice">
+          <Key>
+            <PropertyRef Name="notice_id" />
+          </Key>
+          <Property Name="notice_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="notice_date" Type="date" Nullable="false" />
+          <Property Name="title" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_package">
+          <Key>
+            <PropertyRef Name="package_id" />
+          </Key>
+          <Property Name="package_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="package_chinese_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="package_english_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="package_price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="package_operation" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="package_status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="package_attribute" Type="varchar" MaxLength="50" />
+          <Property Name="package_subject_amount" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_parent">
+          <Key>
+            <PropertyRef Name="parent_ic" />
+          </Key>
+          <Property Name="parent_ic" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="parent_password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="parent_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="parent_address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="parent_phone" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="parent_status" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_payment">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="payment_date" Type="date" Nullable="false" />
+          <Property Name="payment_upload_date" Type="date" Nullable="false" />
+          <Property Name="payment_status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="payment_amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="payment_month" Type="int" Nullable="false" />
+          <Property Name="payment_year" Type="int" Nullable="false" />
+          <Property Name="payment_outstanding" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="parent_ic" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="admin_ic" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="child_ic" Type="varchar" MaxLength="12" />
+          <Property Name="payment_decision_date" Type="date" />
+          <Property Name="payment_balance_amount" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="tb_payment_file">
+          <Key>
+            <PropertyRef Name="payment_file_id" />
+          </Key>
+          <Property Name="payment_file_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="payment_id" Type="int" Nullable="false" />
+          <Property Name="payment_file" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_receipt">
+          <Key>
+            <PropertyRef Name="receipt_id" />
+          </Key>
+          <Property Name="receipt_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="payment_id" Type="int" Nullable="false" />
+          <Property Name="child_ic" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="receipt_outstanding" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="receipt_status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="early_id" Type="int" Nullable="false" />
+          <Property Name="receipt_code" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_receipt_addon">
+          <Key>
+            <PropertyRef Name="receipt_addon_id" />
+          </Key>
+          <Property Name="receipt_id" Type="int" Nullable="false" />
+          <Property Name="addon_id" Type="int" Nullable="false" />
+          <Property Name="value" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="receipt_addon_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_receipt_discount">
+          <Key>
+            <PropertyRef Name="receipt_discount_id" />
+          </Key>
+          <Property Name="receipt_id" Type="int" Nullable="false" />
+          <Property Name="discount_id" Type="int" Nullable="false" />
+          <Property Name="value" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="receipt_discount_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_receipt_package">
+          <Key>
+            <PropertyRef Name="receipt_package_id" />
+          </Key>
+          <Property Name="receipt_id" Type="int" Nullable="false" />
+          <Property Name="package_id" Type="int" Nullable="false" />
+          <Property Name="value" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="receipt_package_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_subject">
+          <Key>
+            <PropertyRef Name="subject_id" />
+          </Key>
+          <Property Name="subject_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="subject_chinese_name" Type="nvarchar(max)" />
+          <Property Name="subject_english_name" Type="varchar" MaxLength="100" />
+          <Property Name="subject_grade" Type="varchar" MaxLength="50" />
+          <Property Name="subject_status" Type="nvarchar" MaxLength="12" />
+        </EntityType>
+        <Association Name="FK_tb_addon_tb_child">
+          <End Role="tb_child" Type="Self.tb_child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_addon" Type="Self.tb_addon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_child">
+              <PropertyRef Name="child_ic" />
+            </Principal>
+            <Dependent Role="tb_addon">
+              <PropertyRef Name="child_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_balance_tb_parent">
+          <End Role="tb_parent" Type="Self.tb_parent" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_balance" Type="Self.tb_balance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_parent">
+              <PropertyRef Name="parent_ic" />
+            </Principal>
+            <Dependent Role="tb_balance">
+              <PropertyRef Name="parent_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_child_package_tb_child">
+          <End Role="tb_child" Type="Self.tb_child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_child_package" Type="Self.tb_child_package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_child">
+              <PropertyRef Name="child_ic" />
+            </Principal>
+            <Dependent Role="tb_child_package">
+              <PropertyRef Name="child_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_child_package_tb_package">
+          <End Role="tb_package" Type="Self.tb_package" Multiplicity="1" />
+          <End Role="tb_child_package" Type="Self.tb_child_package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_package">
+              <PropertyRef Name="package_id" />
+            </Principal>
+            <Dependent Role="tb_child_package">
+              <PropertyRef Name="package_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_child_subject_tb_child">
+          <End Role="tb_child" Type="Self.tb_child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_child_subject" Type="Self.tb_child_subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_child">
+              <PropertyRef Name="child_ic" />
+            </Principal>
+            <Dependent Role="tb_child_subject">
+              <PropertyRef Name="child_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_child_subject_tb_subject">
+          <End Role="tb_subject" Type="Self.tb_subject" Multiplicity="1" />
+          <End Role="tb_child_subject" Type="Self.tb_child_subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_subject">
+              <PropertyRef Name="subject_id" />
+            </Principal>
+            <Dependent Role="tb_child_subject">
+              <PropertyRef Name="subject_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_discount_tb_child">
+          <End Role="tb_child" Type="Self.tb_child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_discount" Type="Self.tb_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_child">
+              <PropertyRef Name="child_ic" />
+            </Principal>
+            <Dependent Role="tb_discount">
+              <PropertyRef Name="child_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_payment_file_tb_payment">
+          <End Role="tb_payment" Type="Self.tb_payment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_payment_file" Type="Self.tb_payment_file" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_payment">
+              <PropertyRef Name="payment_id" />
+            </Principal>
+            <Dependent Role="tb_payment_file">
+              <PropertyRef Name="payment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_payment_tb_admin">
+          <End Role="tb_admin" Type="Self.tb_admin" Multiplicity="1" />
+          <End Role="tb_payment" Type="Self.tb_payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_admin">
+              <PropertyRef Name="admin_ic" />
+            </Principal>
+            <Dependent Role="tb_payment">
+              <PropertyRef Name="admin_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_payment_tb_parent">
+          <End Role="tb_parent" Type="Self.tb_parent" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_payment" Type="Self.tb_payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_parent">
+              <PropertyRef Name="parent_ic" />
+            </Principal>
+            <Dependent Role="tb_payment">
+              <PropertyRef Name="parent_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_addon_tb_addon">
+          <End Role="tb_addon" Type="Self.tb_addon" Multiplicity="1" />
+          <End Role="tb_receipt_addon" Type="Self.tb_receipt_addon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_addon">
+              <PropertyRef Name="addon_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_addon">
+              <PropertyRef Name="addon_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_addon_tb_receipt">
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_receipt_addon" Type="Self.tb_receipt_addon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_receipt">
+              <PropertyRef Name="receipt_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_addon">
+              <PropertyRef Name="receipt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_discount_tb_discount">
+          <End Role="tb_discount" Type="Self.tb_discount" Multiplicity="1" />
+          <End Role="tb_receipt_discount" Type="Self.tb_receipt_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_discount">
+              <PropertyRef Name="discount_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_discount">
+              <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_discount_tb_receipt">
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_receipt_discount" Type="Self.tb_receipt_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_receipt">
+              <PropertyRef Name="receipt_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_discount">
+              <PropertyRef Name="receipt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_package_tb_package">
+          <End Role="tb_package" Type="Self.tb_package" Multiplicity="1" />
+          <End Role="tb_receipt_package" Type="Self.tb_receipt_package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_package">
+              <PropertyRef Name="package_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_package">
+              <PropertyRef Name="package_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_package_tb_receipt">
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_receipt_package" Type="Self.tb_receipt_package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_receipt">
+              <PropertyRef Name="receipt_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_package">
+              <PropertyRef Name="receipt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_tb_child">
+          <End Role="tb_child" Type="Self.tb_child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_child">
+              <PropertyRef Name="child_ic" />
+            </Principal>
+            <Dependent Role="tb_receipt">
+              <PropertyRef Name="child_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_tb_early_payment">
+          <End Role="tb_early_payment" Type="Self.tb_early_payment" Multiplicity="1" />
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_early_payment">
+              <PropertyRef Name="early_id" />
+            </Principal>
+            <Dependent Role="tb_receipt">
+              <PropertyRef Name="early_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_tb_payment">
+          <End Role="tb_payment" Type="Self.tb_payment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_payment">
+              <PropertyRef Name="payment_id" />
+            </Principal>
+            <Dependent Role="tb_receipt">
+              <PropertyRef Name="payment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AceTuitionModelStoreContainer">
+          <EntitySet Name="tb_addon" EntityType="Self.tb_addon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_admin" EntityType="Self.tb_admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_balance" EntityType="Self.tb_balance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_child" EntityType="Self.tb_child" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_child_package" EntityType="Self.tb_child_package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_child_subject" EntityType="Self.tb_child_subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_discount" EntityType="Self.tb_discount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_early_payment" EntityType="Self.tb_early_payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_notice" EntityType="Self.tb_notice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_package" EntityType="Self.tb_package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_parent" EntityType="Self.tb_parent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_payment" EntityType="Self.tb_payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_payment_file" EntityType="Self.tb_payment_file" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_receipt" EntityType="Self.tb_receipt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_receipt_addon" EntityType="Self.tb_receipt_addon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_receipt_discount" EntityType="Self.tb_receipt_discount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_receipt_package" EntityType="Self.tb_receipt_package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_subject" EntityType="Self.tb_subject" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tb_addon_tb_child" Association="Self.FK_tb_addon_tb_child">
+            <End Role="tb_child" EntitySet="tb_child" />
+            <End Role="tb_addon" EntitySet="tb_addon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_balance_tb_parent" Association="Self.FK_tb_balance_tb_parent">
+            <End Role="tb_parent" EntitySet="tb_parent" />
+            <End Role="tb_balance" EntitySet="tb_balance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_child_package_tb_child" Association="Self.FK_tb_child_package_tb_child">
+            <End Role="tb_child" EntitySet="tb_child" />
+            <End Role="tb_child_package" EntitySet="tb_child_package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_child_package_tb_package" Association="Self.FK_tb_child_package_tb_package">
+            <End Role="tb_package" EntitySet="tb_package" />
+            <End Role="tb_child_package" EntitySet="tb_child_package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_child_subject_tb_child" Association="Self.FK_tb_child_subject_tb_child">
+            <End Role="tb_child" EntitySet="tb_child" />
+            <End Role="tb_child_subject" EntitySet="tb_child_subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_child_subject_tb_subject" Association="Self.FK_tb_child_subject_tb_subject">
+            <End Role="tb_subject" EntitySet="tb_subject" />
+            <End Role="tb_child_subject" EntitySet="tb_child_subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_discount_tb_child" Association="Self.FK_tb_discount_tb_child">
+            <End Role="tb_child" EntitySet="tb_child" />
+            <End Role="tb_discount" EntitySet="tb_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_payment_file_tb_payment" Association="Self.FK_tb_payment_file_tb_payment">
+            <End Role="tb_payment" EntitySet="tb_payment" />
+            <End Role="tb_payment_file" EntitySet="tb_payment_file" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_payment_tb_admin" Association="Self.FK_tb_payment_tb_admin">
+            <End Role="tb_admin" EntitySet="tb_admin" />
+            <End Role="tb_payment" EntitySet="tb_payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_payment_tb_parent" Association="Self.FK_tb_payment_tb_parent">
+            <End Role="tb_parent" EntitySet="tb_parent" />
+            <End Role="tb_payment" EntitySet="tb_payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_addon_tb_addon" Association="Self.FK_tb_receipt_addon_tb_addon">
+            <End Role="tb_addon" EntitySet="tb_addon" />
+            <End Role="tb_receipt_addon" EntitySet="tb_receipt_addon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_addon_tb_receipt" Association="Self.FK_tb_receipt_addon_tb_receipt">
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+            <End Role="tb_receipt_addon" EntitySet="tb_receipt_addon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_discount_tb_discount" Association="Self.FK_tb_receipt_discount_tb_discount">
+            <End Role="tb_discount" EntitySet="tb_discount" />
+            <End Role="tb_receipt_discount" EntitySet="tb_receipt_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_discount_tb_receipt" Association="Self.FK_tb_receipt_discount_tb_receipt">
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+            <End Role="tb_receipt_discount" EntitySet="tb_receipt_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_package_tb_package" Association="Self.FK_tb_receipt_package_tb_package">
+            <End Role="tb_package" EntitySet="tb_package" />
+            <End Role="tb_receipt_package" EntitySet="tb_receipt_package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_package_tb_receipt" Association="Self.FK_tb_receipt_package_tb_receipt">
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+            <End Role="tb_receipt_package" EntitySet="tb_receipt_package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_tb_child" Association="Self.FK_tb_receipt_tb_child">
+            <End Role="tb_child" EntitySet="tb_child" />
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_tb_early_payment" Association="Self.FK_tb_receipt_tb_early_payment">
+            <End Role="tb_early_payment" EntitySet="tb_early_payment" />
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_tb_payment" Association="Self.FK_tb_receipt_tb_payment">
+            <End Role="tb_payment" EntitySet="tb_payment" />
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AceTuitionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tb_addon">
+          <Key>
+            <PropertyRef Name="addon_id" />
+          </Key>
+          <Property Name="addon_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="addon_english_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="addon_chinese_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="addon_recursive" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="addon_value" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="addon_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="child_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_child" Relationship="Self.FK_tb_addon_tb_child" FromRole="tb_addon" ToRole="tb_child" />
+          <NavigationProperty Name="tb_receipt_addon" Relationship="Self.FK_tb_receipt_addon_tb_addon" FromRole="tb_addon" ToRole="tb_receipt_addon" />
+        </EntityType>
+        <EntityType Name="tb_admin">
+          <Key>
+            <PropertyRef Name="admin_ic" />
+          </Key>
+          <Property Name="admin_ic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="admin_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="admin_password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="admin_phone_number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="admin_status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_payment" Relationship="Self.FK_tb_payment_tb_admin" FromRole="tb_admin" ToRole="tb_payment" />
+        </EntityType>
+        <EntityType Name="tb_balance">
+          <Key>
+            <PropertyRef Name="balance_id" />
+          </Key>
+          <Property Name="balance_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="parent_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="balance_amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="month" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tb_parent" Relationship="Self.FK_tb_balance_tb_parent" FromRole="tb_balance" ToRole="tb_parent" />
+        </EntityType>
+        <EntityType Name="tb_child">
+          <Key>
+            <PropertyRef Name="child_ic" />
+          </Key>
+          <Property Name="child_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="child_parent_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="child_name_eng" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="child_name_chinese" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="child_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="child_school" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="child_year" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="child_reg_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="child_trans_day" Type="Int32" Nullable="false" />
+          <Property Name="child_num_subject" Type="Int32" Nullable="false" />
+          <Property Name="child_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_addon" Relationship="Self.FK_tb_addon_tb_child" FromRole="tb_child" ToRole="tb_addon" />
+          <NavigationProperty Name="tb_child_package" Relationship="Self.FK_tb_child_package_tb_child" FromRole="tb_child" ToRole="tb_child_package" />
+          <NavigationProperty Name="tb_child_subject" Relationship="Self.FK_tb_child_subject_tb_child" FromRole="tb_child" ToRole="tb_child_subject" />
+          <NavigationProperty Name="tb_discount" Relationship="Self.FK_tb_discount_tb_child" FromRole="tb_child" ToRole="tb_discount" />
+          <NavigationProperty Name="tb_receipt" Relationship="Self.FK_tb_receipt_tb_child" FromRole="tb_child" ToRole="tb_receipt" />
+        </EntityType>
+        <EntityType Name="tb_child_package">
+          <Key>
+            <PropertyRef Name="child_package" />
+          </Key>
+          <Property Name="child_package" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="package_id" Type="Int32" Nullable="false" />
+          <Property Name="child_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_child" Relationship="Self.FK_tb_child_package_tb_child" FromRole="tb_child_package" ToRole="tb_child" />
+          <NavigationProperty Name="tb_package" Relationship="Self.FK_tb_child_package_tb_package" FromRole="tb_child_package" ToRole="tb_package" />
+        </EntityType>
+        <EntityType Name="tb_child_subject">
+          <Key>
+            <PropertyRef Name="child_subject" />
+          </Key>
+          <Property Name="child_subject" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="subject_id" Type="Int32" Nullable="false" />
+          <Property Name="child_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_child" Relationship="Self.FK_tb_child_subject_tb_child" FromRole="tb_child_subject" ToRole="tb_child" />
+          <NavigationProperty Name="tb_subject" Relationship="Self.FK_tb_child_subject_tb_subject" FromRole="tb_child_subject" ToRole="tb_subject" />
+        </EntityType>
+        <EntityType Name="tb_discount">
+          <Key>
+            <PropertyRef Name="discount_id" />
+          </Key>
+          <Property Name="discount_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="discount_english_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="discount_chinese_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="discount_recursive" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="discount_value" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="discount_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="child_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_child" Relationship="Self.FK_tb_discount_tb_child" FromRole="tb_discount" ToRole="tb_child" />
+          <NavigationProperty Name="tb_receipt_discount" Relationship="Self.FK_tb_receipt_discount_tb_discount" FromRole="tb_discount" ToRole="tb_receipt_discount" />
+        </EntityType>
+        <EntityType Name="tb_early_payment">
+          <Key>
+            <PropertyRef Name="early_id" />
+          </Key>
+          <Property Name="early_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="early_english_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="early_chinese_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="early_value" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="early_day" Type="Int32" Nullable="false" />
+          <Property Name="early_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="early_operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_receipt" Relationship="Self.FK_tb_receipt_tb_early_payment" FromRole="tb_early_payment" ToRole="tb_receipt" />
+        </EntityType>
+        <EntityType Name="tb_notice">
+          <Key>
+            <PropertyRef Name="notice_id" />
+          </Key>
+          <Property Name="notice_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="notice_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_package">
+          <Key>
+            <PropertyRef Name="package_id" />
+          </Key>
+          <Property Name="package_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="package_chinese_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="package_english_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="package_price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="package_operation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="package_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="package_attribute" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="package_subject_amount" Type="Int32" />
+          <NavigationProperty Name="tb_child_package" Relationship="Self.FK_tb_child_package_tb_package" FromRole="tb_package" ToRole="tb_child_package" />
+          <NavigationProperty Name="tb_receipt_package" Relationship="Self.FK_tb_receipt_package_tb_package" FromRole="tb_package" ToRole="tb_receipt_package" />
+        </EntityType>
+        <EntityType Name="tb_parent">
+          <Key>
+            <PropertyRef Name="parent_ic" />
+          </Key>
+          <Property Name="parent_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="parent_password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="parent_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="parent_address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="parent_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="parent_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_balance" Relationship="Self.FK_tb_balance_tb_parent" FromRole="tb_parent" ToRole="tb_balance" />
+          <NavigationProperty Name="tb_payment" Relationship="Self.FK_tb_payment_tb_parent" FromRole="tb_parent" ToRole="tb_payment" />
+        </EntityType>
+        <EntityType Name="tb_payment">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="payment_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="payment_upload_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="payment_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payment_amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="payment_month" Type="Int32" Nullable="false" />
+          <Property Name="payment_year" Type="Int32" Nullable="false" />
+          <Property Name="payment_outstanding" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="parent_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="admin_ic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="child_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="payment_decision_date" Type="DateTime" Precision="0" />
+          <Property Name="payment_balance_amount" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="tb_admin" Relationship="Self.FK_tb_payment_tb_admin" FromRole="tb_payment" ToRole="tb_admin" />
+          <NavigationProperty Name="tb_parent" Relationship="Self.FK_tb_payment_tb_parent" FromRole="tb_payment" ToRole="tb_parent" />
+          <NavigationProperty Name="tb_payment_file" Relationship="Self.FK_tb_payment_file_tb_payment" FromRole="tb_payment" ToRole="tb_payment_file" />
+          <NavigationProperty Name="tb_receipt" Relationship="Self.FK_tb_receipt_tb_payment" FromRole="tb_payment" ToRole="tb_receipt" />
+        </EntityType>
+        <EntityType Name="tb_payment_file">
+          <Key>
+            <PropertyRef Name="payment_file_id" />
+          </Key>
+          <Property Name="payment_file_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="payment_id" Type="Int32" Nullable="false" />
+          <Property Name="payment_file" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tb_payment" Relationship="Self.FK_tb_payment_file_tb_payment" FromRole="tb_payment_file" ToRole="tb_payment" />
+        </EntityType>
+        <EntityType Name="tb_receipt">
+          <Key>
+            <PropertyRef Name="receipt_id" />
+          </Key>
+          <Property Name="receipt_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="payment_id" Type="Int32" Nullable="false" />
+          <Property Name="child_ic" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="receipt_outstanding" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="receipt_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="early_id" Type="Int32" Nullable="false" />
+          <Property Name="receipt_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_child" Relationship="Self.FK_tb_receipt_tb_child" FromRole="tb_receipt" ToRole="tb_child" />
+          <NavigationProperty Name="tb_early_payment" Relationship="Self.FK_tb_receipt_tb_early_payment" FromRole="tb_receipt" ToRole="tb_early_payment" />
+          <NavigationProperty Name="tb_payment" Relationship="Self.FK_tb_receipt_tb_payment" FromRole="tb_receipt" ToRole="tb_payment" />
+          <NavigationProperty Name="tb_receipt_addon" Relationship="Self.FK_tb_receipt_addon_tb_receipt" FromRole="tb_receipt" ToRole="tb_receipt_addon" />
+          <NavigationProperty Name="tb_receipt_discount" Relationship="Self.FK_tb_receipt_discount_tb_receipt" FromRole="tb_receipt" ToRole="tb_receipt_discount" />
+          <NavigationProperty Name="tb_receipt_package" Relationship="Self.FK_tb_receipt_package_tb_receipt" FromRole="tb_receipt" ToRole="tb_receipt_package" />
+        </EntityType>
+        <EntityType Name="tb_receipt_addon">
+          <Key>
+            <PropertyRef Name="receipt_addon_id" />
+          </Key>
+          <Property Name="receipt_id" Type="Int32" Nullable="false" />
+          <Property Name="addon_id" Type="Int32" Nullable="false" />
+          <Property Name="value" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="receipt_addon_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="tb_addon" Relationship="Self.FK_tb_receipt_addon_tb_addon" FromRole="tb_receipt_addon" ToRole="tb_addon" />
+          <NavigationProperty Name="tb_receipt" Relationship="Self.FK_tb_receipt_addon_tb_receipt" FromRole="tb_receipt_addon" ToRole="tb_receipt" />
+        </EntityType>
+        <EntityType Name="tb_receipt_discount">
+          <Key>
+            <PropertyRef Name="receipt_discount_id" />
+          </Key>
+          <Property Name="receipt_id" Type="Int32" Nullable="false" />
+          <Property Name="discount_id" Type="Int32" Nullable="false" />
+          <Property Name="value" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="receipt_discount_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="tb_discount" Relationship="Self.FK_tb_receipt_discount_tb_discount" FromRole="tb_receipt_discount" ToRole="tb_discount" />
+          <NavigationProperty Name="tb_receipt" Relationship="Self.FK_tb_receipt_discount_tb_receipt" FromRole="tb_receipt_discount" ToRole="tb_receipt" />
+        </EntityType>
+        <EntityType Name="tb_receipt_package">
+          <Key>
+            <PropertyRef Name="receipt_package_id" />
+          </Key>
+          <Property Name="receipt_id" Type="Int32" Nullable="false" />
+          <Property Name="package_id" Type="Int32" Nullable="false" />
+          <Property Name="value" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="receipt_package_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="tb_package" Relationship="Self.FK_tb_receipt_package_tb_package" FromRole="tb_receipt_package" ToRole="tb_package" />
+          <NavigationProperty Name="tb_receipt" Relationship="Self.FK_tb_receipt_package_tb_receipt" FromRole="tb_receipt_package" ToRole="tb_receipt" />
+        </EntityType>
+        <EntityType Name="tb_subject">
+          <Key>
+            <PropertyRef Name="subject_id" />
+          </Key>
+          <Property Name="subject_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="subject_chinese_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="subject_english_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="subject_grade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="subject_status" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tb_child_subject" Relationship="Self.FK_tb_child_subject_tb_subject" FromRole="tb_subject" ToRole="tb_child_subject" />
+        </EntityType>
+        <Association Name="FK_tb_addon_tb_child">
+          <End Role="tb_child" Type="Self.tb_child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_addon" Type="Self.tb_addon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_child">
+              <PropertyRef Name="child_ic" />
+            </Principal>
+            <Dependent Role="tb_addon">
+              <PropertyRef Name="child_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_addon_tb_addon">
+          <End Role="tb_addon" Type="Self.tb_addon" Multiplicity="1" />
+          <End Role="tb_receipt_addon" Type="Self.tb_receipt_addon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_addon">
+              <PropertyRef Name="addon_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_addon">
+              <PropertyRef Name="addon_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_payment_tb_admin">
+          <End Role="tb_admin" Type="Self.tb_admin" Multiplicity="1" />
+          <End Role="tb_payment" Type="Self.tb_payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_admin">
+              <PropertyRef Name="admin_ic" />
+            </Principal>
+            <Dependent Role="tb_payment">
+              <PropertyRef Name="admin_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_balance_tb_parent">
+          <End Role="tb_parent" Type="Self.tb_parent" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_balance" Type="Self.tb_balance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_parent">
+              <PropertyRef Name="parent_ic" />
+            </Principal>
+            <Dependent Role="tb_balance">
+              <PropertyRef Name="parent_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_child_package_tb_child">
+          <End Role="tb_child" Type="Self.tb_child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_child_package" Type="Self.tb_child_package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_child">
+              <PropertyRef Name="child_ic" />
+            </Principal>
+            <Dependent Role="tb_child_package">
+              <PropertyRef Name="child_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_child_subject_tb_child">
+          <End Role="tb_child" Type="Self.tb_child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_child_subject" Type="Self.tb_child_subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_child">
+              <PropertyRef Name="child_ic" />
+            </Principal>
+            <Dependent Role="tb_child_subject">
+              <PropertyRef Name="child_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_discount_tb_child">
+          <End Role="tb_child" Type="Self.tb_child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_discount" Type="Self.tb_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_child">
+              <PropertyRef Name="child_ic" />
+            </Principal>
+            <Dependent Role="tb_discount">
+              <PropertyRef Name="child_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_tb_child">
+          <End Role="tb_child" Type="Self.tb_child" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_child">
+              <PropertyRef Name="child_ic" />
+            </Principal>
+            <Dependent Role="tb_receipt">
+              <PropertyRef Name="child_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_child_package_tb_package">
+          <End Role="tb_package" Type="Self.tb_package" Multiplicity="1" />
+          <End Role="tb_child_package" Type="Self.tb_child_package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_package">
+              <PropertyRef Name="package_id" />
+            </Principal>
+            <Dependent Role="tb_child_package">
+              <PropertyRef Name="package_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_child_subject_tb_subject">
+          <End Role="tb_subject" Type="Self.tb_subject" Multiplicity="1" />
+          <End Role="tb_child_subject" Type="Self.tb_child_subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_subject">
+              <PropertyRef Name="subject_id" />
+            </Principal>
+            <Dependent Role="tb_child_subject">
+              <PropertyRef Name="subject_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_discount_tb_discount">
+          <End Role="tb_discount" Type="Self.tb_discount" Multiplicity="1" />
+          <End Role="tb_receipt_discount" Type="Self.tb_receipt_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_discount">
+              <PropertyRef Name="discount_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_discount">
+              <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_tb_early_payment">
+          <End Role="tb_early_payment" Type="Self.tb_early_payment" Multiplicity="1" />
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_early_payment">
+              <PropertyRef Name="early_id" />
+            </Principal>
+            <Dependent Role="tb_receipt">
+              <PropertyRef Name="early_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_package_tb_package">
+          <End Role="tb_package" Type="Self.tb_package" Multiplicity="1" />
+          <End Role="tb_receipt_package" Type="Self.tb_receipt_package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_package">
+              <PropertyRef Name="package_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_package">
+              <PropertyRef Name="package_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_payment_tb_parent">
+          <End Role="tb_parent" Type="Self.tb_parent" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_payment" Type="Self.tb_payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_parent">
+              <PropertyRef Name="parent_ic" />
+            </Principal>
+            <Dependent Role="tb_payment">
+              <PropertyRef Name="parent_ic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_payment_file_tb_payment">
+          <End Role="tb_payment" Type="Self.tb_payment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_payment_file" Type="Self.tb_payment_file" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_payment">
+              <PropertyRef Name="payment_id" />
+            </Principal>
+            <Dependent Role="tb_payment_file">
+              <PropertyRef Name="payment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_tb_payment">
+          <End Role="tb_payment" Type="Self.tb_payment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_payment">
+              <PropertyRef Name="payment_id" />
+            </Principal>
+            <Dependent Role="tb_receipt">
+              <PropertyRef Name="payment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_addon_tb_receipt">
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_receipt_addon" Type="Self.tb_receipt_addon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_receipt">
+              <PropertyRef Name="receipt_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_addon">
+              <PropertyRef Name="receipt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_discount_tb_receipt">
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_receipt_discount" Type="Self.tb_receipt_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_receipt">
+              <PropertyRef Name="receipt_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_discount">
+              <PropertyRef Name="receipt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_receipt_package_tb_receipt">
+          <End Role="tb_receipt" Type="Self.tb_receipt" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tb_receipt_package" Type="Self.tb_receipt_package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_receipt">
+              <PropertyRef Name="receipt_id" />
+            </Principal>
+            <Dependent Role="tb_receipt_package">
+              <PropertyRef Name="receipt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AceTuitionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tb_addon" EntityType="Self.tb_addon" />
+          <EntitySet Name="tb_admin" EntityType="Self.tb_admin" />
+          <EntitySet Name="tb_balance" EntityType="Self.tb_balance" />
+          <EntitySet Name="tb_child" EntityType="Self.tb_child" />
+          <EntitySet Name="tb_child_package" EntityType="Self.tb_child_package" />
+          <EntitySet Name="tb_child_subject" EntityType="Self.tb_child_subject" />
+          <EntitySet Name="tb_discount" EntityType="Self.tb_discount" />
+          <EntitySet Name="tb_early_payment" EntityType="Self.tb_early_payment" />
+          <EntitySet Name="tb_notice" EntityType="Self.tb_notice" />
+          <EntitySet Name="tb_package" EntityType="Self.tb_package" />
+          <EntitySet Name="tb_parent" EntityType="Self.tb_parent" />
+          <EntitySet Name="tb_payment" EntityType="Self.tb_payment" />
+          <EntitySet Name="tb_payment_file" EntityType="Self.tb_payment_file" />
+          <EntitySet Name="tb_receipt" EntityType="Self.tb_receipt" />
+          <EntitySet Name="tb_receipt_addon" EntityType="Self.tb_receipt_addon" />
+          <EntitySet Name="tb_receipt_discount" EntityType="Self.tb_receipt_discount" />
+          <EntitySet Name="tb_receipt_package" EntityType="Self.tb_receipt_package" />
+          <EntitySet Name="tb_subject" EntityType="Self.tb_subject" />
+          <AssociationSet Name="FK_tb_addon_tb_child" Association="Self.FK_tb_addon_tb_child">
+            <End Role="tb_child" EntitySet="tb_child" />
+            <End Role="tb_addon" EntitySet="tb_addon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_addon_tb_addon" Association="Self.FK_tb_receipt_addon_tb_addon">
+            <End Role="tb_addon" EntitySet="tb_addon" />
+            <End Role="tb_receipt_addon" EntitySet="tb_receipt_addon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_payment_tb_admin" Association="Self.FK_tb_payment_tb_admin">
+            <End Role="tb_admin" EntitySet="tb_admin" />
+            <End Role="tb_payment" EntitySet="tb_payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_balance_tb_parent" Association="Self.FK_tb_balance_tb_parent">
+            <End Role="tb_parent" EntitySet="tb_parent" />
+            <End Role="tb_balance" EntitySet="tb_balance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_child_package_tb_child" Association="Self.FK_tb_child_package_tb_child">
+            <End Role="tb_child" EntitySet="tb_child" />
+            <End Role="tb_child_package" EntitySet="tb_child_package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_child_subject_tb_child" Association="Self.FK_tb_child_subject_tb_child">
+            <End Role="tb_child" EntitySet="tb_child" />
+            <End Role="tb_child_subject" EntitySet="tb_child_subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_discount_tb_child" Association="Self.FK_tb_discount_tb_child">
+            <End Role="tb_child" EntitySet="tb_child" />
+            <End Role="tb_discount" EntitySet="tb_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_tb_child" Association="Self.FK_tb_receipt_tb_child">
+            <End Role="tb_child" EntitySet="tb_child" />
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_child_package_tb_package" Association="Self.FK_tb_child_package_tb_package">
+            <End Role="tb_package" EntitySet="tb_package" />
+            <End Role="tb_child_package" EntitySet="tb_child_package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_child_subject_tb_subject" Association="Self.FK_tb_child_subject_tb_subject">
+            <End Role="tb_subject" EntitySet="tb_subject" />
+            <End Role="tb_child_subject" EntitySet="tb_child_subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_discount_tb_discount" Association="Self.FK_tb_receipt_discount_tb_discount">
+            <End Role="tb_discount" EntitySet="tb_discount" />
+            <End Role="tb_receipt_discount" EntitySet="tb_receipt_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_tb_early_payment" Association="Self.FK_tb_receipt_tb_early_payment">
+            <End Role="tb_early_payment" EntitySet="tb_early_payment" />
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_package_tb_package" Association="Self.FK_tb_receipt_package_tb_package">
+            <End Role="tb_package" EntitySet="tb_package" />
+            <End Role="tb_receipt_package" EntitySet="tb_receipt_package" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_payment_tb_parent" Association="Self.FK_tb_payment_tb_parent">
+            <End Role="tb_parent" EntitySet="tb_parent" />
+            <End Role="tb_payment" EntitySet="tb_payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_payment_file_tb_payment" Association="Self.FK_tb_payment_file_tb_payment">
+            <End Role="tb_payment" EntitySet="tb_payment" />
+            <End Role="tb_payment_file" EntitySet="tb_payment_file" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_tb_payment" Association="Self.FK_tb_receipt_tb_payment">
+            <End Role="tb_payment" EntitySet="tb_payment" />
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_addon_tb_receipt" Association="Self.FK_tb_receipt_addon_tb_receipt">
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+            <End Role="tb_receipt_addon" EntitySet="tb_receipt_addon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_discount_tb_receipt" Association="Self.FK_tb_receipt_discount_tb_receipt">
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+            <End Role="tb_receipt_discount" EntitySet="tb_receipt_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_receipt_package_tb_receipt" Association="Self.FK_tb_receipt_package_tb_receipt">
+            <End Role="tb_receipt" EntitySet="tb_receipt" />
+            <End Role="tb_receipt_package" EntitySet="tb_receipt_package" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AceTuitionModelStoreContainer" CdmEntityContainer="AceTuitionEntities">
+          <EntitySetMapping Name="tb_addon">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_addon">
+              <MappingFragment StoreEntitySet="tb_addon">
+                <ScalarProperty Name="addon_id" ColumnName="addon_id" />
+                <ScalarProperty Name="addon_english_name" ColumnName="addon_english_name" />
+                <ScalarProperty Name="addon_chinese_name" ColumnName="addon_chinese_name" />
+                <ScalarProperty Name="addon_recursive" ColumnName="addon_recursive" />
+                <ScalarProperty Name="addon_value" ColumnName="addon_value" />
+                <ScalarProperty Name="addon_status" ColumnName="addon_status" />
+                <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_admin">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_admin">
+              <MappingFragment StoreEntitySet="tb_admin">
+                <ScalarProperty Name="admin_ic" ColumnName="admin_ic" />
+                <ScalarProperty Name="admin_name" ColumnName="admin_name" />
+                <ScalarProperty Name="admin_password" ColumnName="admin_password" />
+                <ScalarProperty Name="admin_phone_number" ColumnName="admin_phone_number" />
+                <ScalarProperty Name="admin_status" ColumnName="admin_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_balance">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_balance">
+              <MappingFragment StoreEntitySet="tb_balance">
+                <ScalarProperty Name="balance_id" ColumnName="balance_id" />
+                <ScalarProperty Name="parent_ic" ColumnName="parent_ic" />
+                <ScalarProperty Name="balance_amount" ColumnName="balance_amount" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_child">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_child">
+              <MappingFragment StoreEntitySet="tb_child">
+                <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+                <ScalarProperty Name="child_parent_ic" ColumnName="child_parent_ic" />
+                <ScalarProperty Name="child_name_eng" ColumnName="child_name_eng" />
+                <ScalarProperty Name="child_name_chinese" ColumnName="child_name_chinese" />
+                <ScalarProperty Name="child_code" ColumnName="child_code" />
+                <ScalarProperty Name="child_school" ColumnName="child_school" />
+                <ScalarProperty Name="child_year" ColumnName="child_year" />
+                <ScalarProperty Name="child_reg_date" ColumnName="child_reg_date" />
+                <ScalarProperty Name="child_trans_day" ColumnName="child_trans_day" />
+                <ScalarProperty Name="child_num_subject" ColumnName="child_num_subject" />
+                <ScalarProperty Name="child_status" ColumnName="child_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_child_package">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_child_package">
+              <MappingFragment StoreEntitySet="tb_child_package">
+                <ScalarProperty Name="child_package" ColumnName="child_package" />
+                <ScalarProperty Name="package_id" ColumnName="package_id" />
+                <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_child_subject">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_child_subject">
+              <MappingFragment StoreEntitySet="tb_child_subject">
+                <ScalarProperty Name="child_subject" ColumnName="child_subject" />
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+                <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_discount">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_discount">
+              <MappingFragment StoreEntitySet="tb_discount">
+                <ScalarProperty Name="discount_id" ColumnName="discount_id" />
+                <ScalarProperty Name="discount_english_name" ColumnName="discount_english_name" />
+                <ScalarProperty Name="discount_chinese_name" ColumnName="discount_chinese_name" />
+                <ScalarProperty Name="discount_recursive" ColumnName="discount_recursive" />
+                <ScalarProperty Name="discount_value" ColumnName="discount_value" />
+                <ScalarProperty Name="discount_status" ColumnName="discount_status" />
+                <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_early_payment">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_early_payment">
+              <MappingFragment StoreEntitySet="tb_early_payment">
+                <ScalarProperty Name="early_id" ColumnName="early_id" />
+                <ScalarProperty Name="early_english_name" ColumnName="early_english_name" />
+                <ScalarProperty Name="early_chinese_name" ColumnName="early_chinese_name" />
+                <ScalarProperty Name="early_value" ColumnName="early_value" />
+                <ScalarProperty Name="early_day" ColumnName="early_day" />
+                <ScalarProperty Name="early_status" ColumnName="early_status" />
+                <ScalarProperty Name="early_operation" ColumnName="early_operation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_notice">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_notice">
+              <MappingFragment StoreEntitySet="tb_notice">
+                <ScalarProperty Name="notice_id" ColumnName="notice_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="notice_date" ColumnName="notice_date" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_package">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_package">
+              <MappingFragment StoreEntitySet="tb_package">
+                <ScalarProperty Name="package_id" ColumnName="package_id" />
+                <ScalarProperty Name="package_chinese_name" ColumnName="package_chinese_name" />
+                <ScalarProperty Name="package_english_name" ColumnName="package_english_name" />
+                <ScalarProperty Name="package_price" ColumnName="package_price" />
+                <ScalarProperty Name="package_operation" ColumnName="package_operation" />
+                <ScalarProperty Name="package_status" ColumnName="package_status" />
+                <ScalarProperty Name="package_attribute" ColumnName="package_attribute" />
+                <ScalarProperty Name="package_subject_amount" ColumnName="package_subject_amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_parent">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_parent">
+              <MappingFragment StoreEntitySet="tb_parent">
+                <ScalarProperty Name="parent_ic" ColumnName="parent_ic" />
+                <ScalarProperty Name="parent_password" ColumnName="parent_password" />
+                <ScalarProperty Name="parent_name" ColumnName="parent_name" />
+                <ScalarProperty Name="parent_address" ColumnName="parent_address" />
+                <ScalarProperty Name="parent_phone" ColumnName="parent_phone" />
+                <ScalarProperty Name="parent_status" ColumnName="parent_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_payment">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_payment">
+              <MappingFragment StoreEntitySet="tb_payment">
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+                <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+                <ScalarProperty Name="payment_upload_date" ColumnName="payment_upload_date" />
+                <ScalarProperty Name="payment_status" ColumnName="payment_status" />
+                <ScalarProperty Name="payment_amount" ColumnName="payment_amount" />
+                <ScalarProperty Name="payment_month" ColumnName="payment_month" />
+                <ScalarProperty Name="payment_year" ColumnName="payment_year" />
+                <ScalarProperty Name="payment_outstanding" ColumnName="payment_outstanding" />
+                <ScalarProperty Name="parent_ic" ColumnName="parent_ic" />
+                <ScalarProperty Name="admin_ic" ColumnName="admin_ic" />
+                <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+                <ScalarProperty Name="payment_decision_date" ColumnName="payment_decision_date" />
+                <ScalarProperty Name="payment_balance_amount" ColumnName="payment_balance_amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_payment_file">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_payment_file">
+              <MappingFragment StoreEntitySet="tb_payment_file">
+                <ScalarProperty Name="payment_file_id" ColumnName="payment_file_id" />
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+                <ScalarProperty Name="payment_file" ColumnName="payment_file" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_receipt">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_receipt">
+              <MappingFragment StoreEntitySet="tb_receipt">
+                <ScalarProperty Name="receipt_id" ColumnName="receipt_id" />
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+                <ScalarProperty Name="child_ic" ColumnName="child_ic" />
+                <ScalarProperty Name="receipt_outstanding" ColumnName="receipt_outstanding" />
+                <ScalarProperty Name="receipt_status" ColumnName="receipt_status" />
+                <ScalarProperty Name="early_id" ColumnName="early_id" />
+                <ScalarProperty Name="receipt_code" ColumnName="receipt_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_receipt_addon">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_receipt_addon">
+              <MappingFragment StoreEntitySet="tb_receipt_addon">
+                <ScalarProperty Name="receipt_id" ColumnName="receipt_id" />
+                <ScalarProperty Name="addon_id" ColumnName="addon_id" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="receipt_addon_id" ColumnName="receipt_addon_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_receipt_discount">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_receipt_discount">
+              <MappingFragment StoreEntitySet="tb_receipt_discount">
+                <ScalarProperty Name="receipt_id" ColumnName="receipt_id" />
+                <ScalarProperty Name="discount_id" ColumnName="discount_id" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="receipt_discount_id" ColumnName="receipt_discount_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_receipt_package">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_receipt_package">
+              <MappingFragment StoreEntitySet="tb_receipt_package">
+                <ScalarProperty Name="receipt_id" ColumnName="receipt_id" />
+                <ScalarProperty Name="package_id" ColumnName="package_id" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="receipt_package_id" ColumnName="receipt_package_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_subject">
+            <EntityTypeMapping TypeName="AceTuitionModel.tb_subject">
+              <MappingFragment StoreEntitySet="tb_subject">
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+                <ScalarProperty Name="subject_chinese_name" ColumnName="subject_chinese_name" />
+                <ScalarProperty Name="subject_english_name" ColumnName="subject_english_name" />
+                <ScalarProperty Name="subject_grade" ColumnName="subject_grade" />
+                <ScalarProperty Name="subject_status" ColumnName="subject_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

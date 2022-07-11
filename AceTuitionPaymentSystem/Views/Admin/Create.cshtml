@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@model AceTuitionPaymentSystem.Models.tb_admin
+
+@{
+    ViewBag.Title = "Index";
+    if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+<form name="adminForm">
+    @Html.AntiForgeryToken()
+
+    <div class="modal-header">
+
+        <h4 class="modal-title">
+
+            @if (Model.admin_ic != null)
+            {
+                <span><strong>Edit Parents</strong></span>
+            }
+            else
+            {
+                <span><strong>Create New Parents</strong></span>
+            }
+
+        </h4>
+        <div style="text-align:right;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <label>Parent IC</label>
+
+                    @if (Model.admin_ic != null)
+                    {
+                        @Html.EditorFor(model => model.admin_ic, new { htmlAttributes = new { @class = "form-control", required = true, @readonly = "true" } })
+                        @Html.ValidationMessageFor(model => model.admin_ic, "", new { @class = "text-danger" })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.admin_ic, new { htmlAttributes = new { @class = "form-control", required = true } })
+                        @Html.ValidationMessageFor(model => model.admin_ic, "", new { @class = "text-danger" })
+                    }
+
+                </div>
+
+                <div class="form-group">
+                    <label>Admin Name</label>
+                    @Html.EditorFor(model => model.admin_name, new { htmlAttributes = new { @class = "form-control", required = true } })
+                    @Html.ValidationMessageFor(model => model.admin_name, "", new { @class = "text-danger" })
+                </div>
+
+
+                    <div class="form-group">
+                        <label>Admin Phone</label>
+                        @Html.EditorFor(model => model.admin_phone_number, new { htmlAttributes = new { @class = "form-control", required = true } })
+                        @Html.ValidationMessageFor(model => model.admin_phone_number, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    @if (Model.admin_ic != null)
+                    {
+                        <div class="form-group">
+                            <label>Parent Status</label>
+                            <select class="form-control" id="parent_status" name="parent_status" required>
+
+                                @if (Model.admin_status == "active")
+                                {
+                                    <option value="active" selected>Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    @Html.ValidationMessageFor(model => model.admin_status, "", new { @class = "text-danger" })
+                                }
+                                else if (Model.admin_status == "inactive")
+                                {
+                                    <option value="active">Active</option>
+                                    <option value="inactive" selected>Inactive</option>
+                                    @Html.ValidationMessageFor(model => model.admin_status, "", new { @class = "text-danger" })
+                                }
+
+                            </select>
+                        </div>
+                    }
+
+                </div>
+            </div>
+    </div>
+  
+    <div class="modal-footer">
+
+        @if (Model.admin_ic != null)
+        {
+            @Html.HiddenFor(model => model.admin_password)
+            <button type="button" name="save" onclick="update()" class="btn btn-primary pull-right">Save</button>
+        }
+        else
+        {
+            <button type="button" name="save" onclick="create()" class="btn btn-primary pull-right">Save</button>
+        }
+
+
+    </div>
+</form>

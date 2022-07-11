@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+<form name="reportForm">
+    @Html.AntiForgeryToken()
+
+    <div class="modal-header">
+
+        <h4 class="modal-title">
+
+            <span><strong>Generate Report</strong></span>
+
+        </h4>
+        <div style="text-align:right;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Report Type</label>
+                    <select class="form-control" id="report_type">
+                        <option hidden>Select Report Type</option>
+                        <option value="month">Month</option>
+                        <option value="quarter">Quarter</option>
+                        <option value="year">Year</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="for-month" style="display: none;">
+                    <label>Report Period</label>
+
+                    <input type="month" min="2020" id="report_period_month" class="form-control" />
+                </div>
+
+                <div class="form-group" id="for-quarter" style="display: none;">
+                    <label>Report Period</label>
+                    <input type="text" class="yearpicker-quarter form-control" id="report_period_quarter_year" />
+                    <select id="report_period_quarter" class="form-control">
+                        <option hidden>Select Report Period</option>
+                        <option value="q1">First Quarter ( JAN - MAR )</option>
+                        <option value="q2">Second Quarter ( APR - JUN )</option>
+                        <option value="q3">Third Quarter ( JUL - SEP )</option>
+                        <option value="q4">Fourth Quarter ( OCT - DEC )</option>
+                    </select>
+                </div>
+
+                <br />
+                <div class="form-group" id="for-year" style="display: none;">
+                    <label>Report Period</label>
+
+                    <input type="text" class="yearpicker form-control" id="report_period_year" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" name="save" onclick="downloadReport()" class="btn btn-primary pull-right">Generate</button>
+
+    </div>
+</form>

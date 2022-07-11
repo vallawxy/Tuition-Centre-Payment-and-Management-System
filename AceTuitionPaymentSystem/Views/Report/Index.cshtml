@@ -1,0 +1,472 @@
+﻿@*@{
+        ViewBag.Title = "Index";
+    }
+
+    <h2>Report</h2>
+
+
+    <div>
+        <a href="@Url.Action("DownloadExcel","Report")">Download Excel</a>
+    </div>*@
+
+@{
+    if ((string)Session["type"] == "admin")
+    {
+        if (Session["type"] == null)
+        {
+            Response.Redirect("~/Login/Index");
+        }
+    }
+    else
+    {
+
+        Response.Redirect("~/Login/Index");
+    }
+}
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height:100%">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+
+                <img src="~/image/supervisor.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">
+
+                    <span style='color: white'>@Session["name"]</span>
+                    <br>
+                    ACE Education
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                <!-- <li class="nav-item menu-open"> -->
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Home")" class="nav-link">
+                        <i class="fa fa-tachometer"></i>&nbsp;&nbsp;
+                        <p>
+                            Dashboard
+                            <!-- <i class="right fas fa-angle-left"></i> -->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item menu-open">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-usd"></i>&nbsp;&nbsp;
+                        <p>
+                            Manage Payment
+                            <i class="fa fa-chevron-left right "></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Outstanding")" class="nav-link">
+                                <i class="fa fa-spinner"></i>&nbsp;&nbsp;
+                                <p>Outstanding</p>
+                                @*<span class="badge badge-info right">
+                            <?php echo $rowcp['n_count'];?>
+                        </span>*@
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Payment")" class="nav-link">
+                                <i class="fa fa-check-square"></i>&nbsp;&nbsp;
+                                <p>Payment List</p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Report")" class="nav-link active">
+                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;
+                                <p>Report</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Child")" class="nav-link">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;&nbsp;
+                        <p>
+                            Students
+                            @*<i class="fa fa-chevron-left right "></i>*@
+                        </p>
+                    </a>
+                    @*<ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Child")" class="nav-link">
+                                <i class="fa fa-child"></i>&nbsp;&nbsp;
+                                <p>
+                                    Active
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("InactiveStudent", "Child")" class="nav-link">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <p>Inactive</p>
+                            </a>
+                        </li>
+                    </ul>*@
+                </li>
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Parents")" class="nav-link">
+                        <i class="fa fa-users"></i>&nbsp;&nbsp;
+                        <p>
+                            Parents
+                            @*<i class="fa fa-chevron-left right "></i>*@
+                        </p>
+                    </a>
+                    <!--<ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Parents")" class="nav-link">
+                                <i class="fa fa-user"></i>&nbsp;&nbsp;
+                                <p>
+                                    Active-->
+                                    <!-- <i class="right fas fa-angle-left"></i> -->
+                                <!--</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("InactiveParent", "Parents")" class="nav-link">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>&nbsp;&nbsp;
+                                <p>Inactive</p>
+                            </a>
+                        </li>
+
+                    </ul>-->
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-tag"></i>&nbsp;&nbsp;
+                        <p>
+                            Manage Servies
+                            <i class="fa fa-chevron-left right active"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Package")" class="nav-link">
+                                <i class="fa fa-folder"></i>&nbsp;&nbsp;
+                                <p>Package</p>
+                                @*<span class="badge badge-info right">
+                            <?php echo $rowcp['n_count'];?>
+                        </span>*@
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Subject")" class="nav-link">
+                                <i class="fa fa-book"></i>&nbsp;&nbsp;
+                                <p>Subject</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "earlypay")" class="nav-link ">
+                                <i class="fa fa-pencil"></i>&nbsp;&nbsp;
+                                <p>Early Payment</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Report</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        @*<li class="breadcrumb-item"><a href="@Url.Action("About", "Home")">Home</a></li>*@
+                        <li class="breadcrumb-item active">Report</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+
+
+
+
+                        <div class="card">
+                            <div class="card-header" style="background-color:#8C8CB4;color:white;">
+                                <h3 class="card-title">Report List</h3>
+                                <div style="text-align:right">
+                                    <button type="button" class="btn btn-sm" onclick="generateReport()">
+                                        <i class="nav-icon fa fa-plus"></i>&nbsp;&nbsp;Generate Report
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+
+
+
+                                <div class="modal fade" role="dialog" id="reportModal" aria-labelledby="reportModal" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content" id="ReportmodalBody">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+@section scripts{
+
+
+    <!-- DataTables  & Plugins -->
+    <script src="~/plugins/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <link rel='stylesheet' href='~/plugins/plugins/yearpicker/yearpicker.css' />
+    <script src='~/plugins/plugins/yearpicker/yearpicker.js'></script>
+
+
+
+    <script type="text/javascript">
+
+        var dataTable;
+        $(document).ready(function () {
+            dataTable = $("#reportTable").DataTable({
+
+                "language": {
+                    "emptyTable": "No data found, Please click on <b>Generate Report</b> button."
+                }
+            });
+
+
+        });
+
+
+
+        function generateReport() {
+            $.get("/Report/ReportModal", {}, function (res) {
+                $("#ReportmodalBody").html(res);
+                $("#reportModal").modal('show');
+
+
+                $(".yearpicker").yearpicker();
+
+
+
+                $(document).ready(function () {
+                    $("#for-month").hide();
+                    $("#for-year").hide();
+                    $("#for-quarter").hide();
+
+                    $("#report_type").on("change", function () {
+                        console.log($(this).val());
+
+                        if ($(this).val() == "month") {
+
+                            $("#for-month").show();
+                            $("#for-year").hide();
+                            $("#for-quarter").hide();
+
+                        } else if ($(this).val() == "quarter") {
+                            $(".yearpicker-quarter").yearpicker();
+                            $("#for-month").hide();
+                            $("#for-year").hide();
+                            $("#for-quarter").show();
+
+                        } else if ($(this).val() == "year") {
+                            $("#for-month").hide();
+                            $("#for-year").show();
+                            $("#for-quarter").hide();
+
+                        } else {
+                            $("#for-month").hide();
+                            $("#for-year").hide();
+                            $("#for-quarter").hide();
+                        }
+                    })
+                })
+
+
+            })
+        }
+
+        function validate() {
+            return true;
+        }
+
+
+
+
+        function downloadReport() {
+            var modal = $("#reportModal");
+            var form = $('form[name="reportForm"]');
+
+            if (!validate()) {
+                return;
+            }
+
+            var data = form.serialize();
+            //console.log($("#report_type").val());
+            //console.log($("#report_period_month").val());
+            //console.log($("#report_period_quarter").val());
+            //console.log($("#report_period_year").val());
+            //console.log(data);
+
+            var year
+            var month
+
+            if ($("#report_type").val() == "month") {
+                year = $("#report_period_month").val().split("-")[0];
+                month = parseInt($("#report_period_month").val().split("-")[1]);
+            } else if ($("#report_type").val() == "quarter") {
+                year = $("#report_period_quarter_year").val();
+                month = $("#report_period_quarter").val();
+            } else if ($("#report_type").val() == "year") {
+                month = 0
+                year = $("#report_period_year").val();
+            }
+
+            console.log(month, year);
+
+            window.location.href = '@Url.Action("DownloadExcel", "Report")?type=' + $("#report_type").val() + '&year=' + year + '&month=' + month;
+
+            modal.modal('hide');
+            toastr.options.timeOut = 2000;
+            toastr.options.progressBar = true;
+            toastr.success("Generating Report... Please stay in this page for awhile, the report will be downloaded automatically.", { timeOut: 1000 });
+
+            //$.post("/Report/DownloadExcel", { type: $("#report_type").val(), year: year, month: month }, function (res) {
+            //    if (res.success) {
+            //        modal.modal('hide');
+            //        toastr.options.timeOut = 2000;
+            //        toastr.options.progressBar = true;
+            //        toastr.options.onHidden = function () {
+            //            window.location.reload();
+            //        }
+
+            //        toastr.success(res.message, { timeOut: 1000 });
+            //    }
+
+            //});
+        }
+
+
+
+            //function validate() {
+            //    if ($("#subject_english_name").val() == null || $.trim($("#subject_english_name").val()) == '') {
+            //        toastr.options.closeButton = true;
+            //        toastr.warning("Subject English Name is required to fill.", 'Warning');
+            //        return;
+            //    }
+
+            //    if ($("#subject_chinese_name").val() == null || $.trim($("#subject_chinese_name").val()) == '') {
+            //        toastr.options.closeButton = true;
+            //        toastr.warning("Subject Chinese Name is required to fill.", 'Warning');
+            //        return;
+            //    }
+
+            //    if ($("#subject_grade").val() == null || $.trim($("#subject_grade").val()) == '') {
+            //        toastr.options.closeButton = true;
+            //        toastr.warning("Subject's Grade is required to fill.", 'Warning');
+            //        return;
+            //    }
+
+            //    return true;
+            //}
+
+
+            //function getSubject(id) {
+            //    $.get("/Subject/AddorEdit", { id: id }, function (res) {
+            //        $("#SubjectmodalBody").html(res);
+            //        $("#subjectModal").modal('show');
+            //    })
+            //}
+
+            //function createOrUpdate() {
+            //    var modal = $("#subjectModal");
+            //    var form = $('form[name="subjectForm"]');
+
+            //    if (!validate()) {
+            //        return;
+            //    }
+
+            //    var data = form.serialize();
+            //    $.post("/Subject/CreateOrUpdate", data, function (res) {
+            //        if (res.success) {
+            //            modal.modal('hide');
+            //            toastr.options.timeOut = 2000;
+            //            toastr.options.progressBar = true;
+            //            toastr.options.onHidden = function () {
+            //                window.location.reload();
+            //            }
+
+            //            toastr.success(res.message, { timeOut: 1000 });
+            //        }
+
+            //    });
+
+
+
+            //}
+
+    </script>
+}
